@@ -1,12 +1,6 @@
 import { create } from 'zustand';
 import type { Chord, Exercise } from '../theory/types';
-import {
-  generateRound,
-  scoreAttempt,
-  ANCHOR_INDEX,
-  TONIC,
-  type AttemptResult,
-} from '../engine/round';
+import { generateRound, scoreAttempt, type AttemptResult } from '../engine/round';
 import type { PracticeSettings } from './settings';
 
 export type Phase = 'idle' | 'answering' | 'revealed';
@@ -38,25 +32,21 @@ export const useSession = create<SessionStore>((set, get) => ({
   newRound: (settings) => {
     const exercise = generateRound(settings);
     const answers: (Chord | null)[] = Array(exercise.progression.chords.length).fill(null);
-    answers[ANCHOR_INDEX] = TONIC; // first chord is given
     set({
       exercise,
       answers,
-      activeSlot: ANCHOR_INDEX + 1,
+      activeSlot: 0,
       result: null,
       phase: 'answering',
       playingIndex: null,
     });
   },
 
-  setActiveSlot: (slot) => {
-    if (slot === ANCHOR_INDEX) return; // anchor is locked
-    set({ activeSlot: slot });
-  },
+  setActiveSlot: (slot) => set({ activeSlot: slot }),
 
   selectChord: (chord) => {
     const { phase, answers, activeSlot } = get();
-    if (phase !== 'answering' || activeSlot === ANCHOR_INDEX) return;
+    if (phase !== 'answering') return;
     const next = [...answers];
     next[activeSlot] = chord;
     const nextEmpty = next.findIndex((a) => a === null);
@@ -65,7 +55,7 @@ export const useSession = create<SessionStore>((set, get) => ({
 
   clearSlot: (slot) => {
     const { phase, answers } = get();
-    if (phase !== 'answering' || slot === ANCHOR_INDEX) return;
+    if (phase !== 'answering') return;
     const next = [...answers];
     next[slot] = null;
     set({ answers: next, activeSlot: slot });

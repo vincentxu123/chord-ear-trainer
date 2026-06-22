@@ -11,10 +11,12 @@ export function SettingsPanel() {
   const progressionLength = useSettings((s) => s.progressionLength);
   const randomizeKey = useSettings((s) => s.randomizeKey);
   const includeChromatic = useSettings((s) => s.includeChromatic);
+  const includeDiminished = useSettings((s) => s.includeDiminished);
   const setTempo = useSettings((s) => s.setTempo);
   const setLength = useSettings((s) => s.setLength);
   const setRandomizeKey = useSettings((s) => s.setRandomizeKey);
   const setIncludeChromatic = useSettings((s) => s.setIncludeChromatic);
+  const setIncludeDiminished = useSettings((s) => s.setIncludeDiminished);
 
   const lengths = Array.from(
     { length: LENGTH_MAX - LENGTH_MIN + 1 },
@@ -80,6 +82,16 @@ export function SettingsPanel() {
           className="h-4 w-4"
         />
         Include chromatic chords
+      </label>
+
+      <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+        <input
+          type="checkbox"
+          checked={includeDiminished}
+          onChange={(e) => setIncludeDiminished(e.target.checked)}
+          className="h-4 w-4"
+        />
+        Include diminished chords (vii° / ii°)
       </label>
     </div>
   );

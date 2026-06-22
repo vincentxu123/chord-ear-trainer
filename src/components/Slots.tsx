@@ -1,5 +1,4 @@
 import { toRoman } from '../theory/chords';
-import { ANCHOR_INDEX } from '../engine/round';
 import { useSession } from '../store/session';
 
 export function Slots() {
@@ -14,19 +13,18 @@ export function Slots() {
 
   if (!exercise) return null;
 
+  const mode = exercise.mode;
+
   return (
     <div className="flex flex-wrap justify-center gap-3">
       {exercise.progression.chords.map((_, i) => {
         const answer = answers[i];
         const slot = result?.perSlot[i];
-        const isAnchor = i === ANCHOR_INDEX;
-        const isActive = phase === 'answering' && !isAnchor && i === activeSlot;
+        const isActive = phase === 'answering' && i === activeSlot;
         const isPlaying = i === playingIndex;
 
         let tone = 'border-slate-600 bg-slate-800 text-slate-200';
-        if (isAnchor) {
-          tone = 'border-indigo-500 bg-indigo-900/40 text-indigo-200';
-        } else if (slot) {
+        if (slot) {
           tone = slot.correct
             ? 'border-green-500 bg-green-900/40 text-green-200'
             : 'border-red-500 bg-red-900/40 text-red-200';
@@ -38,21 +36,18 @@ export function Slots() {
           <button
             key={i}
             onClick={() => setActiveSlot(i)}
-            disabled={phase !== 'answering' || isAnchor}
+            disabled={phase !== 'answering'}
             className={`relative h-24 w-20 rounded-xl border-2 text-2xl font-bold transition ${tone} ${
               isPlaying ? 'ring-4 ring-amber-400' : ''
             }`}
           >
-            <span className="block">{answer ? toRoman(answer) : '·'}</span>
-            {isAnchor && (
-              <span className="mt-1 block text-xs font-medium text-indigo-300">given</span>
-            )}
-            {slot && !slot.isAnchor && !slot.correct && (
+            <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
+            {slot && !slot.correct && (
               <span className="mt-1 block text-xs font-medium text-green-300">
-                {toRoman(slot.expected)}
+                {toRoman(slot.expected, mode)}
               </span>
             )}
-            {phase === 'answering' && !isAnchor && answer && (
+            {phase === 'answering' && answer && (
               <span
                 role="button"
                 onClick={(e) => {

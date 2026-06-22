@@ -1,3 +1,4 @@
+import { toRoman } from '../theory/chords';
 import { useSession } from '../store/session';
 
 export function Feedback() {
@@ -6,6 +7,9 @@ export function Feedback() {
   if (!result || !exercise) return null;
 
   const perfect = result.correctCount === result.total;
+  const solution = exercise.progression.chords
+    .map((c) => toRoman(c, exercise.mode))
+    .join(' – ');
 
   return (
     <div className="text-center">
@@ -13,8 +17,8 @@ export function Feedback() {
         {result.correctCount} / {result.total} correct
       </p>
       <p className="mt-1 text-sm text-slate-400">
-        Progression: <span className="font-semibold text-slate-200">{exercise.progression.name}</span>
-        {' '}in {exercise.key} major
+        Solution: <span className="font-semibold text-slate-200">{solution}</span>
+        {' '}in {exercise.key} {exercise.mode}
       </p>
     </div>
   );

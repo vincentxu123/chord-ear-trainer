@@ -1,5 +1,10 @@
-// v1 vocabulary: MAJOR and MINOR triads only — no diminished/augmented yet.
-export type Quality = 'maj' | 'min';
+// Triad qualities. Diminished is opt-in (it completes the diatonic set: vii° in
+// major, ii° in minor); augmented is not supported yet.
+export type Quality = 'maj' | 'min' | 'dim';
+
+// Tonal context of a round. Affects which chords are diatonic, how chords are
+// labeled as Roman numerals, and the key label — not the audio itself.
+export type Mode = 'major' | 'minor';
 
 // A chord is defined RELATIVE to the tonic: the number of semitones its root
 // sits above the tonic (0-11) + its quality. This single model covers both
@@ -23,7 +28,8 @@ export type AudioSourceKind = 'synth' | 'generated' | 'youtube';
 // every AudioSource implementation.
 export interface Exercise {
   progression: Progression;
-  key: string; // absolute key: randomized for synth, fixed for media
+  key: string; // absolute tonic: randomized for synth, fixed for media
+  mode: Mode;
   source: AudioSourceKind;
   styleId?: string;
 }

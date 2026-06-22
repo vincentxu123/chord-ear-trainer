@@ -1,30 +1,80 @@
 import { describe, it, expect } from 'vitest';
 import { generateRound, scoreAttempt } from './round';
-import { DIATONIC_MAJOR, CHROMATIC_POOL, isChromatic } from '../theory/chords';
+import { chordPool, isChromatic } from '../theory/chords';
 import type { PracticeSettings } from '../store/settings';
 
 const settings: PracticeSettings = {
-  tempoBpm: 90,
+  tempoBpm: 280,
   progressionLength: 4,
   includeChromatic: false,
-  allowedChords: DIATONIC_MAJOR,
+  includeDiminished: false,
   randomizeKey: true,
 };
 
 describe('generateRound', () => {
-  it('produces an exercise of the requested length using allowed chords', () => {
+  it('produces an exercise of the requested length from the mode pool', () => {
     const ex = generateRound(settings);
     expect(ex.progression.chords).toHaveLength(4);
     expect(ex.source).toBe('synth');
+    const pool = chordPool(ex.mode, false);
     for (const chord of ex.progression.chords) {
-      expect(DIATONIC_MAJOR.some((c) => c.rootPc === chord.rootPc && c.quality === chord.quality)).toBe(true);
+      expect(pool.some((c) => c.rootPc === chord.rootPc && c.quality === chord.quality)).toBe(true);
     }
   });
 
-  it('always starts on the tonic (I)', () => {
+  it('does not force the first chord to the tonic', () => {
+    const firsts = new Set<string>();
+    for (let i = 0; i < 80; i++) {
+      const c = generateRound(settings).progression.chords[0]!;
+      firsts.add(`${c.rootPc}:${c.quality}`);
+    }
+    expect(firsts.size).toBeGreaterThan(1);
+  });
+
+  it('mixes major and minor modes', () => {
+    const modes = new Set<string>();
+    for (let i = 0; i < 80; i++) modes.add(generateRound(settings).mode);
+    expect(modes.has('major')).toBe(true);
+    expect(modes.has('minor')).toBe(true);
+  });
+
+  it('generates random (non-curated) progressions', () => {
+    for (let i = 0; i < 20; i++) {
+      expect(generateRound(settings).progression.id.startsWith('random-')).toBe(true);
+    }
+  });
+
+  it('always includes the tonic (mode-aware), though not necessarily first', () => {
+    let nonTonicFirst = 0;
+    for (let i = 0; i < 80; i++) {
+      const ex = generateRound(settings);
+      const tonicQuality = ex.mode === 'minor' ? 'min' : 'maj';
+      const hasTonic = ex.progression.chords.some(
+        (c) => c.rootPc === 0 && c.quality === tonicQuality,
+      );
+      expect(hasTonic).toBe(true);
+      const first = ex.progression.chords[0]!;
+      if (!(first.rootPc === 0 && first.quality === tonicQuality)) nonTonicFirst++;
+    }
+    expect(nonTonicFirst).toBeGreaterThan(0);
+  });
+
+  it('includes both the tonic and a chromatic chord when chromatic is on', () => {
+    const chromaticSettings = { ...settings, includeChromatic: true };
+    for (let i = 0; i < 80; i++) {
+      const ex = generateRound(chromaticSettings);
+      const tonicQuality = ex.mode === 'minor' ? 'min' : 'maj';
+      expect(ex.progression.chords.some((c) => c.rootPc === 0 && c.quality === tonicQuality)).toBe(true);
+      expect(ex.progression.chords.some((c) => isChromatic(c, ex.mode))).toBe(true);
+    }
+  });
+
+  it('avoids back-to-back duplicate chords', () => {
     for (let i = 0; i < 50; i++) {
-      const first = generateRound(settings).progression.chords[0];
-      expect(first).toEqual({ rootPc: 0, quality: 'maj' });
+      const chords = generateRound(settings).progression.chords;
+      for (let j = 1; j < chords.length; j++) {
+        expect(chords[j]).not.toEqual(chords[j - 1]);
+      }
     }
   });
 
@@ -35,20 +85,15 @@ describe('generateRound', () => {
   it('only uses diatonic chords when chromatic is off', () => {
     for (let i = 0; i < 50; i++) {
       const ex = generateRound(settings);
-      expect(ex.progression.chords.some(isChromatic)).toBe(false);
+      expect(ex.progression.chords.some((c) => isChromatic(c, ex.mode))).toBe(false);
     }
   });
 
   it('includes a chromatic chord every round when chromatic is on', () => {
-    const chromaticSettings = {
-      ...settings,
-      includeChromatic: true,
-      allowedChords: CHROMATIC_POOL,
-    };
+    const chromaticSettings = { ...settings, includeChromatic: true };
     for (let i = 0; i < 50; i++) {
       const ex = generateRound(chromaticSettings);
-      expect(ex.progression.chords.some(isChromatic)).toBe(true);
-      expect(ex.progression.chords[0]).toEqual({ rootPc: 0, quality: 'maj' });
+      expect(ex.progression.chords.some((c) => isChromatic(c, ex.mode))).toBe(true);
     }
   });
 });
@@ -66,23 +111,22 @@ describe('scoreAttempt', () => {
     ],
   };
 
-  it('scores a perfect answer, excluding the given anchor', () => {
+  it('scores a perfect answer across all slots', () => {
     const result = scoreAttempt(progression.chords, progression);
-    expect(result.correctCount).toBe(3);
-    expect(result.total).toBe(3);
-    expect(result.perSlot[0].isAnchor).toBe(true);
+    expect(result.correctCount).toBe(4);
+    expect(result.total).toBe(4);
   });
 
   it('scores partial and missing answers', () => {
     const answer = [
-      { rootPc: 0, quality: 'maj' as const }, // anchor (not scored)
+      { rootPc: 0, quality: 'maj' as const }, // correct
       { rootPc: 9, quality: 'min' as const }, // wrong
       null, // missing
       { rootPc: 5, quality: 'maj' as const }, // correct
     ];
     const result = scoreAttempt(answer, progression);
-    expect(result.correctCount).toBe(1);
-    expect(result.total).toBe(3);
+    expect(result.correctCount).toBe(2);
+    expect(result.total).toBe(4);
     expect(result.perSlot[1].correct).toBe(false);
     expect(result.perSlot[2].given).toBeNull();
   });

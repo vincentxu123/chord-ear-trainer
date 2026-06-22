@@ -1,5 +1,5 @@
 import * as Tone from 'tone';
-import type { Exercise } from '../theory/types';
+import type { Chord, Exercise } from '../theory/types';
 import { chordToNotes } from '../theory/voicing';
 
 interface PlayCallbacks {
@@ -57,6 +57,14 @@ export class SynthAudioSource {
     }, `${chords.length * ticksPerChord}i`);
 
     transport.start();
+  }
+
+  // Play a single chord immediately (independent of the transport) so the
+  // player can audition options against the revealed answer.
+  async playChord(chord: Chord, key: string): Promise<void> {
+    await Tone.start();
+    await this.ready;
+    this.sampler.triggerAttackRelease(chordToNotes(chord, key), 1.4);
   }
 
   stop(): void {

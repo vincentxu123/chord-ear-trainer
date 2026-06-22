@@ -1,6 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { chordToNotes, randomKey, KEYS } from './voicing';
-import { toRoman, chordsEqual, DIATONIC_MAJOR } from './chords';
+import {
+  toRoman,
+  chordsEqual,
+  DIATONIC_MAJOR,
+  DIATONIC_MINOR,
+  chordPool,
+  sortChordsForDisplay,
+} from './chords';
 
 describe('chordToNotes', () => {
   it('renders a I major triad in C', () => {
@@ -19,7 +26,63 @@ describe('chordToNotes', () => {
 
 describe('toRoman', () => {
   it('labels the diatonic major-key chords', () => {
-    expect(DIATONIC_MAJOR.map(toRoman)).toEqual(['I', 'ii', 'iii', 'IV', 'V', 'vi']);
+    expect(DIATONIC_MAJOR.map((c) => toRoman(c, 'major'))).toEqual([
+      'I', 'ii', 'iii', 'IV', 'V', 'vi',
+    ]);
+  });
+
+  it('labels the diatonic minor-key chords', () => {
+    expect(DIATONIC_MINOR.map((c) => toRoman(c, 'minor'))).toEqual([
+      'i', 'III', 'iv', 'v', 'VI', 'VII',
+    ]);
+  });
+
+  it('labels diminished triads with a degree symbol', () => {
+    expect(toRoman({ rootPc: 11, quality: 'dim' }, 'major')).toBe('vii°');
+    expect(toRoman({ rootPc: 2, quality: 'dim' }, 'minor')).toBe('ii°');
+  });
+});
+
+describe('diminished pool', () => {
+  it('adds vii° in major only when diminished is enabled', () => {
+    expect(chordPool('major', false, false).map((c) => toRoman(c, 'major'))).not.toContain('vii°');
+    expect(chordPool('major', false, true).map((c) => toRoman(c, 'major'))).toContain('vii°');
+  });
+
+  it('adds ii° in minor only when diminished is enabled', () => {
+    expect(chordPool('minor', false, false).map((c) => toRoman(c, 'minor'))).not.toContain('ii°');
+    expect(chordPool('minor', false, true).map((c) => toRoman(c, 'minor'))).toContain('ii°');
+  });
+});
+
+describe('chordPool', () => {
+  it('orders the full major chromatic pool by scale degree', () => {
+    expect(chordPool('major', true).map((c) => toRoman(c, 'major'))).toEqual([
+      'I',
+      'ii',
+      'II',
+      'bIII',
+      'iii',
+      'III',
+      'IV',
+      'iv',
+      'V',
+      'bVI',
+      'vi',
+      'VI',
+      'bVII',
+    ]);
+  });
+
+  it('keeps diatonic chords in scale-degree order', () => {
+    expect(sortChordsForDisplay(DIATONIC_MAJOR, 'major').map((c) => toRoman(c, 'major'))).toEqual([
+      'I',
+      'ii',
+      'iii',
+      'IV',
+      'V',
+      'vi',
+    ]);
   });
 });
 

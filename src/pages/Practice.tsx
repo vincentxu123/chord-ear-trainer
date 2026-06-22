@@ -12,6 +12,7 @@ export function Practice() {
   const progressionLength = useSettings((s) => s.progressionLength);
   const randomizeKey = useSettings((s) => s.randomizeKey);
   const includeChromatic = useSettings((s) => s.includeChromatic);
+  const includeDiminished = useSettings((s) => s.includeDiminished);
   const newRound = useSession((s) => s.newRound);
   const setPlayingIndex = useSession((s) => s.setPlayingIndex);
   const exercise = useSession((s) => s.exercise);
@@ -24,7 +25,7 @@ export function Practice() {
     synth.stop();
     setIsPlaying(false);
     newRound(useSettings.getState());
-  }, [progressionLength, randomizeKey, includeChromatic, newRound]);
+  }, [progressionLength, randomizeKey, includeChromatic, includeDiminished, newRound]);
 
   const handlePlay = async () => {
     if (!exercise) return;
@@ -47,7 +48,7 @@ export function Practice() {
   };
 
   return (
-    <div className="grid gap-8 md:grid-cols-[1fr_18rem]">
+    <div className="grid gap-8 md:grid-cols-[1fr_22rem]">
       <div className="flex flex-col items-center gap-8">
         <Slots />
         <Controls

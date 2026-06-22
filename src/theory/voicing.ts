@@ -13,6 +13,7 @@ export function randomKey(): string {
 const TRIAD_INTERVALS: Record<Quality, number[]> = {
   maj: [0, 4, 7],
   min: [0, 3, 7],
+  dim: [0, 3, 6],
 };
 
 // Render a relative chord into concrete note names within a fixed register so
