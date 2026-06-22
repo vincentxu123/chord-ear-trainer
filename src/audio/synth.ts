@@ -67,6 +67,13 @@ export class SynthAudioSource {
     this.sampler.triggerAttackRelease(chordToNotes(chord, key), 1.4);
   }
 
+  // Play a single note immediately, e.g. from the interactive keyboard.
+  async playNote(note: string, duration = 1.4): Promise<void> {
+    await Tone.start();
+    await this.ready;
+    this.sampler.triggerAttackRelease(note, duration);
+  }
+
   stop(): void {
     const transport = Tone.getTransport();
     transport.stop();
