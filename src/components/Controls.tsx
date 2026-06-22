@@ -1,0 +1,50 @@
+import { useSession } from '../store/session';
+
+interface ControlsProps {
+  onPlay: () => void;
+  onNext: () => void;
+  isPlaying: boolean;
+  isLoading: boolean;
+}
+
+export function Controls({ onPlay, onNext, isPlaying, isLoading }: ControlsProps) {
+  const phase = useSession((s) => s.phase);
+  const answers = useSession((s) => s.answers);
+  const submit = useSession((s) => s.submit);
+  const allFilled = answers.length > 0 && answers.every((a) => a !== null);
+
+  let playLabel = phase === 'idle' ? 'Play' : 'Replay';
+  if (isPlaying) playLabel = 'Playing…';
+  if (isLoading) playLabel = 'Loading…';
+
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-3">
+      <button
+        onClick={onPlay}
+        disabled={isLoading || isPlaying}
+        className="rounded-lg bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500 disabled:opacity-50"
+      >
+        {playLabel}
+      </button>
+
+      {phase === 'answering' && (
+        <button
+          onClick={submit}
+          disabled={!allFilled}
+          className="rounded-lg bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-500 disabled:opacity-50"
+        >
+          Submit
+        </button>
+      )}
+
+      {phase === 'revealed' && (
+        <button
+          onClick={onNext}
+          className="rounded-lg bg-indigo-600 px-6 py-3 font-semibold text-white transition hover:bg-indigo-500"
+        >
+          Next
+        </button>
+      )}
+    </div>
+  );
+}
