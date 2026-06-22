@@ -5,6 +5,14 @@
 > MVP uses **browser-synthesized audio** (Tone.js) so it is fully legal, instant,
 > and transposable; real-song playback (YouTube) is a deliberate later phase.
 
+> **Status (Phase 1 shipped).** The playable MVP is complete and has grown past
+> the original Phase 1 scope. Beyond the locked v1 decisions below, the build now
+> also includes: **random/weighted progression generation** (no JSON seed file),
+> **major + minor key mixing**, **opt-in diminished triads**, click-to-hear chord
+> auditioning, a **guaranteed tonic** (any slot), and an **interactive piano
+> keyboard**. Sections below are annotated where the implementation has moved on
+> from the initial spec. No Supabase/accounts yet (that is Phase 2).
+
 ---
 
 ## 1. Decisions locked for v1
@@ -47,17 +55,27 @@ Because data is stored relative, the *same* progression works in synth mode
 ### Answer modes (v1 ships mode 1; others are config flags)
 - **Roman numeral** — pick the chord per slot from the allowed pool. *(v1)*
 - **Root-interval** — "root moved up a 4th / down a 2nd / same" + quality. *(later)*
-- **Quality** — major / minor only in v1 (7th/dim/aug later). *(later)*
+- **Quality** — major, minor, and **opt-in diminished**; augmented later. *(shipped)*
 
-### Chord vocabulary (v1)
-- **Qualities:** **major and minor only** — no diminished or augmented yet.
-- **Default pool:** the 6 diatonic major/minor triads of a major key —
-  `I, ii, iii, IV, V, vi` (the diminished `vii°` is excluded).
-- **Chromatic / out-of-key chords are supported and opt-in.** Because chords are
-  stored as `rootPc + quality` (see §3), the same root can appear as either
-  quality, including roots outside the scale (e.g. a major chord where the key
-  expects minor). Toggle `includeChromatic` to widen the pool beyond the 6
-  diatonic chords; the exact extra chords are configurable per difficulty.
+### Chord vocabulary (current)
+- **Qualities:** **major and minor**, plus **diminished as an opt-in toggle**
+  (`includeDiminished`); augmented is still deferred.
+- **Mode mixing:** each round randomly picks a **major or minor** tonality
+  (`Exercise.mode`). The mode determines the diatonic pool, the Roman-numeral
+  spelling, and the key label; it does not change the audio engine.
+- **Diatonic pools (6 triads each, the diminished degree excluded by default):**
+  - Major: `I, ii, iii, IV, V, vi` (omits `vii°`).
+  - Minor: `i, III, iv, v, VI, VII` (omits `ii°`).
+  - Enabling `includeDiminished` adds the missing diatonic diminished triad
+    (`vii°` in major, `ii°` in minor); it is treated as in-key, not chromatic.
+- **Chromatic / out-of-key chords are opt-in** (`includeChromatic`). Because
+  chords are stored as `rootPc + quality` (see §3), the same root can appear as
+  either quality, including roots outside the scale; the extra pool is
+  mode-specific (curated secondary-dominant / borrowed chords).
+- **Generation rules:** progressions are built by **weighted random** walk over
+  the active pool (common roots down-weighted for variety), with **no back-to-back
+  duplicates**, the **tonic guaranteed to appear in some slot** (not necessarily
+  first), and — when chromatic is on — at least one out-of-key chord guaranteed.
 
 ---
 
@@ -68,8 +86,12 @@ logic is testable in isolation.
 
 ```ts
 // theory/types.ts
-// v1 vocabulary: MAJOR and MINOR triads only — no diminished/augmented yet.
-type Quality = 'maj' | 'min';
+// Triads: major, minor, and (opt-in) diminished. Augmented still deferred.
+type Quality = 'maj' | 'min' | 'dim';
+
+// Tonal context of a round; chosen randomly per round. Affects which chords are
+// diatonic, the Roman-numeral spelling, and the key label — not the audio.
+type Mode = 'major' | 'minor';
 
 // A chord is defined RELATIVE to the tonic: the number of semitones its root
 // sits above the tonic (0-11) + its quality. This single model covers BOTH
@@ -79,11 +101,12 @@ type Quality = 'maj' | 'min';
 //   D major = { rootPc: 11, quality: 'maj' }  (chromatic, out of key)
 interface Chord {
   rootPc: number;    // 0-11 semitones above the tonic
-  quality: Quality;  // 'maj' | 'min'
+  quality: Quality;  // 'maj' | 'min' | 'dim'
 }
 interface Progression {
   id: string;
-  name: string;            // human label, e.g. "I–V–vi–IV"
+  name: string;            // label; left empty for randomly generated rounds —
+                           // the Roman label is derived from chords + mode at display time
   chords: Chord[];         // 2-6 chords (see Practice settings)
   beatsPerChord: number;   // usually 4 (one bar each)
 }
@@ -96,7 +119,8 @@ interface Progression {
 // concrete playable instance of it.
 interface Exercise {
   progression: Progression;
-  key: string;                 // absolute key: randomized for synth, fixed for media
+  key: string;                 // absolute tonic: randomized for synth, fixed for media
+  mode: Mode;                  // 'major' | 'minor' — chosen per round
   source: 'synth' | 'generated' | 'youtube';
   mediaAssetId?: string;       // non-synth tiers
   startSec?: number;           // segment window (non-synth)
@@ -107,8 +131,12 @@ interface Exercise {
 
 // theory/voicing.ts
 function chordToNotes(c: Chord, key: string): string[]; // -> ['Eb4','G4','Bb4']
-function toRoman(c: Chord): string;   // best-effort display label: 'ii','III','bVI'...
-function randomKey(): string;         // weighted toward common keys
+function randomKey(): string;         // random tonic from the 12 keys
+
+// theory/chords.ts (mode-aware display + pool helpers)
+function toRoman(c: Chord, mode?: Mode): string;  // 'ii','III','bVI','vii°'... (mode-aware)
+function isChromatic(c: Chord, mode?: Mode): boolean;
+function chordPool(mode: Mode, includeChromatic: boolean, includeDiminished?: boolean): Chord[];
 ```
 
 Recommended helper library: **`tonal`** (`@tonaljs/tonal`) for note math,
@@ -162,10 +190,11 @@ Notes:
 - Optional: a pad/strings layer to make root motion easier to hear.
 
 ### Playback speed (user-adjustable)
-- **Range 60-160 BPM, default 90.** A tempo slider drives
-  `Tone.Transport.bpm.value = settings.tempoBpm`; in synth mode this changes
-  speed with **no pitch change** (the synth re-renders), which is exactly what
-  ear training wants. Re-playing a round picks up the current tempo.
+- **Range 100-460 BPM, default 280.** A tempo slider drives
+  `transport.bpm.value = settings.tempoBpm`, and chords are scheduled at
+  tempo-relative **tick positions** (`i * beatsPerChord * PPQ`) so the slider
+  genuinely controls speed. In synth mode this changes speed with **no pitch
+  change** (the synth re-renders). Re-playing a round picks up the current tempo.
 - **Later tiers (audio file / YouTube):** speed maps to *playback rate* instead.
   A raw `playbackRate` change also shifts pitch (bad for ear training) unless you
   time-stretch — use `Tone.GrainPlayer` / a time-stretch lib for files, and
@@ -242,8 +271,8 @@ src/
   data/          # seed progressions (JSON) + Supabase client + queries
   engine/        # round lifecycle, scoring, adaptive difficulty
   store/         # Zustand stores (session, settings, auth)
-  components/     # UI: ChordSlotPicker, Keyboard, FeedbackPanel, ScoreBar...
-  pages/         # Practice, Stats, Login
+  components/     # UI: Slots, AnswerPad, Controls, Feedback, SettingsPanel, PianoKeyboard
+  pages/         # Practice (Stats, Login arrive in Phase 2)
   App.tsx
 ```
 
@@ -280,26 +309,17 @@ generateRound(settings)        -> { progression, key, exercise }
 ```ts
 // store/settings.ts
 interface PracticeSettings {
-  tempoBpm: number;          // speed control — range 60-160, default 90
-  progressionLength: number; // default 4, min 2, max 6
-  includeChromatic: boolean; // default false → diatonic 6 only
-  allowedChords: Chord[];    // pool to draw from AND show as answer buttons
-  randomizeKey: boolean;     // default true (hidden key → relative listening)
+  tempoBpm: number;           // speed control — range 100-460, default 280
+  progressionLength: number;  // default 4, min 2, max 6
+  includeChromatic: boolean;  // default false → diatonic only
+  includeDiminished: boolean; // default false → add the diatonic vii° / ii°
+  randomizeKey: boolean;      // default true (hidden key → relative listening)
 }
-
-// default pool = 6 diatonic major/minor triads of a major key:
-const DIATONIC_MAJOR: Chord[] = [
-  { rootPc: 0, quality: 'maj' }, // I
-  { rootPc: 2, quality: 'min' }, // ii
-  { rootPc: 4, quality: 'min' }, // iii
-  { rootPc: 5, quality: 'maj' }, // IV
-  { rootPc: 7, quality: 'maj' }, // V
-  { rootPc: 9, quality: 'min' }, // vi
-];
-// includeChromatic = true widens the pool with curated out-of-key chords,
-// e.g. III/VI/VII majors, bVI/bVII, parallel-quality flips, etc.
+// NOTE: there is no `allowedChords` field. The answer-pad pool is DERIVED per
+// round from chordPool(exercise.mode, includeChromatic, includeDiminished) — it
+// follows the round's randomly chosen major/minor mode (see §2, §3).
 ```
-Constraints enforced in the UI: tempo clamped to 60-160, length clamped to 2-6.
+Constraints enforced in the UI: tempo clamped to 100-460, length clamped to 2-6.
 
 ---
 
@@ -472,14 +492,17 @@ Hooktheory API (Roman-numeral data, no timing), or chord detection
 
 ## 9. Phased roadmap
 
-**Phase 1 — Playable MVP (no DB required)**
-- `theory/` engine (`rootPc + quality` model, major/minor only) + `tonal`,
-  ~30 seed progressions in JSON.
-- Tone.js player, random-key rendering, replay button.
-- Roman-numeral answer UI (buttons from the allowed pool) + per-slot scoring + feedback.
-- Settings: **tempo slider (60-160 BPM, default 90)**, **progression length
-  (default 4, min 2, max 6)**, key-randomization toggle. Default chord pool =
-  the 6 diatonic major/minor triads; `includeChromatic` toggle reserved for later.
+**Phase 1 — Playable MVP (no DB required) — ✅ shipped (and extended)**
+- `theory/` engine (`rootPc + quality` model) + `tonal`, fully unit-tested.
+- **Random/weighted progression generation** (replaced the planned JSON seed
+  file), with **major/minor mode mixing**, guaranteed tonic, and no adjacent dupes.
+- Tone.js player (Salamander sampler + reverb), random-key rendering, replay.
+- Roman-numeral answer UI + per-slot scoring + feedback (shows the solution).
+- **Click-to-hear** chord auditioning after answering; **interactive piano keyboard**.
+- Settings: **tempo slider (100-460 BPM, default 280)**, **progression length
+  (default 4, min 2, max 6)**, key-randomization toggle, **`includeChromatic`**
+  and **`includeDiminished`** toggles (both shipped). Pool is derived from the
+  round's mode rather than a static `allowedChords` list.
 
 **Phase 2 — Accounts & progress (Supabase)**
 - Supabase Auth (email/OAuth), `profiles` + `attempts` + RLS.
@@ -506,13 +529,25 @@ Hooktheory API (Roman-numeral data, no timing), or chord detection
 
 ---
 
-## 10. Open questions to resolve before/while building Phase 1
+## 10. Open questions — status
 
-1. Voicing style — block triads only, or add inversions early? (7ths/dim/aug are explicitly deferred.)
-2. Rhythm — strict one-bar-per-chord, or varied rhythms? (varied = harder, more realistic.) *(tempo is now a user setting, 60-160 BPM.)*
-3. Answer UX — on-screen Roman-numeral buttons vs. a clickable piano keyboard mapped to scale degrees? (Button pool = `allowedChords`.)
-4. Key is **hidden** by default (`randomizeKey = true`) for pure relative listening — confirm OK.
-5. Minor-key support in v1 or major-only first? (Default pool above is major-key.)
-6. When `includeChromatic` is on, which exact out-of-key chords enter the pool, and at what difficulty?
+1. Voicing style — block triads only, or add inversions early? **Open.** Still
+   block triads in a clamped register; voice-leading/inversions not yet built.
+2. Rhythm — strict one-bar-per-chord, or varied rhythms? **Open** (still one
+   block per bar). *(tempo is a user setting, now 100-460 BPM.)*
+3. Answer UX — Roman-numeral buttons vs. clickable piano keyboard? **Resolved:**
+   answers are Roman-numeral buttons (pool derived from the round's mode); a
+   separate interactive piano keyboard was added as an **auditioning aid**, not
+   the answer mechanism.
+4. Key **hidden** by default (`randomizeKey = true`) for relative listening —
+   **confirmed/kept.**
+5. Minor-key support in v1 or major-only first? **Resolved:** rounds randomly
+   mix **major and minor** modes.
+6. When `includeChromatic` is on, which exact out-of-key chords enter the pool?
+   **Resolved (initial set):** mode-specific curated chords — major adds
+   `II, bIII, III, iv, bVI, VI, bVII`; minor adds `I, bII, II, IV, V`.
+   Difficulty-tiering of the chromatic pool is still open.
+7. Diminished triads — deferred in the original spec, now **shipped** as the
+   opt-in `includeDiminished` toggle (`vii°` / `ii°`). Augmented still deferred.
 ```
 ```
