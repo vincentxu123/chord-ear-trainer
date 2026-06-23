@@ -94,6 +94,20 @@ export function chordKey(c: Chord): string {
   return `${c.rootPc}:${c.quality}`;
 }
 
+// Remove duplicate chords by identity, preserving first-seen order.
+export function dedupeChords(chords: Chord[]): Chord[] {
+  const seen = new Set<string>();
+  const out: Chord[] = [];
+  for (const c of chords) {
+    const k = chordKey(c);
+    if (!seen.has(k)) {
+      seen.add(k);
+      out.push(c);
+    }
+  }
+  return out;
+}
+
 const DEGREE_LABELS: Record<Mode, string[]> = {
   major: ['I', 'bII', 'II', 'bIII', 'III', 'IV', '#IV', 'V', 'bVI', 'VI', 'bVII', 'VII'],
   minor: ['I', 'bII', 'II', 'III', '#III', 'IV', '#IV', 'V', 'VI', '#VI', 'VII', '#VII'],

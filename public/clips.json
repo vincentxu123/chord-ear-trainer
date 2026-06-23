@@ -1,0 +1,22 @@
+[
+  {
+    "id": "clip-001",
+    "title": "Example chorus (placeholder)",
+    "source": "generated",
+    "licenseNote": "suno-free-personal",
+    "audioPath": "/clips/clip-001.mp3",
+    "key": "C",
+    "mode": "major",
+    "chords": [
+      { "rootPc": 0, "quality": "maj" },
+      { "rootPc": 7, "quality": "maj" },
+      { "rootPc": 9, "quality": "min" },
+      { "rootPc": 5, "quality": "maj" }
+    ],
+    "chordTimesSec": [0.0, 3.5, 7.0, 10.5],
+    "durationSec": 14.0,
+    "startSec": 0.0,
+    "endSec": 14.0,
+    "verified": true
+  }
+]

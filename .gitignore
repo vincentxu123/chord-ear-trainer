@@ -2,3 +2,9 @@ node_modules
 dist
 *.local
 .DS_Store
+
+# Python pipeline (tools/clipgen)
+.env
+.venv/
+__pycache__/
+*.pyc

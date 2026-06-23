@@ -32,4 +32,30 @@ export interface Exercise {
   mode: Mode;
   source: AudioSourceKind;
   styleId?: string;
+  // Media tiers (generated / youtube) only:
+  audioPath?: string; // file URL for the GeneratedAudioSource
+  chordTimesSec?: number[]; // onset of each chord within the clip
+  startSec?: number; // playback window
+  endSec?: number;
+}
+
+// A pre-annotated music snippet (e.g. a Suno-generated chorus) plus its verified
+// relative chord progression. Produced by the offline pipeline, consumed by the
+// app. See REAL_MUSIC_PROPOSAL.md §3.
+export interface ClipRecord {
+  id: string;
+  title: string;
+  source: 'generated';
+  licenseNote?: string;
+  audioPath: string; // served from public/, e.g. '/clips/clip-001.mp3'
+  key: string; // absolute tonic (fixed — real audio can't transpose)
+  mode: Mode;
+  chords: Chord[]; // relative progression (rootPc + quality)
+  chordTimesSec: number[]; // onset of each chord
+  durationSec: number;
+  startSec?: number;
+  endSec?: number;
+  verified: boolean;
+  autoLabeled?: boolean; // labeled by the clipgen pipeline rather than by hand
+  instrumental?: boolean;
 }

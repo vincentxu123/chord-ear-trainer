@@ -14,6 +14,7 @@ interface SessionStore {
   playingIndex: number | null;
 
   newRound: (settings: PracticeSettings) => void;
+  loadExercise: (exercise: Exercise) => void;
   setActiveSlot: (slot: number) => void;
   selectChord: (chord: Chord) => void;
   clearSlot: (slot: number) => void;
@@ -29,8 +30,7 @@ export const useSession = create<SessionStore>((set, get) => ({
   phase: 'idle',
   playingIndex: null,
 
-  newRound: (settings) => {
-    const exercise = generateRound(settings);
+  loadExercise: (exercise) => {
     const answers: (Chord | null)[] = Array(exercise.progression.chords.length).fill(null);
     set({
       exercise,
@@ -41,6 +41,8 @@ export const useSession = create<SessionStore>((set, get) => ({
       playingIndex: null,
     });
   },
+
+  newRound: (settings) => get().loadExercise(generateRound(settings)),
 
   setActiveSlot: (slot) => set({ activeSlot: slot }),
 

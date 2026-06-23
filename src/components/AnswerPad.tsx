@@ -1,4 +1,10 @@
-import { chordPool, isChromatic, toRoman } from '../theory/chords';
+import {
+  chordPool,
+  dedupeChords,
+  isChromatic,
+  sortChordsForDisplay,
+  toRoman,
+} from '../theory/chords';
 import { synth } from '../audio/synth';
 import { useSettings } from '../store/settings';
 import { useSession } from '../store/session';
@@ -14,7 +20,18 @@ export function AnswerPad() {
   if (!exercise) return null;
 
   const mode = exercise.mode;
-  const chords = chordPool(mode, includeChromatic, includeDiminished);
+  // For generated clips the correct chords come from detection, so widen the pad
+  // to the full vocabulary UNION the clip's own chords (guarantees every answer
+  // is selectable); synth rounds use the settings-derived pool.
+  const chords =
+    exercise.source === 'generated'
+      ? sortChordsForDisplay(
+          dedupeChords([...chordPool(mode, true, true), ...exercise.progression.chords]),
+          mode,
+        )
+      : chordPool(mode, includeChromatic, includeDiminished);
+
+  const hasChromatic = chords.some((c) => isChromatic(c, mode));
 
   const handleClick = (chord: Chord) => {
     if (phase === 'answering') selectChord(chord);
@@ -27,7 +44,7 @@ export function AnswerPad() {
         {phase === 'revealed'
           ? 'Click any chord to hear it and compare with the solution.'
           : 'Pick a chord for the selected slot.'}
-        {includeChromatic && (
+        {hasChromatic && (
           <>
             {' '}
             <span className="ml-2 inline-block rounded border border-amber-500/70 bg-amber-950/70 px-2 py-0.5 text-amber-100">

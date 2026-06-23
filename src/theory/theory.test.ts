@@ -3,6 +3,7 @@ import { chordToNotes, randomKey, KEYS } from './voicing';
 import {
   toRoman,
   chordsEqual,
+  dedupeChords,
   DIATONIC_MAJOR,
   DIATONIC_MINOR,
   chordPool,
@@ -96,5 +97,21 @@ describe('chordsEqual', () => {
   it('matches identity and rejects differences', () => {
     expect(chordsEqual({ rootPc: 7, quality: 'maj' }, { rootPc: 7, quality: 'maj' })).toBe(true);
     expect(chordsEqual({ rootPc: 7, quality: 'maj' }, { rootPc: 7, quality: 'min' })).toBe(false);
+  });
+});
+
+describe('dedupeChords', () => {
+  it('removes duplicates by identity, preserving order', () => {
+    const out = dedupeChords([
+      { rootPc: 0, quality: 'maj' },
+      { rootPc: 7, quality: 'maj' },
+      { rootPc: 0, quality: 'maj' },
+      { rootPc: 0, quality: 'min' },
+    ]);
+    expect(out).toEqual([
+      { rootPc: 0, quality: 'maj' },
+      { rootPc: 7, quality: 'maj' },
+      { rootPc: 0, quality: 'min' },
+    ]);
   });
 });
