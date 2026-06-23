@@ -15,29 +15,15 @@ export interface AttemptResult {
   total: number;
 }
 
-// The most common roots (IV/V/vi in major) tend to dominate — down-weight them
-// so random rounds exercise the full pool more evenly.
-const AXIS_ROOT_PCS = new Set([5, 7, 9]);
-const AXIS_WEIGHT = 1;
-const OTHER_WEIGHT = 2.5;
-
-function chordWeight(c: Chord): number {
-  return AXIS_ROOT_PCS.has(c.rootPc) ? AXIS_WEIGHT : OTHER_WEIGHT;
-}
-
-function pickWeighted(items: Chord[]): Chord {
-  const total = items.reduce((sum, c) => sum + chordWeight(c), 0);
-  let roll = Math.random() * total;
-  for (const item of items) {
-    roll -= chordWeight(item);
-    if (roll <= 0) return item;
-  }
-  return items[items.length - 1]!;
+// Every chord in the pool is equally likely, so IV/V/vi appear as often as any
+// other chord.
+function pickRandom(items: Chord[]): Chord {
+  return items[Math.floor(Math.random() * items.length)]!;
 }
 
 function pickNextChord(pool: Chord[], previous: Chord): Chord {
   const choices = pool.length > 1 ? pool.filter((c) => !chordsEqual(c, previous)) : pool;
-  return pickWeighted(choices);
+  return pickRandom(choices);
 }
 
 function tonicChord(mode: Mode): Chord {
@@ -45,7 +31,7 @@ function tonicChord(mode: Mode): Chord {
 }
 
 function buildChords(pool: Chord[], length: number): Chord[] {
-  const chords: Chord[] = [pickWeighted(pool)];
+  const chords: Chord[] = [pickRandom(pool)];
   for (let i = 1; i < length; i++) {
     chords.push(pickNextChord(pool, chords[i - 1]!));
   }
@@ -69,14 +55,14 @@ function ensureChromatic(chords: Chord[], pool: Chord[], mode: Mode): void {
   const nonTonic = chords.map((_, i) => i).filter((i) => !chordsEqual(chords[i]!, tonic));
   const slots = nonTonic.length ? nonTonic : chords.map((_, i) => i);
   const slot = slots[Math.floor(Math.random() * slots.length)]!;
-  let replacement = pickWeighted(choices);
+  let replacement = pickRandom(choices);
   let guard = 0;
   while (
     guard++ < 20 &&
     ((chords[slot - 1] && chordsEqual(replacement, chords[slot - 1]!)) ||
       (chords[slot + 1] && chordsEqual(replacement, chords[slot + 1]!)))
   ) {
-    replacement = pickWeighted(choices);
+    replacement = pickRandom(choices);
   }
   chords[slot] = replacement;
 }
