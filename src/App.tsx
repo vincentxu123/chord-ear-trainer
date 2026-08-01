@@ -8,7 +8,7 @@ export default function App() {
         <header className="mb-10 text-center">
           <h1 className="text-3xl font-bold">Chord Ear Trainer</h1>
           <p className="mt-2 text-slate-400">
-            Play the progression, then identify each chord by its function.
+            Play the progression — the first chord is given; identify the rest by function.
           </p>
         </header>
         <Practice />

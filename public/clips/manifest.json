@@ -1,0 +1,120 @@
+{
+  "clips": [
+    {
+      "id": "clip-0001",
+      "file": "clip-0001.mp3",
+      "key": "Gb",
+      "mode": "major",
+      "bpm": 94,
+      "beatsPerChord": 4,
+      "durationSec": 21,
+      "chords": [
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "style": "reggae groove, off-beat guitar skanks, deep bass",
+      "seed": 2122285384
+    },
+    {
+      "id": "clip-0002",
+      "file": "clip-0002.mp3",
+      "key": "Ab",
+      "mode": "major",
+      "bpm": 119,
+      "beatsPerChord": 4,
+      "durationSec": 17,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "style": "lo-fi chill hop, dusty keys, mellow bass, relaxed beat",
+      "seed": 509149038
+    },
+    {
+      "id": "clip-0003",
+      "file": "clip-0003.mp3",
+      "key": "B",
+      "mode": "minor",
+      "bpm": 99,
+      "beatsPerChord": 4,
+      "durationSec": 20,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        }
+      ],
+      "style": "piano pop ballad, expressive piano, subtle strings",
+      "seed": 756493616
+    },
+    {
+      "id": "clip-0004",
+      "file": "clip-0004.mp3",
+      "key": "Ab",
+      "mode": "major",
+      "bpm": 83,
+      "beatsPerChord": 4,
+      "durationSec": 24,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
+      "seed": 1287022095
+    }
+  ]
+}

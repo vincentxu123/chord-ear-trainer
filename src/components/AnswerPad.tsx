@@ -5,6 +5,7 @@ import { useSession } from '../store/session';
 import type { Chord } from '../theory/types';
 
 export function AnswerPad() {
+  const soundSource = useSettings((s) => s.soundSource);
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const exercise = useSession((s) => s.exercise);
@@ -13,8 +14,14 @@ export function AnswerPad() {
 
   if (!exercise) return null;
 
+  // Clip library is diatonic-only for now; ignore leftover piano-mode toggles.
+  const clipMode = soundSource === 'clips';
   const mode = exercise.mode;
-  const chords = chordPool(mode, includeChromatic, includeDiminished);
+  const chords = chordPool(
+    mode,
+    clipMode ? false : includeChromatic,
+    clipMode ? false : includeDiminished,
+  );
 
   const handleClick = (chord: Chord) => {
     if (phase === 'answering') selectChord(chord);

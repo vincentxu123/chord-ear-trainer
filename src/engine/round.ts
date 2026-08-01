@@ -30,7 +30,7 @@ function tonicChord(mode: Mode): Chord {
   return { rootPc: 0, quality: mode === 'minor' ? 'min' : 'maj' };
 }
 
-function buildChords(pool: Chord[], length: number): Chord[] {
+export function buildChords(pool: Chord[], length: number): Chord[] {
   const chords: Chord[] = [pickRandom(pool)];
   for (let i = 1; i < length; i++) {
     chords.push(pickNextChord(pool, chords[i - 1]!));
@@ -39,7 +39,7 @@ function buildChords(pool: Chord[], length: number): Chord[] {
 }
 
 // Guarantee the tonic (I / i) appears somewhere — not necessarily first.
-function ensureTonic(chords: Chord[], mode: Mode): void {
+export function ensureTonic(chords: Chord[], mode: Mode): void {
   const tonic = tonicChord(mode);
   if (chords.some((c) => chordsEqual(c, tonic))) return;
   chords[Math.floor(Math.random() * chords.length)] = tonic;
@@ -83,17 +83,24 @@ export function generateRound(settings: PracticeSettings): Exercise {
   return { progression, key, mode, source: 'synth' };
 }
 
+// `givenCount` leading slots are shown as free anchors and excluded from the
+// score total (they still appear in perSlot as correct for UI consistency).
 export function scoreAttempt(
   answer: (Chord | null)[],
   progression: Progression,
+  givenCount = 0,
 ): AttemptResult {
   const perSlot: SlotResult[] = progression.chords.map((expected, i) => {
+    if (i < givenCount) {
+      return { expected, given: expected, correct: true };
+    }
     const given = answer[i] ?? null;
     return { expected, given, correct: given != null && chordsEqual(given, expected) };
   });
+  const scored = perSlot.slice(givenCount);
   return {
     perSlot,
-    correctCount: perSlot.filter((s) => s.correct).length,
-    total: perSlot.length,
+    correctCount: scored.filter((s) => s.correct).length,
+    total: scored.length,
   };
 }

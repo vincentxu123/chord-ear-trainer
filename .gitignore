@@ -2,3 +2,6 @@ node_modules
 dist
 *.local
 .DS_Store
+
+# Secrets (use .env.example as the template)
+.env

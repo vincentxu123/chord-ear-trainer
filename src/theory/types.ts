@@ -24,6 +24,15 @@ export interface Progression {
 
 export type AudioSourceKind = 'synth' | 'generated' | 'youtube';
 
+// Pre-rendered audio backing an exercise (e.g. a generated music clip). The
+// bpm is the recording's tempo: it drives slot-highlight timing during
+// playback, not playback speed.
+export interface ExerciseMedia {
+  url: string;
+  bpm: number;
+  durationSec: number;
+}
+
 // One concrete playable instance of a progression, shared by the engine and
 // every AudioSource implementation.
 export interface Exercise {
@@ -32,4 +41,5 @@ export interface Exercise {
   mode: Mode;
   source: AudioSourceKind;
   styleId?: string;
+  media?: ExerciseMedia;
 }

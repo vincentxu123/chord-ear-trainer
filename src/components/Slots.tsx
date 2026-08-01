@@ -1,5 +1,5 @@
 import { toRoman } from '../theory/chords';
-import { useSession } from '../store/session';
+import { GIVEN_SLOT_COUNT, useSession } from '../store/session';
 
 export function Slots() {
   const exercise = useSession((s) => s.exercise);
@@ -20,11 +20,14 @@ export function Slots() {
       {exercise.progression.chords.map((_, i) => {
         const answer = answers[i];
         const slot = result?.perSlot[i];
-        const isActive = phase === 'answering' && i === activeSlot;
+        const isGiven = i < GIVEN_SLOT_COUNT;
+        const isActive = phase === 'answering' && !isGiven && i === activeSlot;
         const isPlaying = i === playingIndex;
 
         let tone = 'border-slate-600 bg-slate-800 text-slate-200';
-        if (slot) {
+        if (isGiven && phase !== 'revealed') {
+          tone = 'border-slate-500 bg-slate-700/80 text-slate-100';
+        } else if (slot) {
           tone = slot.correct
             ? 'border-green-500 bg-green-900/40 text-green-200'
             : 'border-red-500 bg-red-900/40 text-red-200';
@@ -35,19 +38,26 @@ export function Slots() {
         return (
           <button
             key={i}
-            onClick={() => setActiveSlot(i)}
-            disabled={phase !== 'answering'}
+            onClick={() => {
+              if (!isGiven) setActiveSlot(i);
+            }}
+            disabled={phase !== 'answering' || isGiven}
             className={`relative h-24 w-20 rounded-xl border-2 text-2xl font-bold transition ${tone} ${
               isPlaying ? 'ring-4 ring-amber-400' : ''
-            }`}
+            } ${isGiven ? 'cursor-default' : ''}`}
           >
             <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
+            {isGiven && phase === 'answering' && (
+              <span className="mt-1 block text-[10px] font-medium uppercase tracking-wide text-slate-400">
+                given
+              </span>
+            )}
             {slot && !slot.correct && (
               <span className="mt-1 block text-xs font-medium text-green-300">
                 {toRoman(slot.expected, mode)}
               </span>
             )}
-            {phase === 'answering' && answer && (
+            {phase === 'answering' && answer && !isGiven && (
               <span
                 role="button"
                 onClick={(e) => {

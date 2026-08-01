@@ -4,6 +4,7 @@ import { chordPool, isChromatic } from '../theory/chords';
 import type { PracticeSettings } from '../store/settings';
 
 const settings: PracticeSettings = {
+  soundSource: 'synth',
   tempoBpm: 280,
   progressionLength: 4,
   includeChromatic: false,
@@ -129,5 +130,22 @@ describe('scoreAttempt', () => {
     expect(result.total).toBe(4);
     expect(result.perSlot[1].correct).toBe(false);
     expect(result.perSlot[2].given).toBeNull();
+  });
+
+  it('excludes leading given slots from the score total', () => {
+    const answer = [
+      { rootPc: 7, quality: 'maj' as const }, // would be wrong, but given
+      { rootPc: 7, quality: 'maj' as const },
+      { rootPc: 9, quality: 'min' as const },
+      { rootPc: 2, quality: 'min' as const }, // wrong
+    ];
+    const result = scoreAttempt(answer, progression, 1);
+    expect(result.total).toBe(3);
+    expect(result.correctCount).toBe(2);
+    expect(result.perSlot[0]).toEqual({
+      expected: progression.chords[0],
+      given: progression.chords[0],
+      correct: true,
+    });
   });
 });
