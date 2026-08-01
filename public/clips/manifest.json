@@ -115,6 +115,93 @@
       ],
       "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
       "seed": 1287022095
+    },
+    {
+      "id": "clip-0005",
+      "file": "clip-0005.mp3",
+      "key": "Eb",
+      "mode": "minor",
+      "bpm": 116,
+      "beatsPerChord": 4,
+      "durationSec": 17,
+      "chords": [
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        }
+      ],
+      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
+      "seed": 1870217432
+    },
+    {
+      "id": "clip-0006",
+      "file": "clip-0006.mp3",
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 85,
+      "beatsPerChord": 4,
+      "durationSec": 23,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "style": "anthemic stadium rock, big drums, layered guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
+      "seed": 943634940
+    },
+    {
+      "id": "clip-0007",
+      "file": "clip-0007.mp3",
+      "key": "A",
+      "mode": "major",
+      "bpm": 115,
+      "beatsPerChord": 4,
+      "durationSec": 17,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "style": "upbeat pop punk, distorted power chords, energetic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
+      "seed": 1655802188
     }
   ]
 }

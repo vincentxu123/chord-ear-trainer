@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // 'synth' renders the progression live on a sampled piano; 'clips' plays
-// pre-generated music clips from public/clips/ (see CLIP_PIPELINE.md).
+// pre-generated music clips from public/clips/ (see ARCHITECTURE.md).
 export type SoundSource = 'synth' | 'clips';
 
 export interface PracticeSettings {

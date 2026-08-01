@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "clips:generate": "tsx scripts/generateClips.ts"
+    "clips:generate": "tsx scripts/generateClips.ts",
+    "clips:qc": ".venv-qc/Scripts/python.exe scripts/qcClips.py"
   },
   "dependencies": {
     "react": "^19.2.7",

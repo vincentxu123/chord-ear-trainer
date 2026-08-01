@@ -1,9 +1,9 @@
 /**
  * Generate real-music practice clips with MusicGen-Chord on Replicate.
  *
- * The chord progression is an INPUT to the model, so each clip's answer key is
- * known by construction — no audio analysis needed. Clips + manifest land in
- * public/clips/ and the app's "Real music" mode picks them up automatically.
+ * After each generation, lv-chordia validates that the audio roughly matches
+ * the requested progression (root match >= 75%). Only passing clips are added
+ * to public/clips/ + manifest.json; rejects are discarded.
  *
  * Usage:
  *   Put REPLICATE_API_TOKEN=r8_... in .env (see .env.example), then:
@@ -11,8 +11,9 @@
  *   npm run clips:generate -- --count 3 --dry-run
  *   npm run clips:generate -- --style "piano pop ballad, expressive piano"
  *
- * See CLIP_PIPELINE.md for the full pipeline design.
+ * Requires the QC venv (.venv-qc with lv-chordia). See ARCHITECTURE.md.
  */
+import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -38,15 +39,27 @@ const MODEL_VERSION =
 const API_BASE = 'https://api.replicate.com/v1';
 const POLL_INTERVAL_MS = 5_000;
 const TIMEOUT_MS = 20 * 60_000; // cold boots can take several minutes
+const MIN_ROOT_MATCH = 0.75;
 
-const CLIPS_DIR = path.resolve(fileURLToPath(import.meta.url), '../../public/clips');
+const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), '../..');
+const CLIPS_DIR = path.join(REPO_ROOT, 'public/clips');
 const MANIFEST_PATH = path.join(CLIPS_DIR, 'manifest.json');
+const QC_SCRIPT = path.join(REPO_ROOT, 'scripts/qcClips.py');
 
 interface Prediction {
   id: string;
   status: 'starting' | 'processing' | 'succeeded' | 'failed' | 'canceled';
   output?: string | string[];
   error?: string;
+}
+
+interface QcResult {
+  pass: boolean;
+  root_match: number;
+  root_hits: number;
+  total_bars: number;
+  quality_match: number;
+  quality_hits: number;
 }
 
 function describe(spec: ClipSpec): string {
@@ -71,6 +84,85 @@ function maxClipNumber(manifest: ClipManifest): number {
     const n = Number(c.id.replace(/^clip-/, ''));
     return Number.isFinite(n) ? Math.max(acc, n) : acc;
   }, 0);
+}
+
+async function pathExists(p: string): Promise<boolean> {
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function resolveQcPython(): Promise<string> {
+  const candidates = [
+    path.join(REPO_ROOT, '.venv-qc/Scripts/python.exe'),
+    path.join(REPO_ROOT, '.venv-qc/bin/python'),
+  ];
+  for (const candidate of candidates) {
+    if (await pathExists(candidate)) return candidate;
+  }
+  throw new Error(
+    'QC Python venv not found. Create it once:\n' +
+      '  python -m venv .venv-qc\n' +
+      '  .venv-qc\\Scripts\\activate\n' +
+      '  pip install lv-chordia',
+  );
+}
+
+function runQc(python: string, audioPath: string, entry: ClipManifestEntry): Promise<QcResult> {
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      python,
+      [
+        QC_SCRIPT,
+        '--audio',
+        audioPath,
+        '--entry-json',
+        JSON.stringify(entry),
+        '--min-root-match',
+        String(MIN_ROOT_MATCH),
+        '--json',
+      ],
+      { cwd: REPO_ROOT, windowsHide: true },
+    );
+    let stdout = '';
+    let stderr = '';
+    child.stdout.on('data', (chunk: Buffer) => {
+      stdout += chunk.toString();
+    });
+    child.stderr.on('data', (chunk: Buffer) => {
+      stderr += chunk.toString();
+    });
+    child.on('error', reject);
+    child.on('close', (code) => {
+      // Filter noisy pydub/ffmpeg warnings from stderr for the error path.
+      const errText = stderr
+        .split(/\r?\n/)
+        .filter((line) => line && !line.includes('RuntimeWarning') && !line.includes('Inference:'))
+        .join('\n')
+        .trim();
+      try {
+        const lines = stdout
+          .split(/\r?\n/)
+          .map((l) => l.trim())
+          .filter(Boolean);
+        const line = lines[lines.length - 1];
+        if (!line) {
+          reject(new Error(`QC produced no JSON output (exit ${code}). ${errText}`));
+          return;
+        }
+        resolve(JSON.parse(line) as QcResult);
+      } catch (err) {
+        reject(
+          new Error(
+            `QC returned unreadable output (exit ${code}): ${stdout.trim() || errText || String(err)}`,
+          ),
+        );
+      }
+    });
+  });
 }
 
 async function replicateFetch(pathname: string, init?: RequestInit): Promise<Response> {
@@ -136,10 +228,12 @@ async function main(): Promise<void> {
       count: { type: 'string', default: '1' },
       style: { type: 'string' },
       'dry-run': { type: 'boolean', default: false },
+      'skip-qc': { type: 'boolean', default: false },
     },
   });
   const count = Number(values.count);
   const dryRun = values['dry-run'];
+  const skipQc = values['skip-qc'];
 
   if (!Number.isInteger(count) || count < 1) {
     throw new Error(`--count must be a positive integer, got "${values.count}"`);
@@ -151,10 +245,19 @@ async function main(): Promise<void> {
     );
   }
 
+  const qcPython = dryRun || skipQc ? null : await resolveQcPython();
+
   await fs.mkdir(CLIPS_DIR, { recursive: true });
   const manifest = await loadManifest();
-  console.log(`Manifest has ${manifest.clips.length} clip(s). Generating ${count} more...\n`);
+  console.log(`Manifest has ${manifest.clips.length} clip(s). Generating ${count} more...`);
+  if (!dryRun && !skipQc) {
+    console.log(`QC enabled: keep only clips with root match >= ${MIN_ROOT_MATCH * 100}%.\n`);
+  } else {
+    console.log('');
+  }
 
+  let accepted = 0;
+  let rejected = 0;
   let failures = 0;
   let clipNumber = maxClipNumber(manifest);
   for (let i = 0; i < count; i++) {
@@ -165,10 +268,11 @@ async function main(): Promise<void> {
     if (dryRun) continue;
 
     const seed = Math.floor(Math.random() * 2 ** 31);
+    const file = `${id}.mp3`;
+    const filePath = path.join(CLIPS_DIR, file);
     try {
       const audio = await generateClip(spec, seed);
-      const file = `${id}.mp3`;
-      await fs.writeFile(path.join(CLIPS_DIR, file), Buffer.from(audio));
+      await fs.writeFile(filePath, Buffer.from(audio));
 
       const entry: ClipManifestEntry = {
         id,
@@ -182,11 +286,29 @@ async function main(): Promise<void> {
         style: spec.style,
         seed,
       };
+
+      if (!skipQc && qcPython) {
+        process.stdout.write('    QC… ');
+        const qc = await runQc(qcPython, filePath, entry);
+        const pct = `${(qc.root_match * 100).toFixed(0)}%`;
+        if (!qc.pass) {
+          await fs.unlink(filePath);
+          rejected++;
+          console.log(
+            `REJECTED root ${qc.root_hits}/${qc.total_bars} (${pct}) — discarded, not added to library`,
+          );
+          continue;
+        }
+        console.log(`PASS root ${qc.root_hits}/${qc.total_bars} (${pct})`);
+      }
+
       manifest.clips.push(entry);
-      await saveManifest(manifest); // save after each clip so failures lose nothing
+      await saveManifest(manifest);
+      accepted++;
       console.log(`    saved public/clips/${file} (${(audio.byteLength / 1024).toFixed(0)} KB)`);
     } catch (err) {
       failures++;
+      await fs.unlink(filePath).catch(() => undefined);
       console.error(`    FAILED: ${err instanceof Error ? err.message : err}`);
     }
   }
@@ -194,11 +316,13 @@ async function main(): Promise<void> {
   if (dryRun) {
     console.log('\nDry run — nothing was generated.');
   } else {
-    console.log(`\nDone: ${count - failures} succeeded, ${failures} failed.`);
+    console.log(
+      `\nDone: ${accepted} accepted, ${rejected} rejected by QC, ${failures} failed.`,
+    );
     console.log(`Library now has ${manifest.clips.length} clip(s).`);
-    console.log('Listen to each new clip and delete any that sound off (remove the file and its manifest entry).');
   }
-  if (failures) process.exitCode = 1;
+  // Hard failures (or zero keeps) fail the process; QC rejects alone are expected.
+  if (failures > 0 || (!dryRun && accepted === 0)) process.exitCode = 1;
 }
 
 main().catch((err) => {

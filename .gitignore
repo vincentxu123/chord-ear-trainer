@@ -5,3 +5,6 @@ dist
 
 # Secrets (use .env.example as the template)
 .env
+
+# Python QC venv for lv-chordia
+.venv-qc/

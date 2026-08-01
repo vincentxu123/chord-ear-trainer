@@ -1,68 +1,93 @@
 # Chord Ear Trainer
 
-A web app for practicing recognition of **chord progressions by ear**. Instead of
-naming exact notes, you train on the *functional movement* of a progression
-(Roman numerals like `I-V-vi-IV`), which is the skill that lets you play songs by
-ear and follow chord changes in real time.
+A web app for practicing **chord progressions by ear**. Instead of naming exact
+notes, you train on *functional movement* — Roman numerals like `I–V–vi–IV` —
+the skill that helps you hear songs and follow changes in real time.
 
-Each round plays a short progression on a sampled piano in a (randomized) key.
-The first chord is always given as the tonic (**I**) to anchor your relative
-listening; you identify the remaining chords, submit, and get per-chord feedback.
+Each round plays a short progression. The **first chord is given** as an anchor
+(it doesn’t have to be I); you identify the rest, submit, and get per-slot
+feedback.
+
+## Sound sources
+
+| Mode | What you hear |
+|------|----------------|
+| **Piano** | Progressions synthesized on the fly with a sampled piano (Tone.js). Unlimited variety; tempo, length, key, and chromatic options are adjustable. |
+| **Real music** | Short instrumental clips generated offline with AI (full-band texture over a known 4-chord loop). Tempo/length come from the recording. |
+
+Switch between them in the settings panel. Real music unlocks once
+`public/clips/manifest.json` has entries (this repo may already include a small
+library).
 
 ## Features
 
-- **Relative / functional training** — answer in Roman numerals, independent of key.
-- **Given tonic anchor** — every progression starts on I (pre-filled and locked).
-- **Randomized key each round** — forces true relative listening (or lock it to C major).
-- **Adjustable tempo** — 100-460 BPM (default 280), changing speed without changing pitch.
-- **Configurable length** — 2 to 6 chords (default 4).
-- **Diatonic or chromatic vocabulary** — start with the 6 diatonic major/minor
-  triads, or enable chromatic chords (`II, bIII, III, iv, bVI, VI, bVII`) for a harder set.
-- **Instant feedback** — per-slot correct/incorrect with the right answer revealed, plus replay.
+- Relative / Roman-numeral answers, independent of absolute key
+- First chord pre-filled and locked as a listening anchor
+- Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
+- Real music mode: generated clips with Stop / Replay, slot highlights synced to the clip BPM
+- Instant per-slot feedback and click-to-audition chords after reveal
+- Interactive piano keyboard at the bottom of the screen
 
 ## Tech stack
 
-- **React + TypeScript + Vite**
-- **Tone.js** — sampled-piano synthesis and tempo-driven scheduling
-- **tonal** — music-theory note/interval math
-- **Zustand** — state management
-- **Tailwind CSS** — styling
-- **Vitest** — unit tests for the theory and scoring logic
+- React + TypeScript + Vite
+- Tone.js (piano synthesis) + HTMLAudioElement (clip playback)
+- tonal (theory math)
+- Zustand (state)
+- Tailwind CSS
+- Vitest
+
+Offline clip tooling (not required to play the app): Replicate (MusicGen-Chord)
+and Python / lv-chordia for label QC — see [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## Getting started
 
-Requires Node.js 18+.
+Requires **Node.js 18+**.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then open the printed local URL. Click **Play** to hear the progression (the piano
-samples load on first play, so an internet connection is needed initially), pick a
-chord for each open slot from the answer pad, then **Submit**.
+Open the local URL Vite prints. Click **Play**, fill the open slots from the
+answer pad, then **Submit**. Piano samples load from a CDN on first play (needs
+network once).
+
+### Optional: generate more Real music clips
+
+Clip generation is offline and optional. It needs a Replicate API token and a
+small Python venv for QC. Full strategy, validation rules, and commands are in
+[ARCHITECTURE.md](./ARCHITECTURE.md).
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start the Vite dev server |
-| `npm run build` | Type-check and build for production |
+| `npm run build` | Type-check and production build |
 | `npm run preview` | Preview the production build |
-| `npm test` | Run the unit tests |
-| `npm run typecheck` | Type-check without emitting |
+| `npm test` | Unit tests (theory, engine, clip helpers) |
+| `npm run typecheck` | Type-check only |
+| `npm run clips:generate` | Offline: generate + QC clips into `public/clips/` |
+| `npm run clips:qc` | Offline: re-validate the existing clip library |
 
 ## Project structure
 
 ```
 src/
-  theory/      pure music-theory logic (types, chord pools, voicing, Roman labels)
-  data/        curated seed progressions
-  engine/      round generation + answer scoring
-  audio/       Tone.js synth audio source
-  store/       Zustand stores (settings, session)
-  components/  UI (controls, slots, answer pad, feedback, settings)
-  pages/       Practice screen
+  theory/       Pure music-theory (types, pools, Roman labels, voicing)
+  engine/       Round generation + scoring
+  audio/        Synth piano + clip player
+  clips/        Manifest types, MusicGen chord syntax, clip → Exercise
+  store/        Zustand (settings, session, clip library)
+  components/   UI (slots, answer pad, controls, settings, keyboard)
+  pages/        Practice screen
+scripts/
+  generateClips.ts   Replicate generation + QC gate
+  qcClips.py         lv-chordia label validation
+public/clips/        MP3 library + manifest.json
 ```
 
-The music-theory and engine layers are pure (no audio or DOM) and unit-tested.
+Theory and engine layers are pure (no audio/DOM) and covered by unit tests.
+Deeper notes on how Real music clips are produced and validated live in
+[ARCHITECTURE.md](./ARCHITECTURE.md).
