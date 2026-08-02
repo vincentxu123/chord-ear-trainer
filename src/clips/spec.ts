@@ -22,18 +22,35 @@ export interface ClipSpec {
 export const HARMONY_CLARITY_SUFFIX =
   'prominent loud bass line, clear audible chord changes, bass-forward mix';
 
-// Style prompt bank. The generator cycles through these so the library covers
-// a spread of instrumentation and feel.
+// Style prompt bank (~20 mainstream genres). Avoid extreme metal / screamed
+// vocals; keep textures radio-friendly so harmony stays hearable for training.
 export const CLIP_STYLES = [
+  // Pop / rock
+  'contemporary pop, polished synths, bright electric guitar, tight drums',
   'acoustic pop ballad, warm strummed guitars, soft drums',
   '80s synth-pop chorus, bright analog synths, punchy drums',
   'indie rock, driving drums, jangly electric guitars',
+  'soft rock, clean electric guitars, steady drums, warm keys',
+  'classic rock groove, crunchy electric guitars, solid drums, organ',
+  // R&B / soul / funk
   'neo-soul groove, electric piano, laid-back drums',
-  'upbeat pop punk, distorted power chords, energetic drums',
-  'country pop, acoustic guitar, pedal steel, steady beat',
+  'smooth R&B, silky keys, soft drums, warm bass',
+  'funky groove, syncopated rhythm guitar, tight drums, clavinet',
+  // Jazz-adjacent (mainstream, not free jazz)
+  'smooth jazz, soft saxophone, electric piano, brushed drums',
+  'jazz pop, walking bass, clean guitar chords, light swing drums',
+  'bossa nova, nylon-string guitar, gentle percussion, soft keys',
+  // Hip-hop / electronic (softer end)
   'lo-fi chill hop, dusty keys, relaxed beat',
-  'anthemic stadium rock, big drums, layered guitars',
+  'dance-pop, four-on-the-floor kick, bright synths, catchy chords',
+  'house groove, deep bass, piano stabs, steady electronic drums',
+  // Country / folk / singer-songwriter
+  'country pop, acoustic guitar, pedal steel, steady beat',
+  'folk pop, acoustic guitars, light percussion, warm harmonies',
+  // Latin / caribbean / global-pop
   'reggae groove, off-beat guitar skanks',
+  'latin pop, bright acoustic guitar, light percussion, warm keys',
+  // Piano / cinematic-lite
   'piano pop ballad, expressive piano, subtle strings',
 ];
 

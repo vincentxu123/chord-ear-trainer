@@ -8,8 +8,12 @@
  * Usage:
  *   Put REPLICATE_API_TOKEN=r8_... in .env (see .env.example), then:
  *   npm run clips:generate -- --count 3
+ *   npm run clips:generate -- --accept 93
  *   npm run clips:generate -- --count 3 --dry-run
  *   npm run clips:generate -- --style "piano pop ballad, expressive piano"
+ *
+ * --count N   run N generation attempts (rejects still consume an attempt)
+ * --accept N  keep going until N clips pass QC (preferred for library targets)
  *
  * Requires the QC venv (.venv-qc with lv-chordia). See ARCHITECTURE.md.
  */
@@ -225,17 +229,30 @@ async function generateClip(spec: ClipSpec, seed: number): Promise<ArrayBuffer> 
 async function main(): Promise<void> {
   const { values } = parseArgs({
     options: {
-      count: { type: 'string', default: '1' },
+      count: { type: 'string' },
+      accept: { type: 'string' },
       style: { type: 'string' },
       'dry-run': { type: 'boolean', default: false },
       'skip-qc': { type: 'boolean', default: false },
     },
   });
-  const count = Number(values.count);
   const dryRun = values['dry-run'];
   const skipQc = values['skip-qc'];
+  const acceptTarget = values.accept != null ? Number(values.accept) : null;
+  const attemptBudget =
+    values.count != null
+      ? Number(values.count)
+      : acceptTarget != null
+        ? acceptTarget * 3 // safety cap if QC rejects heavily
+        : 1;
 
-  if (!Number.isInteger(count) || count < 1) {
+  if (values.count != null && values.accept != null) {
+    throw new Error('Use either --count or --accept, not both.');
+  }
+  if (acceptTarget != null && (!Number.isInteger(acceptTarget) || acceptTarget < 1)) {
+    throw new Error(`--accept must be a positive integer, got "${values.accept}"`);
+  }
+  if (!Number.isInteger(attemptBudget) || attemptBudget < 1) {
     throw new Error(`--count must be a positive integer, got "${values.count}"`);
   }
   if (!dryRun && !process.env.REPLICATE_API_TOKEN) {
@@ -249,7 +266,14 @@ async function main(): Promise<void> {
 
   await fs.mkdir(CLIPS_DIR, { recursive: true });
   const manifest = await loadManifest();
-  console.log(`Manifest has ${manifest.clips.length} clip(s). Generating ${count} more...`);
+  const startingCount = manifest.clips.length;
+  if (acceptTarget != null) {
+    console.log(
+      `Manifest has ${startingCount} clip(s). Accepting ${acceptTarget} more (max ${attemptBudget} attempts)...`,
+    );
+  } else {
+    console.log(`Manifest has ${startingCount} clip(s). Generating ${attemptBudget} more...`);
+  }
   if (!dryRun && !skipQc) {
     console.log(`QC enabled: keep only clips with root match >= ${MIN_ROOT_MATCH * 100}%.\n`);
   } else {
@@ -259,13 +283,23 @@ async function main(): Promise<void> {
   let accepted = 0;
   let rejected = 0;
   let failures = 0;
+  let attempts = 0;
   let clipNumber = maxClipNumber(manifest);
-  for (let i = 0; i < count; i++) {
+
+  while (attempts < attemptBudget && (acceptTarget == null || accepted < acceptTarget)) {
+    attempts++;
     const spec = randomClipSpec(values.style);
     const id = `clip-${String(++clipNumber).padStart(4, '0')}`;
-    console.log(`[${i + 1}/${count}] ${id}: ${describe(spec)}`);
+    const progress =
+      acceptTarget != null
+        ? `accepted ${accepted}/${acceptTarget}, attempt ${attempts}/${attemptBudget}`
+        : `${attempts}/${attemptBudget}`;
+    console.log(`[${progress}] ${id}: ${describe(spec)}`);
 
-    if (dryRun) continue;
+    if (dryRun) {
+      if (acceptTarget != null) accepted++;
+      continue;
+    }
 
     const seed = Math.floor(Math.random() * 2 ** 31);
     const file = `${id}.mp3`;
@@ -317,12 +351,23 @@ async function main(): Promise<void> {
     console.log('\nDry run — nothing was generated.');
   } else {
     console.log(
-      `\nDone: ${accepted} accepted, ${rejected} rejected by QC, ${failures} failed.`,
+      `\nDone: ${accepted} accepted, ${rejected} rejected by QC, ${failures} failed (${attempts} attempts).`,
     );
-    console.log(`Library now has ${manifest.clips.length} clip(s).`);
+    console.log(`Library now has ${manifest.clips.length} clip(s) (was ${startingCount}).`);
+    if (acceptTarget != null && accepted < acceptTarget) {
+      console.error(
+        `Stopped early: only accepted ${accepted}/${acceptTarget} before hitting the attempt cap (${attemptBudget}).`,
+      );
+    }
   }
-  // Hard failures (or zero keeps) fail the process; QC rejects alone are expected.
-  if (failures > 0 || (!dryRun && accepted === 0)) process.exitCode = 1;
+  // Hard failures, zero keeps, or unmet --accept target fail the process.
+  if (
+    failures > 0 ||
+    (!dryRun && accepted === 0) ||
+    (acceptTarget != null && accepted < acceptTarget)
+  ) {
+    process.exitCode = 1;
+  }
 }
 
 main().catch((err) => {

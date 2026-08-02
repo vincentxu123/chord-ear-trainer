@@ -117,8 +117,11 @@ Relative chords are converted in `src/clips/musicgenChords.ts`:
 
 ### Style / mix bias
 
-Every style prompt is appended with harmony-clarity cues (prominent bass, clear
-chord changes, bass-forward mix) so the bed is easier to hear for training.
+`CLIP_STYLES` in `src/clips/spec.ts` is a bank of ~20 mainstream genres (pop,
+rock, R&B/soul/funk, smooth/jazz-pop/bossa, lo-fi/dance/house, country/folk,
+reggae/latin, piano pop). Extreme metal / screamed styles are intentionally
+omitted. Every prompt is appended with harmony-clarity cues (prominent bass,
+clear chord changes, bass-forward mix) so the bed stays easy to hear.
 
 ### Hosting
 
