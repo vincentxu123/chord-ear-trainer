@@ -3,7 +3,7 @@ dist
 *.local
 .DS_Store
 
-# Secrets (use .env.example as the template)
+# Secrets
 .env
 
 # Python QC venv for lv-chordia

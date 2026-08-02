@@ -162,7 +162,7 @@ Standalone re-check of the whole library: `npm run clips:qc`.
 ### One-time setup
 
 1. Node deps: `npm install`
-2. Replicate account + token → put in `.env` (see `.env.example`; `.env` is gitignored):
+2. Replicate account + token → put in `.env` (gitignored):
 
    ```
    REPLICATE_API_TOKEN=r8_...

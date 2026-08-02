@@ -6,7 +6,7 @@
  * to public/clips/ + manifest.json; rejects are discarded.
  *
  * Usage:
- *   Put REPLICATE_API_TOKEN=r8_... in .env (see .env.example), then:
+ *   Put REPLICATE_API_TOKEN=r8_... in .env, then:
  *   npm run clips:generate -- --count 3
  *   npm run clips:generate -- --accept 93
  *   npm run clips:generate -- --count 3 --dry-run
@@ -258,7 +258,7 @@ async function main(): Promise<void> {
   if (!dryRun && !process.env.REPLICATE_API_TOKEN) {
     throw new Error(
       'REPLICATE_API_TOKEN is not set. Create a token at https://replicate.com/account/api-tokens\n' +
-        'and put it in a .env file at the repo root (copy .env.example to .env).',
+        'and put it in a .env file at the repo root.',
     );
   }
 
