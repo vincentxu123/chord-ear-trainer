@@ -11,3 +11,11 @@ dist
 
 # Local QC run dumps
 qc-results*.txt
+
+__pycache__/
+*.py[cod]
+
+# Local commercial-recording analysis. Source audio, normalized derivatives,
+# model output, and review reports must never be committed.
+.venv-recordings/
+.recordings/
