@@ -3,180 +3,6 @@
     {
       "id": "clip-0001",
       "file": "clip-0001.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 94,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, deep bass",
-      "seed": 2122285384
-    },
-    {
-      "id": "clip-0002",
-      "file": "clip-0002.mp3",
-      "key": "Ab",
-      "mode": "major",
-      "bpm": 119,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "lo-fi chill hop, dusty keys, mellow bass, relaxed beat",
-      "seed": 509149038
-    },
-    {
-      "id": "clip-0003",
-      "file": "clip-0003.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 99,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings",
-      "seed": 756493616
-    },
-    {
-      "id": "clip-0004",
-      "file": "clip-0004.mp3",
-      "key": "Ab",
-      "mode": "major",
-      "bpm": 83,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1287022095
-    },
-    {
-      "id": "clip-0005",
-      "file": "clip-0005.mp3",
-      "key": "Eb",
-      "mode": "minor",
-      "bpm": 116,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1870217432
-    },
-    {
-      "id": "clip-0006",
-      "file": "clip-0006.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 85,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "anthemic stadium rock, big drums, layered guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 943634940
-    },
-    {
-      "id": "clip-0007",
-      "file": "clip-0007.mp3",
       "key": "A",
       "mode": "major",
       "bpm": 115,
@@ -204,66 +30,8 @@
       "seed": 1655802188
     },
     {
-      "id": "clip-0008",
-      "file": "clip-0008.mp3",
-      "key": "Ab",
-      "mode": "major",
-      "bpm": 95,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 316568592
-    },
-    {
-      "id": "clip-0009",
-      "file": "clip-0009.mp3",
-      "key": "C",
-      "mode": "minor",
-      "bpm": 94,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 131955855
-    },
-    {
-      "id": "clip-0010",
-      "file": "clip-0010.mp3",
+      "id": "clip-0002",
+      "file": "clip-0002.mp3",
       "key": "B",
       "mode": "major",
       "bpm": 87,
@@ -291,37 +59,8 @@
       "seed": 297069
     },
     {
-      "id": "clip-0011",
-      "file": "clip-0011.mp3",
-      "key": "F",
-      "mode": "minor",
-      "bpm": 90,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "anthemic stadium rock, big drums, layered guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 846430717
-    },
-    {
-      "id": "clip-0012",
-      "file": "clip-0012.mp3",
+      "id": "clip-0003",
+      "file": "clip-0003.mp3",
       "key": "Ab",
       "mode": "major",
       "bpm": 91,
@@ -349,211 +88,8 @@
       "seed": 1206506742
     },
     {
-      "id": "clip-0013",
-      "file": "clip-0013.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 120,
-      "beatsPerChord": 4,
-      "durationSec": 16,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "acoustic pop ballad, warm strummed guitars, soft drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 2087219797
-    },
-    {
-      "id": "clip-0014",
-      "file": "clip-0014.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 108,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 974874174
-    },
-    {
-      "id": "clip-0015",
-      "file": "clip-0015.mp3",
-      "key": "Bb",
-      "mode": "minor",
-      "bpm": 110,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "contemporary pop, polished synths, bright electric guitar, tight drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 860907940
-    },
-    {
-      "id": "clip-0016",
-      "file": "clip-0016.mp3",
-      "key": "C",
-      "mode": "minor",
-      "bpm": 118,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 450408873
-    },
-    {
-      "id": "clip-0017",
-      "file": "clip-0017.mp3",
-      "key": "Bb",
-      "mode": "minor",
-      "bpm": 106,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 799469208
-    },
-    {
-      "id": "clip-0018",
-      "file": "clip-0018.mp3",
-      "key": "A",
-      "mode": "major",
-      "bpm": 96,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 512910692
-    },
-    {
-      "id": "clip-0019",
-      "file": "clip-0019.mp3",
-      "key": "G",
-      "mode": "minor",
-      "bpm": 110,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 44812964
-    },
-    {
-      "id": "clip-0020",
-      "file": "clip-0020.mp3",
+      "id": "clip-0004",
+      "file": "clip-0004.mp3",
       "key": "Eb",
       "mode": "major",
       "bpm": 85,
@@ -581,8 +117,8 @@
       "seed": 1150490213
     },
     {
-      "id": "clip-0021",
-      "file": "clip-0021.mp3",
+      "id": "clip-0005",
+      "file": "clip-0005.mp3",
       "key": "G",
       "mode": "major",
       "bpm": 90,
@@ -610,95 +146,8 @@
       "seed": 26952073
     },
     {
-      "id": "clip-0022",
-      "file": "clip-0022.mp3",
-      "key": "D",
-      "mode": "major",
-      "bpm": 84,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "latin pop, bright acoustic guitar, light percussion, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 2083464229
-    },
-    {
-      "id": "clip-0023",
-      "file": "clip-0023.mp3",
-      "key": "Db",
-      "mode": "minor",
-      "bpm": 80,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1968778017
-    },
-    {
-      "id": "clip-0024",
-      "file": "clip-0024.mp3",
-      "key": "E",
-      "mode": "major",
-      "bpm": 100,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "bossa nova, nylon-string guitar, gentle percussion, soft keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 579089755
-    },
-    {
-      "id": "clip-0025",
-      "file": "clip-0025.mp3",
+      "id": "clip-0006",
+      "file": "clip-0006.mp3",
       "key": "A",
       "mode": "major",
       "bpm": 80,
@@ -726,8 +175,8 @@
       "seed": 1883471080
     },
     {
-      "id": "clip-0026",
-      "file": "clip-0026.mp3",
+      "id": "clip-0007",
+      "file": "clip-0007.mp3",
       "key": "B",
       "mode": "minor",
       "bpm": 120,
@@ -755,8 +204,8 @@
       "seed": 887506468
     },
     {
-      "id": "clip-0027",
-      "file": "clip-0027.mp3",
+      "id": "clip-0008",
+      "file": "clip-0008.mp3",
       "key": "Ab",
       "mode": "major",
       "bpm": 104,
@@ -784,66 +233,8 @@
       "seed": 1699503738
     },
     {
-      "id": "clip-0028",
-      "file": "clip-0028.mp3",
-      "key": "G",
-      "mode": "major",
-      "bpm": 78,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1950653915
-    },
-    {
-      "id": "clip-0029",
-      "file": "clip-0029.mp3",
-      "key": "D",
-      "mode": "major",
-      "bpm": 117,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 943987494
-    },
-    {
-      "id": "clip-0030",
-      "file": "clip-0030.mp3",
+      "id": "clip-0009",
+      "file": "clip-0009.mp3",
       "key": "D",
       "mode": "minor",
       "bpm": 110,
@@ -871,8 +262,8 @@
       "seed": 571564043
     },
     {
-      "id": "clip-0031",
-      "file": "clip-0031.mp3",
+      "id": "clip-0010",
+      "file": "clip-0010.mp3",
       "key": "Ab",
       "mode": "major",
       "bpm": 120,
@@ -900,240 +291,8 @@
       "seed": 928416609
     },
     {
-      "id": "clip-0032",
-      "file": "clip-0032.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 112,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "smooth jazz, soft saxophone, electric piano, brushed drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1740336739
-    },
-    {
-      "id": "clip-0033",
-      "file": "clip-0033.mp3",
-      "key": "Eb",
-      "mode": "minor",
-      "bpm": 89,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1982613134
-    },
-    {
-      "id": "clip-0034",
-      "file": "clip-0034.mp3",
-      "key": "E",
-      "mode": "minor",
-      "bpm": 90,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "80s synth-pop chorus, bright analog synths, punchy drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 350835036
-    },
-    {
-      "id": "clip-0035",
-      "file": "clip-0035.mp3",
-      "key": "A",
-      "mode": "minor",
-      "bpm": 113,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1977457029
-    },
-    {
-      "id": "clip-0036",
-      "file": "clip-0036.mp3",
-      "key": "E",
-      "mode": "major",
-      "bpm": 107,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "latin pop, bright acoustic guitar, light percussion, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 817752381
-    },
-    {
-      "id": "clip-0037",
-      "file": "clip-0037.mp3",
-      "key": "G",
-      "mode": "major",
-      "bpm": 92,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "acoustic pop ballad, warm strummed guitars, soft drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1204321479
-    },
-    {
-      "id": "clip-0038",
-      "file": "clip-0038.mp3",
-      "key": "Db",
-      "mode": "minor",
-      "bpm": 82,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "80s synth-pop chorus, bright analog synths, punchy drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 322093348
-    },
-    {
-      "id": "clip-0039",
-      "file": "clip-0039.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 94,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "contemporary pop, polished synths, bright electric guitar, tight drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1833487550
-    },
-    {
-      "id": "clip-0040",
-      "file": "clip-0040.mp3",
+      "id": "clip-0011",
+      "file": "clip-0011.mp3",
       "key": "C",
       "mode": "major",
       "bpm": 108,
@@ -1161,66 +320,8 @@
       "seed": 1121706649
     },
     {
-      "id": "clip-0041",
-      "file": "clip-0041.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 105,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 266485375
-    },
-    {
-      "id": "clip-0042",
-      "file": "clip-0042.mp3",
-      "key": "A",
-      "mode": "major",
-      "bpm": 109,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 49018255
-    },
-    {
-      "id": "clip-0043",
-      "file": "clip-0043.mp3",
+      "id": "clip-0012",
+      "file": "clip-0012.mp3",
       "key": "C",
       "mode": "major",
       "bpm": 114,
@@ -1248,66 +349,8 @@
       "seed": 835756040
     },
     {
-      "id": "clip-0044",
-      "file": "clip-0044.mp3",
-      "key": "E",
-      "mode": "minor",
-      "bpm": 92,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        }
-      ],
-      "style": "lo-fi chill hop, dusty keys, relaxed beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 505918402
-    },
-    {
-      "id": "clip-0045",
-      "file": "clip-0045.mp3",
-      "key": "G",
-      "mode": "minor",
-      "bpm": 78,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "folk pop, acoustic guitars, light percussion, warm harmonies, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 163503575
-    },
-    {
-      "id": "clip-0046",
-      "file": "clip-0046.mp3",
+      "id": "clip-0013",
+      "file": "clip-0013.mp3",
       "key": "A",
       "mode": "minor",
       "bpm": 83,
@@ -1335,66 +378,8 @@
       "seed": 1910283067
     },
     {
-      "id": "clip-0047",
-      "file": "clip-0047.mp3",
-      "key": "Eb",
-      "mode": "major",
-      "bpm": 93,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "bossa nova, nylon-string guitar, gentle percussion, soft keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 352141531
-    },
-    {
-      "id": "clip-0048",
-      "file": "clip-0048.mp3",
-      "key": "Ab",
-      "mode": "minor",
-      "bpm": 83,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "contemporary pop, polished synths, bright electric guitar, tight drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 530767641
-    },
-    {
-      "id": "clip-0049",
-      "file": "clip-0049.mp3",
+      "id": "clip-0014",
+      "file": "clip-0014.mp3",
       "key": "Bb",
       "mode": "major",
       "bpm": 114,
@@ -1422,8 +407,8 @@
       "seed": 1909187450
     },
     {
-      "id": "clip-0050",
-      "file": "clip-0050.mp3",
+      "id": "clip-0015",
+      "file": "clip-0015.mp3",
       "key": "F",
       "mode": "major",
       "bpm": 118,
@@ -1451,37 +436,8 @@
       "seed": 1412693637
     },
     {
-      "id": "clip-0051",
-      "file": "clip-0051.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 112,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "lo-fi chill hop, dusty keys, relaxed beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1671424181
-    },
-    {
-      "id": "clip-0052",
-      "file": "clip-0052.mp3",
+      "id": "clip-0016",
+      "file": "clip-0016.mp3",
       "key": "Gb",
       "mode": "minor",
       "bpm": 110,
@@ -1509,182 +465,8 @@
       "seed": 2071981105
     },
     {
-      "id": "clip-0053",
-      "file": "clip-0053.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 97,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "smooth jazz, soft saxophone, electric piano, brushed drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1953547500
-    },
-    {
-      "id": "clip-0054",
-      "file": "clip-0054.mp3",
-      "key": "E",
-      "mode": "major",
-      "bpm": 101,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "latin pop, bright acoustic guitar, light percussion, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 991744265
-    },
-    {
-      "id": "clip-0055",
-      "file": "clip-0055.mp3",
-      "key": "Ab",
-      "mode": "major",
-      "bpm": 91,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "dance-pop, four-on-the-floor kick, bright synths, catchy chords, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1329628276
-    },
-    {
-      "id": "clip-0056",
-      "file": "clip-0056.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 98,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 863173234
-    },
-    {
-      "id": "clip-0057",
-      "file": "clip-0057.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 86,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 57221258
-    },
-    {
-      "id": "clip-0058",
-      "file": "clip-0058.mp3",
-      "key": "Ab",
-      "mode": "minor",
-      "bpm": 95,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 378429701
-    },
-    {
-      "id": "clip-0059",
-      "file": "clip-0059.mp3",
+      "id": "clip-0017",
+      "file": "clip-0017.mp3",
       "key": "Gb",
       "mode": "major",
       "bpm": 115,
@@ -1712,8 +494,8 @@
       "seed": 562103433
     },
     {
-      "id": "clip-0060",
-      "file": "clip-0060.mp3",
+      "id": "clip-0018",
+      "file": "clip-0018.mp3",
       "key": "Eb",
       "mode": "minor",
       "bpm": 98,
@@ -1741,8 +523,8 @@
       "seed": 221229641
     },
     {
-      "id": "clip-0061",
-      "file": "clip-0061.mp3",
+      "id": "clip-0019",
+      "file": "clip-0019.mp3",
       "key": "Bb",
       "mode": "minor",
       "bpm": 95,
@@ -1770,37 +552,8 @@
       "seed": 2056741783
     },
     {
-      "id": "clip-0062",
-      "file": "clip-0062.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 98,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "80s synth-pop chorus, bright analog synths, punchy drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 278706821
-    },
-    {
-      "id": "clip-0063",
-      "file": "clip-0063.mp3",
+      "id": "clip-0020",
+      "file": "clip-0020.mp3",
       "key": "D",
       "mode": "minor",
       "bpm": 85,
@@ -1828,8 +581,8 @@
       "seed": 834421570
     },
     {
-      "id": "clip-0064",
-      "file": "clip-0064.mp3",
+      "id": "clip-0021",
+      "file": "clip-0021.mp3",
       "key": "C",
       "mode": "major",
       "bpm": 107,
@@ -1857,37 +610,8 @@
       "seed": 2102324075
     },
     {
-      "id": "clip-0065",
-      "file": "clip-0065.mp3",
-      "key": "E",
-      "mode": "major",
-      "bpm": 111,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1084027169
-    },
-    {
-      "id": "clip-0066",
-      "file": "clip-0066.mp3",
+      "id": "clip-0022",
+      "file": "clip-0022.mp3",
       "key": "Db",
       "mode": "minor",
       "bpm": 109,
@@ -1915,37 +639,8 @@
       "seed": 1416586586
     },
     {
-      "id": "clip-0067",
-      "file": "clip-0067.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 92,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1028417439
-    },
-    {
-      "id": "clip-0068",
-      "file": "clip-0068.mp3",
+      "id": "clip-0023",
+      "file": "clip-0023.mp3",
       "key": "A",
       "mode": "minor",
       "bpm": 116,
@@ -1973,182 +668,8 @@
       "seed": 1871651698
     },
     {
-      "id": "clip-0069",
-      "file": "clip-0069.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 111,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1084486029
-    },
-    {
-      "id": "clip-0070",
-      "file": "clip-0070.mp3",
-      "key": "F",
-      "mode": "minor",
-      "bpm": 92,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1329401630
-    },
-    {
-      "id": "clip-0071",
-      "file": "clip-0071.mp3",
-      "key": "A",
-      "mode": "major",
-      "bpm": 94,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 700992965
-    },
-    {
-      "id": "clip-0072",
-      "file": "clip-0072.mp3",
-      "key": "Ab",
-      "mode": "minor",
-      "bpm": 91,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "dance-pop, four-on-the-floor kick, bright synths, catchy chords, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 710044073
-    },
-    {
-      "id": "clip-0073",
-      "file": "clip-0073.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 83,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "bossa nova, nylon-string guitar, gentle percussion, soft keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1934704709
-    },
-    {
-      "id": "clip-0074",
-      "file": "clip-0074.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 78,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 107114969
-    },
-    {
-      "id": "clip-0075",
-      "file": "clip-0075.mp3",
+      "id": "clip-0024",
+      "file": "clip-0024.mp3",
       "key": "G",
       "mode": "major",
       "bpm": 89,
@@ -2176,66 +697,8 @@
       "seed": 1222974952
     },
     {
-      "id": "clip-0076",
-      "file": "clip-0076.mp3",
-      "key": "C",
-      "mode": "minor",
-      "bpm": 93,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1595834465
-    },
-    {
-      "id": "clip-0077",
-      "file": "clip-0077.mp3",
-      "key": "Db",
-      "mode": "minor",
-      "bpm": 87,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        }
-      ],
-      "style": "folk pop, acoustic guitars, light percussion, warm harmonies, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1590705704
-    },
-    {
-      "id": "clip-0078",
-      "file": "clip-0078.mp3",
+      "id": "clip-0025",
+      "file": "clip-0025.mp3",
       "key": "Db",
       "mode": "minor",
       "bpm": 97,
@@ -2263,37 +726,8 @@
       "seed": 1297526153
     },
     {
-      "id": "clip-0079",
-      "file": "clip-0079.mp3",
-      "key": "E",
-      "mode": "major",
-      "bpm": 79,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "lo-fi chill hop, dusty keys, relaxed beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 476619144
-    },
-    {
-      "id": "clip-0080",
-      "file": "clip-0080.mp3",
+      "id": "clip-0026",
+      "file": "clip-0026.mp3",
       "key": "Eb",
       "mode": "major",
       "bpm": 99,
@@ -2321,66 +755,8 @@
       "seed": 29817441
     },
     {
-      "id": "clip-0081",
-      "file": "clip-0081.mp3",
-      "key": "C",
-      "mode": "minor",
-      "bpm": 92,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1824813169
-    },
-    {
-      "id": "clip-0082",
-      "file": "clip-0082.mp3",
-      "key": "A",
-      "mode": "major",
-      "bpm": 111,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1163410304
-    },
-    {
-      "id": "clip-0083",
-      "file": "clip-0083.mp3",
+      "id": "clip-0027",
+      "file": "clip-0027.mp3",
       "key": "F",
       "mode": "minor",
       "bpm": 76,
@@ -2408,124 +784,8 @@
       "seed": 169863961
     },
     {
-      "id": "clip-0084",
-      "file": "clip-0084.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 92,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "contemporary pop, polished synths, bright electric guitar, tight drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1560932059
-    },
-    {
-      "id": "clip-0085",
-      "file": "clip-0085.mp3",
-      "key": "G",
-      "mode": "minor",
-      "bpm": 107,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1929804183
-    },
-    {
-      "id": "clip-0086",
-      "file": "clip-0086.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 119,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 165966161
-    },
-    {
-      "id": "clip-0087",
-      "file": "clip-0087.mp3",
-      "key": "Ab",
-      "mode": "minor",
-      "bpm": 108,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        }
-      ],
-      "style": "jazz pop, walking bass, clean guitar chords, light swing drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1362571932
-    },
-    {
-      "id": "clip-0088",
-      "file": "clip-0088.mp3",
+      "id": "clip-0028",
+      "file": "clip-0028.mp3",
       "key": "Bb",
       "mode": "major",
       "bpm": 76,
@@ -2553,8 +813,8 @@
       "seed": 1975741671
     },
     {
-      "id": "clip-0089",
-      "file": "clip-0089.mp3",
+      "id": "clip-0029",
+      "file": "clip-0029.mp3",
       "key": "E",
       "mode": "major",
       "bpm": 97,
@@ -2582,37 +842,8 @@
       "seed": 626916152
     },
     {
-      "id": "clip-0090",
-      "file": "clip-0090.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 83,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1061574572
-    },
-    {
-      "id": "clip-0091",
-      "file": "clip-0091.mp3",
+      "id": "clip-0030",
+      "file": "clip-0030.mp3",
       "key": "Db",
       "mode": "minor",
       "bpm": 102,
@@ -2640,66 +871,8 @@
       "seed": 2038342076
     },
     {
-      "id": "clip-0092",
-      "file": "clip-0092.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 99,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "smooth jazz, soft saxophone, electric piano, brushed drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 490067147
-    },
-    {
-      "id": "clip-0093",
-      "file": "clip-0093.mp3",
-      "key": "D",
-      "mode": "major",
-      "bpm": 112,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "bossa nova, nylon-string guitar, gentle percussion, soft keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1557569276
-    },
-    {
-      "id": "clip-0094",
-      "file": "clip-0094.mp3",
+      "id": "clip-0031",
+      "file": "clip-0031.mp3",
       "key": "G",
       "mode": "major",
       "bpm": 87,
@@ -2727,8 +900,8 @@
       "seed": 119650033
     },
     {
-      "id": "clip-0095",
-      "file": "clip-0095.mp3",
+      "id": "clip-0032",
+      "file": "clip-0032.mp3",
       "key": "F",
       "mode": "major",
       "bpm": 103,
@@ -2756,8 +929,8 @@
       "seed": 1396769771
     },
     {
-      "id": "clip-0096",
-      "file": "clip-0096.mp3",
+      "id": "clip-0033",
+      "file": "clip-0033.mp3",
       "key": "C",
       "mode": "major",
       "bpm": 84,
@@ -2785,37 +958,8 @@
       "seed": 520607277
     },
     {
-      "id": "clip-0097",
-      "file": "clip-0097.mp3",
-      "key": "Db",
-      "mode": "minor",
-      "bpm": 84,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 2067557151
-    },
-    {
-      "id": "clip-0098",
-      "file": "clip-0098.mp3",
+      "id": "clip-0034",
+      "file": "clip-0034.mp3",
       "key": "Gb",
       "mode": "major",
       "bpm": 108,
@@ -2843,95 +987,8 @@
       "seed": 1808032067
     },
     {
-      "id": "clip-0099",
-      "file": "clip-0099.mp3",
-      "key": "F",
-      "mode": "minor",
-      "bpm": 117,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "contemporary pop, polished synths, bright electric guitar, tight drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 969650845
-    },
-    {
-      "id": "clip-0100",
-      "file": "clip-0100.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 119,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "neo-soul groove, electric piano, laid-back drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 2023739999
-    },
-    {
-      "id": "clip-0101",
-      "file": "clip-0101.mp3",
-      "key": "F",
-      "mode": "minor",
-      "bpm": 102,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1698704515
-    },
-    {
-      "id": "clip-0102",
-      "file": "clip-0102.mp3",
+      "id": "clip-0035",
+      "file": "clip-0035.mp3",
       "key": "C",
       "mode": "major",
       "bpm": 113,
@@ -2959,95 +1016,8 @@
       "seed": 1892716986
     },
     {
-      "id": "clip-0103",
-      "file": "clip-0103.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 112,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 639223104
-    },
-    {
-      "id": "clip-0104",
-      "file": "clip-0104.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 95,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "smooth R&B, silky keys, soft drums, warm bass, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1924027606
-    },
-    {
-      "id": "clip-0105",
-      "file": "clip-0105.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 112,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 619715762
-    },
-    {
-      "id": "clip-0106",
-      "file": "clip-0106.mp3",
+      "id": "clip-0036",
+      "file": "clip-0036.mp3",
       "key": "G",
       "mode": "major",
       "bpm": 98,
@@ -3075,66 +1045,8 @@
       "seed": 1587175380
     },
     {
-      "id": "clip-0107",
-      "file": "clip-0107.mp3",
-      "key": "F",
-      "mode": "major",
-      "bpm": 88,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1842958002
-    },
-    {
-      "id": "clip-0108",
-      "file": "clip-0108.mp3",
-      "key": "F",
-      "mode": "major",
-      "bpm": 116,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "dance-pop, four-on-the-floor kick, bright synths, catchy chords, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1766307224
-    },
-    {
-      "id": "clip-0109",
-      "file": "clip-0109.mp3",
+      "id": "clip-0037",
+      "file": "clip-0037.mp3",
       "key": "F",
       "mode": "major",
       "bpm": 105,
@@ -3162,37 +1074,8 @@
       "seed": 157202558
     },
     {
-      "id": "clip-0110",
-      "file": "clip-0110.mp3",
-      "key": "Bb",
-      "mode": "minor",
-      "bpm": 81,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 344302207
-    },
-    {
-      "id": "clip-0111",
-      "file": "clip-0111.mp3",
+      "id": "clip-0038",
+      "file": "clip-0038.mp3",
       "key": "G",
       "mode": "major",
       "bpm": 106,
@@ -3220,66 +1103,8 @@
       "seed": 1565121010
     },
     {
-      "id": "clip-0112",
-      "file": "clip-0112.mp3",
-      "key": "F",
-      "mode": "minor",
-      "bpm": 91,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "bossa nova, nylon-string guitar, gentle percussion, soft keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1347211880
-    },
-    {
-      "id": "clip-0113",
-      "file": "clip-0113.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 88,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 936000076
-    },
-    {
-      "id": "clip-0114",
-      "file": "clip-0114.mp3",
+      "id": "clip-0039",
+      "file": "clip-0039.mp3",
       "key": "Bb",
       "mode": "major",
       "bpm": 81,
@@ -3307,8 +1132,8 @@
       "seed": 2122370607
     },
     {
-      "id": "clip-0115",
-      "file": "clip-0115.mp3",
+      "id": "clip-0040",
+      "file": "clip-0040.mp3",
       "key": "B",
       "mode": "minor",
       "bpm": 106,
@@ -3336,153 +1161,8 @@
       "seed": 2071171403
     },
     {
-      "id": "clip-0116",
-      "file": "clip-0116.mp3",
-      "key": "B",
-      "mode": "minor",
-      "bpm": 81,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "80s synth-pop chorus, bright analog synths, punchy drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1427963795
-    },
-    {
-      "id": "clip-0117",
-      "file": "clip-0117.mp3",
-      "key": "Ab",
-      "mode": "major",
-      "bpm": 120,
-      "beatsPerChord": 4,
-      "durationSec": 16,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1842636900
-    },
-    {
-      "id": "clip-0118",
-      "file": "clip-0118.mp3",
-      "key": "Db",
-      "mode": "minor",
-      "bpm": 119,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 88482873
-    },
-    {
-      "id": "clip-0119",
-      "file": "clip-0119.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 79,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "funky groove, syncopated rhythm guitar, tight drums, clavinet, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 781693735
-    },
-    {
-      "id": "clip-0120",
-      "file": "clip-0120.mp3",
-      "key": "A",
-      "mode": "major",
-      "bpm": 114,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 777210034
-    },
-    {
-      "id": "clip-0121",
-      "file": "clip-0121.mp3",
+      "id": "clip-0041",
+      "file": "clip-0041.mp3",
       "key": "A",
       "mode": "major",
       "bpm": 117,
@@ -3510,8 +1190,8 @@
       "seed": 452805622
     },
     {
-      "id": "clip-0122",
-      "file": "clip-0122.mp3",
+      "id": "clip-0042",
+      "file": "clip-0042.mp3",
       "key": "A",
       "mode": "major",
       "bpm": 90,
@@ -3539,8 +1219,8 @@
       "seed": 196180750
     },
     {
-      "id": "clip-0123",
-      "file": "clip-0123.mp3",
+      "id": "clip-0043",
+      "file": "clip-0043.mp3",
       "key": "D",
       "mode": "major",
       "bpm": 103,
@@ -3568,240 +1248,8 @@
       "seed": 689016859
     },
     {
-      "id": "clip-0124",
-      "file": "clip-0124.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "dance-pop, four-on-the-floor kick, bright synths, catchy chords, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1802326750
-    },
-    {
-      "id": "clip-0125",
-      "file": "clip-0125.mp3",
-      "key": "Eb",
-      "mode": "major",
-      "bpm": 77,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "lo-fi chill hop, dusty keys, relaxed beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 348929467
-    },
-    {
-      "id": "clip-0126",
-      "file": "clip-0126.mp3",
-      "key": "E",
-      "mode": "minor",
-      "bpm": 85,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        }
-      ],
-      "style": "jazz pop, walking bass, clean guitar chords, light swing drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 691791589
-    },
-    {
-      "id": "clip-0127",
-      "file": "clip-0127.mp3",
-      "key": "F",
-      "mode": "major",
-      "bpm": 98,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1154261579
-    },
-    {
-      "id": "clip-0128",
-      "file": "clip-0128.mp3",
-      "key": "G",
-      "mode": "major",
-      "bpm": 91,
-      "beatsPerChord": 4,
-      "durationSec": 22,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1460574675
-    },
-    {
-      "id": "clip-0129",
-      "file": "clip-0129.mp3",
-      "key": "A",
-      "mode": "major",
-      "bpm": 81,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 819500535
-    },
-    {
-      "id": "clip-0130",
-      "file": "clip-0130.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 107,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1131574479
-    },
-    {
-      "id": "clip-0131",
-      "file": "clip-0131.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 95,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 772624333
-    },
-    {
-      "id": "clip-0132",
-      "file": "clip-0132.mp3",
+      "id": "clip-0044",
+      "file": "clip-0044.mp3",
       "key": "Gb",
       "mode": "minor",
       "bpm": 105,
@@ -3829,8 +1277,8 @@
       "seed": 1708622366
     },
     {
-      "id": "clip-0133",
-      "file": "clip-0133.mp3",
+      "id": "clip-0045",
+      "file": "clip-0045.mp3",
       "key": "Bb",
       "mode": "major",
       "bpm": 105,
@@ -3858,8 +1306,8 @@
       "seed": 1154677675
     },
     {
-      "id": "clip-0134",
-      "file": "clip-0134.mp3",
+      "id": "clip-0046",
+      "file": "clip-0046.mp3",
       "key": "D",
       "mode": "major",
       "bpm": 78,
@@ -3887,8 +1335,8 @@
       "seed": 1486808162
     },
     {
-      "id": "clip-0135",
-      "file": "clip-0135.mp3",
+      "id": "clip-0047",
+      "file": "clip-0047.mp3",
       "key": "Bb",
       "mode": "major",
       "bpm": 97,
@@ -3916,269 +1364,8 @@
       "seed": 1075581242
     },
     {
-      "id": "clip-0136",
-      "file": "clip-0136.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 81,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 810256715
-    },
-    {
-      "id": "clip-0137",
-      "file": "clip-0137.mp3",
-      "key": "C",
-      "mode": "major",
-      "bpm": 83,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1380794811
-    },
-    {
-      "id": "clip-0138",
-      "file": "clip-0138.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 100,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1530914679
-    },
-    {
-      "id": "clip-0139",
-      "file": "clip-0139.mp3",
-      "key": "Bb",
-      "mode": "minor",
-      "bpm": 111,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 827674008
-    },
-    {
-      "id": "clip-0140",
-      "file": "clip-0140.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 87,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "dance-pop, four-on-the-floor kick, bright synths, catchy chords, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1492256035
-    },
-    {
-      "id": "clip-0141",
-      "file": "clip-0141.mp3",
-      "key": "Eb",
-      "mode": "major",
-      "bpm": 114,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 343345373
-    },
-    {
-      "id": "clip-0142",
-      "file": "clip-0142.mp3",
-      "key": "C",
-      "mode": "major",
-      "bpm": 99,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "neo-soul groove, electric piano, laid-back drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1225127492
-    },
-    {
-      "id": "clip-0143",
-      "file": "clip-0143.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 95,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 254713951
-    },
-    {
-      "id": "clip-0144",
-      "file": "clip-0144.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 104,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "indie rock, driving drums, jangly electric guitars, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 922265855
-    },
-    {
-      "id": "clip-0145",
-      "file": "clip-0145.mp3",
+      "id": "clip-0048",
+      "file": "clip-0048.mp3",
       "key": "B",
       "mode": "major",
       "bpm": 86,
@@ -4206,124 +1393,8 @@
       "seed": 1244127422
     },
     {
-      "id": "clip-0146",
-      "file": "clip-0146.mp3",
-      "key": "G",
-      "mode": "minor",
-      "bpm": 83,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1683602208
-    },
-    {
-      "id": "clip-0147",
-      "file": "clip-0147.mp3",
-      "key": "Eb",
-      "mode": "minor",
-      "bpm": 111,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "contemporary pop, polished synths, bright electric guitar, tight drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 2079199283
-    },
-    {
-      "id": "clip-0148",
-      "file": "clip-0148.mp3",
-      "key": "Gb",
-      "mode": "minor",
-      "bpm": 84,
-      "beatsPerChord": 4,
-      "durationSec": 23,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        }
-      ],
-      "style": "acoustic pop ballad, warm strummed guitars, soft drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 558979961
-    },
-    {
-      "id": "clip-0149",
-      "file": "clip-0149.mp3",
-      "key": "Gb",
-      "mode": "major",
-      "bpm": 102,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        }
-      ],
-      "style": "country pop, acoustic guitar, pedal steel, steady beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 49480016
-    },
-    {
-      "id": "clip-0150",
-      "file": "clip-0150.mp3",
+      "id": "clip-0049",
+      "file": "clip-0049.mp3",
       "key": "A",
       "mode": "minor",
       "bpm": 112,
@@ -4351,95 +1422,8 @@
       "seed": 1090889868
     },
     {
-      "id": "clip-0151",
-      "file": "clip-0151.mp3",
-      "key": "Gb",
-      "mode": "minor",
-      "bpm": 82,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "folk pop, acoustic guitars, light percussion, warm harmonies, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1219943525
-    },
-    {
-      "id": "clip-0152",
-      "file": "clip-0152.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 82,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1074764014
-    },
-    {
-      "id": "clip-0153",
-      "file": "clip-0153.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 106,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "classic rock groove, crunchy electric guitars, solid drums, organ, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1614563110
-    },
-    {
-      "id": "clip-0154",
-      "file": "clip-0154.mp3",
+      "id": "clip-0050",
+      "file": "clip-0050.mp3",
       "key": "B",
       "mode": "major",
       "bpm": 95,
@@ -4467,37 +1451,8 @@
       "seed": 410503585
     },
     {
-      "id": "clip-0155",
-      "file": "clip-0155.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 114,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "style": "lo-fi chill hop, dusty keys, relaxed beat, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 939907338
-    },
-    {
-      "id": "clip-0156",
-      "file": "clip-0156.mp3",
+      "id": "clip-0051",
+      "file": "clip-0051.mp3",
       "key": "B",
       "mode": "minor",
       "bpm": 96,
@@ -4525,66 +1480,8 @@
       "seed": 585258987
     },
     {
-      "id": "clip-0157",
-      "file": "clip-0157.mp3",
-      "key": "C",
-      "mode": "major",
-      "bpm": 111,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 194873131
-    },
-    {
-      "id": "clip-0158",
-      "file": "clip-0158.mp3",
-      "key": "C",
-      "mode": "minor",
-      "bpm": 108,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "smooth jazz, soft saxophone, electric piano, brushed drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1266444375
-    },
-    {
-      "id": "clip-0159",
-      "file": "clip-0159.mp3",
+      "id": "clip-0052",
+      "file": "clip-0052.mp3",
       "key": "D",
       "mode": "minor",
       "bpm": 79,
@@ -4612,8 +1509,8 @@
       "seed": 577623827
     },
     {
-      "id": "clip-0160",
-      "file": "clip-0160.mp3",
+      "id": "clip-0053",
+      "file": "clip-0053.mp3",
       "key": "F",
       "mode": "major",
       "bpm": 82,
@@ -4641,8 +1538,8 @@
       "seed": 323445995
     },
     {
-      "id": "clip-0161",
-      "file": "clip-0161.mp3",
+      "id": "clip-0054",
+      "file": "clip-0054.mp3",
       "key": "Gb",
       "mode": "minor",
       "bpm": 83,
@@ -4670,8 +1567,8 @@
       "seed": 1202183368
     },
     {
-      "id": "clip-0162",
-      "file": "clip-0162.mp3",
+      "id": "clip-0055",
+      "file": "clip-0055.mp3",
       "key": "F",
       "mode": "minor",
       "bpm": 83,
@@ -4699,66 +1596,8 @@
       "seed": 1244455502
     },
     {
-      "id": "clip-0163",
-      "file": "clip-0163.mp3",
-      "key": "Db",
-      "mode": "major",
-      "bpm": 116,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "jazz pop, walking bass, clean guitar chords, light swing drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 3722861
-    },
-    {
-      "id": "clip-0164",
-      "file": "clip-0164.mp3",
-      "key": "E",
-      "mode": "minor",
-      "bpm": 81,
-      "beatsPerChord": 4,
-      "durationSec": 24,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        }
-      ],
-      "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 149326572
-    },
-    {
-      "id": "clip-0165",
-      "file": "clip-0165.mp3",
+      "id": "clip-0056",
+      "file": "clip-0056.mp3",
       "key": "C",
       "mode": "minor",
       "bpm": 111,
@@ -4786,8 +1625,8 @@
       "seed": 1862010318
     },
     {
-      "id": "clip-0166",
-      "file": "clip-0166.mp3",
+      "id": "clip-0057",
+      "file": "clip-0057.mp3",
       "key": "Gb",
       "mode": "major",
       "bpm": 107,
@@ -4815,95 +1654,8 @@
       "seed": 399165294
     },
     {
-      "id": "clip-0167",
-      "file": "clip-0167.mp3",
-      "key": "G",
-      "mode": "minor",
-      "bpm": 108,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "min"
-        }
-      ],
-      "style": "house groove, deep bass, piano stabs, steady electronic drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1614877134
-    },
-    {
-      "id": "clip-0168",
-      "file": "clip-0168.mp3",
-      "key": "F",
-      "mode": "minor",
-      "bpm": 118,
-      "beatsPerChord": 4,
-      "durationSec": 17,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "piano pop ballad, expressive piano, subtle strings, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1472219813
-    },
-    {
-      "id": "clip-0169",
-      "file": "clip-0169.mp3",
-      "key": "Ab",
-      "mode": "minor",
-      "bpm": 94,
-      "beatsPerChord": 4,
-      "durationSec": 21,
-      "chords": [
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 8,
-          "quality": "maj"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1273742283
-    },
-    {
-      "id": "clip-0170",
-      "file": "clip-0170.mp3",
+      "id": "clip-0058",
+      "file": "clip-0058.mp3",
       "key": "B",
       "mode": "minor",
       "bpm": 107,
@@ -4931,66 +1683,8 @@
       "seed": 433300615
     },
     {
-      "id": "clip-0171",
-      "file": "clip-0171.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 77,
-      "beatsPerChord": 4,
-      "durationSec": 25,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        }
-      ],
-      "style": "80s synth-pop chorus, bright analog synths, punchy drums, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1650644202
-    },
-    {
-      "id": "clip-0172",
-      "file": "clip-0172.mp3",
-      "key": "Eb",
-      "mode": "minor",
-      "bpm": 97,
-      "beatsPerChord": 4,
-      "durationSec": 20,
-      "chords": [
-        {
-          "rootPc": 10,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "min"
-        },
-        {
-          "rootPc": 3,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "min"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1955230625
-    },
-    {
-      "id": "clip-0173",
-      "file": "clip-0173.mp3",
+      "id": "clip-0059",
+      "file": "clip-0059.mp3",
       "key": "E",
       "mode": "minor",
       "bpm": 85,
@@ -5016,64 +1710,6 @@
       ],
       "style": "reggae groove, off-beat guitar skanks, prominent loud bass line, clear audible chord changes, bass-forward mix",
       "seed": 1467324028
-    },
-    {
-      "id": "clip-0174",
-      "file": "clip-0174.mp3",
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 106,
-      "beatsPerChord": 4,
-      "durationSec": 19,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "style": "folk pop, acoustic guitars, light percussion, warm harmonies, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 2058877335
-    },
-    {
-      "id": "clip-0175",
-      "file": "clip-0175.mp3",
-      "key": "B",
-      "mode": "major",
-      "bpm": 110,
-      "beatsPerChord": 4,
-      "durationSec": 18,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        }
-      ],
-      "style": "soft rock, clean electric guitars, steady drums, warm keys, prominent loud bass line, clear audible chord changes, bass-forward mix",
-      "seed": 1552147780
     }
   ]
 }

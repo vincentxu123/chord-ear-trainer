@@ -96,7 +96,7 @@ Implemented in `scripts/generateClips.ts` (`npm run clips:generate`).
         │
         ▼
  QC gate                   scripts/qcClips.py + lv-chordia
-   root match ≥ 75%?         PASS → keep file + append manifest
+   root + quality = 100%?    PASS → keep file + append manifest
                              FAIL → delete file, do not add
         │
         ▼
@@ -147,13 +147,16 @@ inference), wrapped by `scripts/qcClips.py`.
    the middle of the bar (slight edge trim).
 3. Compare detected root (enharmonics OK, e.g. `Gb` ≡ `F#`) and quality family
    (`maj` / `min` / `dim`) to the absolute chords implied by the manifest key.
-4. **Accept** if root match ≥ **75%** across those bars; otherwise **discard**.
+4. **Accept** if **root and quality both match 100%** across those bars;
+   otherwise **discard**. (Same bar for `npm run clips:generate` and
+   `npm run clips:qc`.)
 
 **Caveat:** ACR itself is roughly ~80% accurate on real music. QC is a useful
 filter (false rejects are fine — we drop the clip), not a mathematical proof.
-Spot-listen occasionally, especially clips that sit right on the threshold.
+Spot-listen occasionally when growing the library.
 
 Standalone re-check of the whole library: `npm run clips:qc`.
+After deletions or curation, close ID gaps with `npx tsx scripts/renumberClips.ts`.
 
 ---
 
@@ -209,8 +212,8 @@ but are not kept.
 {
   "clips": [
     {
-      "id": "clip-0007",
-      "file": "clip-0007.mp3",
+      "id": "clip-0001",
+      "file": "clip-0001.mp3",
       "key": "A",
       "mode": "major",
       "bpm": 115,
@@ -223,7 +226,7 @@ but are not kept.
         { "rootPc": 5, "quality": "maj" }
       ],
       "style": "upbeat pop punk, …",
-      "seed": 123456789
+      "seed": 1655802188
     }
   ]
 }
@@ -248,6 +251,7 @@ The SPA loads this via `src/store/clips.ts`, maps entries to `Exercise` objects
 | `src/store/clips.ts` | Manifest load + random clip pick |
 | `scripts/generateClips.ts` | Replicate + QC gate |
 | `scripts/qcClips.py` | lv-chordia validation |
+| `scripts/renumberClips.ts` | Sequential `clip-0001…` IDs after curation |
 
 ---
 
@@ -256,7 +260,7 @@ The SPA loads this via `src/store/clips.ts`, maps entries to `Exercise` objects
 - Larger clip library; move audio off-repo to object storage when git size hurts
 - Optional Suno (or similar) restyle from our clips for vocals / higher production
 - Clip libraries that include chromatic / diminished when those settings return
-- Stronger QC (stricter thresholds, quality-family gates, or a second ACR model)
+- Second ACR model or human spot-listen pass on top of the 100% lv-chordia gate
 
 ---
 

@@ -4,7 +4,7 @@ Validate generated clips against their manifest labels using lv-chordia.
 Usage (from repo root, with the QC venv active):
   .venv-qc\\Scripts\\activate
   python scripts/qcClips.py
-  python scripts/qcClips.py --min-root-match 0.75
+  python scripts/qcClips.py --min-root-match 1.0 --min-quality-match 1.0
 """
 
 from __future__ import annotations
@@ -159,12 +159,21 @@ def load_chord_recognition():
     return chord_recognition
 
 
-def check_one(audio: Path, entry: dict, min_root_match: float) -> dict:
+def check_one(
+    audio: Path,
+    entry: dict,
+    min_root_match: float,
+    min_quality_match: float,
+) -> dict:
     chord_recognition = load_chord_recognition()
     segments = chord_recognition(audio_path=str(audio), chord_dict_name="ismir2017")
     result = evaluate_clip(entry, segments)
-    result["pass"] = result["root_match"] >= min_root_match
+    result["pass"] = (
+        result["root_match"] >= min_root_match
+        and result["quality_match"] >= min_quality_match
+    )
     result["min_root_match"] = min_root_match
+    result["min_quality_match"] = min_quality_match
     return result
 
 
@@ -173,8 +182,14 @@ def main() -> int:
     parser.add_argument(
         "--min-root-match",
         type=float,
-        default=0.75,
-        help="Pass threshold for root accuracy across all bars (default 0.75)",
+        default=1.0,
+        help="Pass threshold for root accuracy across all bars (default 1.0)",
+    )
+    parser.add_argument(
+        "--min-quality-match",
+        type=float,
+        default=1.0,
+        help="Pass threshold for quality-family accuracy across all bars (default 1.0)",
     )
     parser.add_argument("--clip", action="append", help="Only check this clip id (repeatable)")
     # Single-clip machine-readable mode used by scripts/generateClips.ts
@@ -197,14 +212,16 @@ def main() -> int:
         # lv-chordia resolves relative paths oddly — always pass absolute.
         audio = Path(args.audio).resolve()
         entry = json.loads(args.entry_json)
-        result = check_one(audio, entry, args.min_root_match)
+        result = check_one(audio, entry, args.min_root_match, args.min_quality_match)
         if args.json:
             print(json.dumps(result))
         else:
             status = "PASS" if result["pass"] else "FAIL"
             print(
                 f"{status}  root {result['root_hits']}/{result['total_bars']} "
-                f"({result['root_match']:.0%})"
+                f"({result['root_match']:.0%})  "
+                f"quality {result['quality_hits']}/{result['total_bars']} "
+                f"({result['quality_match']:.0%})"
             )
         return 0 if result["pass"] else 1
 
@@ -218,7 +235,11 @@ def main() -> int:
         print("No clips to check.")
         return 1
 
-    print(f"Checking {len(clips)} clip(s) with lv-chordia (threshold root>={args.min_root_match:.0%})...\n")
+    print(
+        f"Checking {len(clips)} clip(s) with lv-chordia "
+        f"(threshold root>={args.min_root_match:.0%}, "
+        f"quality>={args.min_quality_match:.0%})...\n"
+    )
 
     failures = 0
     for entry in clips:
@@ -229,7 +250,7 @@ def main() -> int:
             failures += 1
             continue
 
-        result = check_one(path, entry, args.min_root_match)
+        result = check_one(path, entry, args.min_root_match, args.min_quality_match)
         status = "PASS" if result["pass"] else "FAIL"
         if not result["pass"]:
             failures += 1
@@ -249,7 +270,10 @@ def main() -> int:
             )
         print()
 
-    print(f"Done: {len(clips) - failures} passed, {failures} failed (root threshold {args.min_root_match:.0%}).")
+    print(
+        f"Done: {len(clips) - failures} passed, {failures} failed "
+        f"(root>={args.min_root_match:.0%}, quality>={args.min_quality_match:.0%})."
+    )
     print(
         "Note: ACR is ~80% accurate, so a FAIL is a signal to listen — not proof the label is wrong."
     )

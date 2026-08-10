@@ -1,9 +1,9 @@
 /**
  * Generate real-music practice clips with MusicGen-Chord on Replicate.
  *
- * After each generation, lv-chordia validates that the audio roughly matches
- * the requested progression (root match >= 75%). Only passing clips are added
- * to public/clips/ + manifest.json; rejects are discarded.
+ * After each generation, lv-chordia validates that the audio matches the
+ * requested progression (100% root and 100% quality across all bars). Only
+ * passing clips are added to public/clips/ + manifest.json; rejects are discarded.
  *
  * Usage:
  *   Put REPLICATE_API_TOKEN=r8_... in .env, then:
@@ -43,7 +43,8 @@ const MODEL_VERSION =
 const API_BASE = 'https://api.replicate.com/v1';
 const POLL_INTERVAL_MS = 5_000;
 const TIMEOUT_MS = 20 * 60_000; // cold boots can take several minutes
-const MIN_ROOT_MATCH = 0.75;
+const MIN_ROOT_MATCH = 1.0;
+const MIN_QUALITY_MATCH = 1.0;
 
 const REPO_ROOT = path.resolve(fileURLToPath(import.meta.url), '../..');
 const CLIPS_DIR = path.join(REPO_ROOT, 'public/clips');
@@ -127,6 +128,8 @@ function runQc(python: string, audioPath: string, entry: ClipManifestEntry): Pro
         JSON.stringify(entry),
         '--min-root-match',
         String(MIN_ROOT_MATCH),
+        '--min-quality-match',
+        String(MIN_QUALITY_MATCH),
         '--json',
       ],
       { cwd: REPO_ROOT, windowsHide: true },
@@ -275,7 +278,10 @@ async function main(): Promise<void> {
     console.log(`Manifest has ${startingCount} clip(s). Generating ${attemptBudget} more...`);
   }
   if (!dryRun && !skipQc) {
-    console.log(`QC enabled: keep only clips with root match >= ${MIN_ROOT_MATCH * 100}%.\n`);
+    console.log(
+      `QC enabled: keep only clips with root >= ${MIN_ROOT_MATCH * 100}% ` +
+        `and quality >= ${MIN_QUALITY_MATCH * 100}%.\n`,
+    );
   } else {
     console.log('');
   }
@@ -324,16 +330,18 @@ async function main(): Promise<void> {
       if (!skipQc && qcPython) {
         process.stdout.write('    QC… ');
         const qc = await runQc(qcPython, filePath, entry);
-        const pct = `${(qc.root_match * 100).toFixed(0)}%`;
+        const rootPct = `${(qc.root_match * 100).toFixed(0)}%`;
+        const qualPct = `${(qc.quality_match * 100).toFixed(0)}%`;
+        const summary =
+          `root ${qc.root_hits}/${qc.total_bars} (${rootPct})  ` +
+          `quality ${qc.quality_hits}/${qc.total_bars} (${qualPct})`;
         if (!qc.pass) {
           await fs.unlink(filePath);
           rejected++;
-          console.log(
-            `REJECTED root ${qc.root_hits}/${qc.total_bars} (${pct}) — discarded, not added to library`,
-          );
+          console.log(`REJECTED ${summary} — discarded, not added to library`);
           continue;
         }
-        console.log(`PASS root ${qc.root_hits}/${qc.total_bars} (${pct})`);
+        console.log(`PASS ${summary}`);
       }
 
       manifest.clips.push(entry);

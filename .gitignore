@@ -8,3 +8,6 @@ dist
 
 # Python QC venv for lv-chordia
 .venv-qc/
+
+# Local QC run dumps
+qc-results*.txt

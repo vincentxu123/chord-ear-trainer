@@ -85,7 +85,8 @@ src/
 scripts/
   generateClips.ts   Replicate generation + QC gate
   qcClips.py         lv-chordia label validation
-public/clips/        MP3 library + manifest.json
+  renumberClips.ts   Sequential clip IDs after curation
+public/clips/        MP3 library + manifest.json (curated, ~60 clips)
 ```
 
 Theory and engine layers are pure (no audio/DOM) and covered by unit tests.
