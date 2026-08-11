@@ -6,8 +6,8 @@ const WHITE_NOTES = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] as const;
 // Sharp key sitting after the white key at this index within an octave.
 const BLACK_AFTER: Record<number, string> = { 0: 'C#', 1: 'D#', 3: 'F#', 4: 'G#', 5: 'A#' };
 
-const START_OCTAVE = 3;
-const OCTAVE_COUNT = 4; // C3 .. C7 (an extra top C is appended)
+const START_OCTAVE = 2;
+const OCTAVE_COUNT = 4; // C2 .. C6 (an extra top C is appended)
 
 const WHITE_W = 40;
 const WHITE_H = 150;
