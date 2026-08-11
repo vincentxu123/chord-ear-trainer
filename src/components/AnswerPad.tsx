@@ -21,14 +21,15 @@ export function AnswerPad() {
 
   if (!exercise) return null;
 
-  // Generated clips are diatonic. Real-song excerpts add any borrowed chords
-  // present in the answer while keeping the normal diatonic choices available.
+  // Generated clips are diatonic. Real-song excerpts always show the full
+  // chromatic pool so an amber choice does not reveal that it is in the answer;
+  // any unusual solution chord outside that shared pool is still merged below.
   const clipMode = soundSource === 'clips';
   const songMode = soundSource === 'songs';
   const mode = exercise.mode;
   const baseChords = chordPool(
     mode,
-    clipMode || songMode ? false : includeChromatic,
+    songMode ? true : clipMode ? false : includeChromatic,
     clipMode || songMode ? false : includeDiminished,
   );
   const chords = songMode
