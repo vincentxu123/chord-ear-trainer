@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-// 'synth' renders the progression live on a sampled piano; 'clips' plays
-// pre-generated music clips from public/clips/ (see ARCHITECTURE.md).
-export type SoundSource = 'synth' | 'clips';
+// Media modes play static assets; 'clips' are generated and 'songs' are
+// validated excerpts from commercial recordings (see ARCHITECTURE.md).
+export type SoundSource = 'synth' | 'clips' | 'songs';
 
 export interface PracticeSettings {
   soundSource: SoundSource;

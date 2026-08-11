@@ -7,6 +7,7 @@ import {
   type SoundSource,
 } from '../store/settings';
 import { useClips } from '../store/clips';
+import { useSongs } from '../store/songs';
 
 export function SettingsPanel() {
   const soundSource = useSettings((s) => s.soundSource);
@@ -23,9 +24,14 @@ export function SettingsPanel() {
   const setIncludeDiminished = useSettings((s) => s.setIncludeDiminished);
   const clipStatus = useClips((s) => s.status);
   const clipCount = useClips((s) => s.entries.length);
+  const songStatus = useSongs((s) => s.status);
+  const songCount = useSongs((s) => s.entries.length);
 
   const clipMode = soundSource === 'clips';
+  const songMode = soundSource === 'songs';
+  const mediaMode = clipMode || songMode;
   const clipsAvailable = clipStatus === 'ready';
+  const songsAvailable = songStatus === 'ready';
 
   const lengths = Array.from(
     { length: LENGTH_MAX - LENGTH_MIN + 1 },
@@ -34,7 +40,8 @@ export function SettingsPanel() {
 
   const sources: { id: SoundSource; label: string; disabled?: boolean }[] = [
     { id: 'synth', label: 'Piano' },
-    { id: 'clips', label: 'Real music', disabled: !clipsAvailable },
+    { id: 'clips', label: 'Generated', disabled: !clipsAvailable },
+    { id: 'songs', label: 'Jay Chou', disabled: !songsAvailable },
   ];
 
   return (
@@ -62,13 +69,18 @@ export function SettingsPanel() {
             Playing from {clipCount} generated clip{clipCount === 1 ? '' : 's'}.
           </p>
         )}
+        {songMode && (
+          <p className="mt-1 text-xs text-slate-400">
+            Playing from {songCount} validated four-measure excerpt{songCount === 1 ? '' : 's'}.
+          </p>
+        )}
       </div>
 
-      <div className={clipMode ? 'opacity-40' : ''}>
+      <div className={mediaMode ? 'opacity-40' : ''}>
         <label className="flex justify-between text-sm font-medium text-slate-300">
           <span>Tempo</span>
           <span className="text-slate-400">
-            {clipMode ? 'set by the recording' : `${tempoBpm} BPM`}
+            {mediaMode ? 'set by the recording' : `${tempoBpm} BPM`}
           </span>
         </label>
         <input
@@ -76,22 +88,22 @@ export function SettingsPanel() {
           min={TEMPO_MIN}
           max={TEMPO_MAX}
           value={tempoBpm}
-          disabled={clipMode}
+          disabled={mediaMode}
           onChange={(e) => setTempo(Number(e.target.value))}
           className="mt-2 w-full"
         />
       </div>
 
-      <div className={clipMode ? 'opacity-40' : ''}>
+      <div className={mediaMode ? 'opacity-40' : ''}>
         <span className="text-sm font-medium text-slate-300">Chords</span>
         <div className="mt-2 flex gap-2">
           {lengths.map((n) => (
             <button
               key={n}
               onClick={() => setLength(n)}
-              disabled={clipMode}
+              disabled={mediaMode}
               className={`h-9 w-9 rounded-lg text-sm font-semibold transition disabled:cursor-not-allowed ${
-                n === progressionLength && !clipMode
+                n === progressionLength && !mediaMode
                   ? 'bg-sky-600 text-white'
                   : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
               }`}
@@ -100,36 +112,38 @@ export function SettingsPanel() {
             </button>
           ))}
         </div>
-        {clipMode && (
-          <p className="mt-1 text-xs text-slate-400">Set by the clip (4 chords).</p>
+        {mediaMode && (
+          <p className="mt-1 text-xs text-slate-400">
+            {songMode ? 'Set by the four-measure excerpt.' : 'Set by the clip (4 chords).'}
+          </p>
         )}
       </div>
 
-      <div className={clipMode ? 'opacity-40' : ''}>
+      <div className={mediaMode ? 'opacity-40' : ''}>
         <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
           <input
             type="checkbox"
             checked={randomizeKey}
-            disabled={clipMode}
+            disabled={mediaMode}
             onChange={(e) => setRandomizeKey(e.target.checked)}
             className="h-4 w-4"
           />
           Randomize key each round
         </label>
-        {!randomizeKey && !clipMode && (
+        {!randomizeKey && !mediaMode && (
           <p className="mt-1 pl-6 text-xs text-slate-400">Defaults to C major.</p>
         )}
-        {clipMode && (
-          <p className="mt-1 pl-6 text-xs text-slate-400">Each clip has its own key.</p>
+        {mediaMode && (
+          <p className="mt-1 pl-6 text-xs text-slate-400">Each recording has its own key.</p>
         )}
       </div>
 
-      <div className={clipMode ? 'opacity-40' : ''}>
+      <div className={mediaMode ? 'opacity-40' : ''}>
         <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
           <input
             type="checkbox"
-            checked={clipMode ? false : includeChromatic}
-            disabled={clipMode}
+            checked={mediaMode ? false : includeChromatic}
+            disabled={mediaMode}
             onChange={(e) => setIncludeChromatic(e.target.checked)}
             className="h-4 w-4"
           />
@@ -139,16 +153,16 @@ export function SettingsPanel() {
         <label className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-300">
           <input
             type="checkbox"
-            checked={clipMode ? false : includeDiminished}
-            disabled={clipMode}
+            checked={mediaMode ? false : includeDiminished}
+            disabled={mediaMode}
             onChange={(e) => setIncludeDiminished(e.target.checked)}
             className="h-4 w-4"
           />
           Include diminished chords (vii° / ii°)
         </label>
-        {clipMode && (
+        {mediaMode && (
           <p className="mt-1 pl-6 text-xs text-slate-400">
-            Current clips are diatonic only.
+            {songMode ? 'Vocabulary follows the excerpt.' : 'Current clips are diatonic only.'}
           </p>
         )}
       </div>

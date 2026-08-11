@@ -17,8 +17,8 @@ Everything in the app is built around **relative chords**: a chord is
 form; Roman numerals are a display layer (`toRoman`).
 
 At practice time an `Exercise` binds a progression to a concrete key, mode, and
-audio source (`synth` | `generated`). The same relative answer key works for
-piano synthesis and for pre-rendered clips.
+audio source (`synth` | `generated` | `recording`). The same relative answer key
+works for piano synthesis and for either kind of pre-rendered clip.
 
 **Gameplay rule (both modes):** the first slot is revealed as a free anchor
 (`GIVEN_SLOT_COUNT = 1`). The user guesses the remaining chords; scoring totals
@@ -26,33 +26,29 @@ exclude the given slot.
 
 ---
 
-## 2. Two runtime audio paths
+## 2. Three runtime audio paths
 
 ```
-                    ┌─────────────────────┐
- Settings.soundSource│  'synth' | 'clips'  │
-                    └──────────┬──────────┘
-               ┌───────────────┴───────────────┐
-               ▼                               ▼
-      generateRound()                   pickClipExercise()
-      (random diatonic /                 from public/clips/
-       chromatic pool)                   manifest.json
-               │                               │
-               ▼                               ▼
-      SynthAudioSource                  ClipAudioSource
-      (Tone.js Sampler)                 (HTMLAudioElement)
+ Settings.soundSource
+      ├── synth ── generateRound() ── SynthAudioSource
+      ├── clips ── public/clips/manifest.json ── ClipAudioSource
+      └── songs ── public/song-clips/manifest.json ── ClipAudioSource
 ```
 
-| | Piano (`synth`) | Real music (`clips`) |
-|--|-----------------|----------------------|
-| Content | Unlimited random rounds | Finite library of MP3s |
-| Tempo / length / key | User settings | Fixed per clip |
-| Chromatic / diminished | Settings toggles | Disabled (library is diatonic-only today) |
-| Chord highlight | Transport schedule | Derived from clip BPM × bar length |
-| Playback end | End of scheduled chords | Exact **two passes** of the progression (file may be ~1s longer) |
+| | Piano (`synth`) | Generated (`clips`) | Songs (`songs`) |
+|--|-----------------|---------------------|-----------------|
+| Content | Unlimited random rounds | Finite generated MP3 library | Strictly agreed four-measure excerpts |
+| Tempo / length / key | User settings | Fixed per clip | Fixed per excerpt |
+| Chord vocabulary | Settings toggles | Diatonic | Diatonic plus detected borrowed chords |
+| Chord highlight | Transport schedule | BPM × bar length | Exact detected cue times |
+| Playback end | End of scheduled chords | Exact **two passes** | End of one four-measure excerpt |
 
-If clip mode is selected but the library is missing or still loading, the session
-falls back to synth generation.
+Recording excerpts use the same HTML audio player but supply exact per-chord
+cue times and stop at the end of one four-measure excerpt. Their answer slots
+are grouped by measure because a measure can contain one to four chords.
+
+If either media mode is selected while its library is missing or loading, the
+session falls back to synth generation.
 
 ---
 
@@ -64,14 +60,14 @@ with labels trustworthy enough for an ear trainer.
 | Approach | Verdict |
 |----------|---------|
 | **MusicGen-Chord** (chosen) | Open model conditioned on an explicit `text_chords` string + BPM + style prompt. Labels come from the *input*, then we QC the audio. |
-| Extract real-song choruses | Copyright risk; HookTheory has no full TheoryTab dump; ACR alone (~77–82%) is too weak as the sole label source. |
+| Extract real-song choruses | Used only for the experimental, rights-sensitive song mode after two chord models agree on the full ordered sequence. |
 | Suno text prompts | No solid official API; prompts don’t reliably follow typed chord progressions. |
 | Suno audio-upload restyle | Possible later polish (vocals / radio production) using our clip as harmonic reference — not required for v1. |
 
 **Properties of the chosen path**
 
 - Offline, one-time generation cost; **$0 runtime** API use in the web app
-- No commercial recordings hosted
+- Generated mode contains no commercial recordings
 - Instrumental output (clearer harmony for ear training than lyric-heavy mixes)
 - Same relative chord model as the piano engine
 
@@ -157,6 +153,20 @@ Spot-listen occasionally when growing the library.
 
 Standalone re-check of the whole library: `npm run clips:qc`.
 After deletions or curation, close ID gaps with `npx tsx scripts/renumberClips.ts`.
+
+### Commercial-recording candidate gate
+
+The separate pipeline in `scripts/recordings/` analyzes user-supplied songs
+with two timing models and two chord models. `export_candidates.py` exports
+only green four-measure rows where:
+
+- measure timing is stable;
+- every detected chord is supported and explains enough of its measure; and
+- both chord models return the same enharmonic root/quality sequence in every measure.
+
+The exporter writes short 96 kbps MP3 excerpts plus exact chord cues to
+`public/song-clips/`. These assets are for private research/review; public
+deployment requires the appropriate recording rights.
 
 ---
 

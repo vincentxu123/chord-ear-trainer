@@ -10,7 +10,8 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "clips:generate": "tsx scripts/generateClips.ts",
-    "clips:qc": ".venv-qc/Scripts/python.exe scripts/qcClips.py"
+    "clips:qc": ".venv-qc/Scripts/python.exe scripts/qcClips.py",
+    "songs:export": ".venv-recordings/bin/python scripts/recordings/export_candidates.py"
   },
   "dependencies": {
     "react": "^19.2.7",

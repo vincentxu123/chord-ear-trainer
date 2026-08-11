@@ -22,7 +22,7 @@ export interface Progression {
   beatsPerChord: number;
 }
 
-export type AudioSourceKind = 'synth' | 'generated' | 'youtube';
+export type AudioSourceKind = 'synth' | 'generated' | 'recording';
 
 // Pre-rendered audio backing an exercise (e.g. a generated music clip). The
 // bpm is the recording's tempo: it drives slot-highlight timing during
@@ -31,6 +31,17 @@ export interface ExerciseMedia {
   url: string;
   bpm: number;
   durationSec: number;
+  // Optional exact chord onsets for recordings whose harmony changes more
+  // than once per measure. Generated clips use uniform beatsPerChord timing.
+  cueTimesSec?: number[];
+}
+
+export interface SongExerciseDetails {
+  title: string;
+  artist: string;
+  startMeasure: number;
+  endMeasure: number;
+  measureChordCounts: number[];
 }
 
 // One concrete playable instance of a progression, shared by the engine and
@@ -42,4 +53,5 @@ export interface Exercise {
   source: AudioSourceKind;
   styleId?: string;
   media?: ExerciseMedia;
+  song?: SongExerciseDetails;
 }

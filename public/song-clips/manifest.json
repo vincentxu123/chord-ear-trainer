@@ -1,0 +1,942 @@
+{
+  "clips": [
+    {
+      "id": "jie-kou-m037",
+      "file": "jie-kou-m037.mp3",
+      "title": "借口 / Jie Kou",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 37,
+      "endMeasure": 40,
+      "key": "D",
+      "mode": "major",
+      "bpm": 65.43356159573499,
+      "durationSec": 14.663887468030708,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.665238095238095,
+        5.545238095238091,
+        7.32820241139936,
+        9.215238095238107,
+        10.075238095238092,
+        10.996044939715006,
+        12.865238095238084
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        3,
+        2
+      ]
+    },
+    {
+      "id": "cai-hong-m005",
+      "file": "cai-hong-m005.mp3",
+      "title": "彩虹 / Cai Hong",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 5,
+      "endMeasure": 8,
+      "key": "C",
+      "mode": "major",
+      "bpm": 74.0016951132547,
+      "durationSec": 12.960451674129619,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.6020861678004543,
+        3.230944817589549,
+        4.732086167800453,
+        6.474113769769577,
+        8.172086167800455,
+        9.717282721949605
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "cai-hong-m041",
+      "file": "cai-hong-m041.mp3",
+      "title": "彩虹 / Cai Hong",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 41,
+      "endMeasure": 44,
+      "key": "C",
+      "mode": "major",
+      "bpm": 74.0016951132547,
+      "durationSec": 12.941382025172913,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.5789342403627984,
+        3.2118751686328437,
+        4.808934240362788,
+        6.4550441208128575,
+        9.698213072992871
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "cai-hong-m045",
+      "file": "cai-hong-m045.mp3",
+      "title": "彩虹 / Cai Hong",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 45,
+      "endMeasure": 48,
+      "key": "C",
+      "mode": "major",
+      "bpm": 74.0016951132547,
+      "durationSec": 12.968933117339759,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.6138095238095218,
+        3.2438095238095457,
+        4.84380952380954,
+        6.493809523809546,
+        8.09380952380954,
+        9.725764165159717
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m001",
+      "file": "wo-bu-pei-m001.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 1,
+      "endMeasure": 4,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.880358071870411,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2137064619153994,
+        4.607551020408163,
+        6.658140868552073
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m009",
+      "file": "wo-bu-pei-m009.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 9,
+      "endMeasure": 12,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.883220414970395,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2165688050153847,
+        4.532675736961451,
+        6.6610032116520586
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m017",
+      "file": "wo-bu-pei-m017.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 17,
+      "endMeasure": 20,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.87447278074611,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2078211707910995,
+        4.4361904761904825,
+        6.652255577427773
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m025",
+      "file": "wo-bu-pei-m025.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 25,
+      "endMeasure": 28,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.865725146521825,
+      "chords": [
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.1990735365668144,
+        4.421290739885151,
+        6.643507943203488
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m065",
+      "file": "wo-bu-pei-m065.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 65,
+      "endMeasure": 68,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.880036862021711,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2133852520667006,
+        4.465328798185936,
+        6.657819658703374
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m069",
+      "file": "wo-bu-pei-m069.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 69,
+      "endMeasure": 72,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.875663044909572,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2090114349545615,
+        4.4312286382728985,
+        6.653445841591235,
+        7.7920861678004485
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m073",
+      "file": "wo-bu-pei-m073.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 73,
+      "endMeasure": 76,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.871289227797433,
+      "chords": [
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2046376178424225,
+        4.4268548211607595,
+        6.649072024479096
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m081",
+      "file": "wo-bu-pei-m081.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 81,
+      "endMeasure": 84,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.874151570897425,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.207499960942414,
+        4.453968253968242,
+        6.651934367579088
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m085",
+      "file": "wo-bu-pei-m085.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 85,
+      "endMeasure": 88,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.869777753785286,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.203126143830275,
+        4.425343347148612,
+        6.69072562358275
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m101",
+      "file": "wo-bu-pei-m101.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 101,
+      "endMeasure": 104,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.863892462661,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.4093650793650738,
+        2.1972408527059883,
+        4.419458056024325,
+        6.641675259342662
+      ],
+      "measureChordCounts": [
+        2,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "wo-bu-pei-m109",
+      "file": "wo-bu-pei-m109.mp3",
+      "title": "我不配 / Wo Bu Pei",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 109,
+      "endMeasure": 112,
+      "key": "Bb",
+      "mode": "major",
+      "bpm": 108.00024391927974,
+      "durationSec": 8.866754805760962,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.2244897959183447,
+        4.422320399124288,
+        6.644537602442625
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "ge-qian-m009",
+      "file": "ge-qian-m009.mp3",
+      "title": "擱淺 / Ge Qian",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 9,
+      "endMeasure": 12,
+      "key": "F",
+      "mode": "major",
+      "bpm": 61.3520463609406,
+      "durationSec": 15.58644432347355,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.1431519274376427,
+        3.850894448508278,
+        5.743151927437644,
+        7.762744406830031,
+        9.853151927437644,
+        10.673151927437644,
+        11.674594365151798,
+        13.80315192743764
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        3,
+        2
+      ]
+    },
+    {
+      "id": "ge-qian-m025",
+      "file": "ge-qian-m025.mp3",
+      "title": "擱淺 / Ge Qian",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 25,
+      "endMeasure": 28,
+      "key": "F",
+      "mode": "major",
+      "bpm": 61.3520463609406,
+      "durationSec": 15.647399833287025,
+      "chords": [
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 11,
+          "quality": "dim"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.9118499583217528,
+        6.814508104102998,
+        7.82369991664352,
+        9.724508104102995,
+        11.735549874965272
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "ge-qian-m033",
+      "file": "ge-qian-m033.mp3",
+      "title": "擱淺 / Ge Qian",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 33,
+      "endMeasure": 36,
+      "key": "F",
+      "mode": "major",
+      "bpm": 61.3520463609406,
+      "durationSec": 15.592566679204793,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8648752834467217,
+        3.857016804239521,
+        6.004875283446722,
+        7.768866762561288,
+        10.204875283446711,
+        11.680716720883055,
+        13.854875283446717,
+        14.574875283446715
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "ge-qian-m037",
+      "file": "ge-qian-m037.mp3",
+      "title": "擱淺 / Ge Qian",
+      "artist": "周杰倫 / Jay Chou",
+      "startMeasure": 37,
+      "endMeasure": 40,
+      "key": "F",
+      "mode": "major",
+      "bpm": 61.3520463609406,
+      "durationSec": 15.64739983328704,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 11,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.0423086042419243,
+        3.911849958321767,
+        5.852308604241927,
+        7.823699916643534,
+        11.735549874965272
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        1
+      ]
+    }
+  ]
+}

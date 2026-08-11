@@ -1,4 +1,5 @@
 import type { Chord, Mode } from './types';
+import { Note } from 'tonal';
 
 // The 6 diatonic major/minor triads of a major key (diminished vii° excluded).
 export const DIATONIC_MAJOR: Chord[] = [
@@ -92,6 +93,18 @@ export function chordPool(
 // chromatic chords, so we key on rootPc + quality instead).
 export function chordKey(c: Chord): string {
   return `${c.rootPc}:${c.quality}`;
+}
+
+const FLAT_NOTE_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
+const SHARP_NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+export function toAbsoluteChord(c: Chord, key: string): string {
+  const keyPc = Note.chroma(key);
+  if (typeof keyPc !== 'number' || !Number.isInteger(keyPc)) return '?';
+  const names = key.includes('b') ? FLAT_NOTE_NAMES : SHARP_NOTE_NAMES;
+  const root = names[(keyPc + c.rootPc + 12) % 12]!;
+  const suffix = c.quality === 'maj' ? '' : c.quality === 'min' ? 'm' : '°';
+  return `${root}${suffix}`;
 }
 
 const DEGREE_LABELS: Record<Mode, string[]> = {

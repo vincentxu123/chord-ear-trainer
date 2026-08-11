@@ -14,16 +14,22 @@ import subprocess
 import sys
 import wave
 from collections import Counter
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any, Iterable
+
+from chord_models import ChordModelUnavailable, analyze_chords, available_models
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_WORK_ROOT = REPO_ROOT / ".recordings"
 SUPPORTED_FAMILIES = {"maj", "min", "dim"}
-TWO_CHORD_PRIMARY_MAX = 0.75
-TWO_CHORD_SECONDARY_MIN = 0.20
+BEATS_PER_BAR = 4
+MAX_CHORDS_PER_BAR = BEATS_PER_BAR
+# Allow for imperfect chord-change timestamps while rejecting very brief
+# fragments which usually belong to the neighboring measure. Half a beat is
+# a useful lower bound for a chord worth showing in a four-beat measure.
+MIN_CHORD_OCCUPANCY = 1 / (BEATS_PER_BAR * 2)
 
 
 @dataclass(frozen=True)
@@ -43,6 +49,15 @@ class ChordSlice:
 
 
 @dataclass(frozen=True)
+class ModelBarPrediction:
+    model: str
+    chord: str
+    family: str | None
+    dominance: float
+    chord_sequence: tuple[ChordSlice, ...]
+
+
+@dataclass(frozen=True)
 class BarAnalysis:
     index: int
     start: float
@@ -52,6 +67,10 @@ class BarAnalysis:
     dominance: float
     votes: tuple[ChordVote, ...]
     chord_sequence: tuple[ChordSlice, ...]
+    model_predictions: tuple[ModelBarPrediction, ...] = ()
+    root_agreement: float = 1.0
+    family_agreement: float = 1.0
+    sequence_agreement: float = 1.0
 
 
 @dataclass(frozen=True)
@@ -64,6 +83,7 @@ class Candidate:
     bars: tuple[BarAnalysis, ...]
     eligible: bool
     reasons: tuple[str, ...]
+    playback_start: float
 
 
 @dataclass(frozen=True)
@@ -156,6 +176,63 @@ def analyze_timing(audio: Path, device: str, checkpoint: str) -> tuple[list[floa
     return sorted(float(x) for x in beats), sorted(float(x) for x in downbeats)
 
 
+def analyze_timing_madmom(audio: Path) -> tuple[list[float], list[float]]:
+    """Run madmom RNN+DBN downbeat tracking, constrained to 4/4."""
+    import collections
+    import collections.abc
+
+    import numpy as np
+
+    # madmom 0.16 predates Python 3.11 and NumPy 2. These aliases and the
+    # object-array fallback preserve its published inference behavior without
+    # modifying the installed dependency. They must exist before madmom imports.
+    collections.MutableSequence = collections.abc.MutableSequence
+    if not hasattr(np, "float"):
+        np.float = float
+    if not hasattr(np, "int"):
+        np.int = int
+
+    try:
+        from madmom.features.downbeats import (
+            DBNDownBeatTrackingProcessor,
+            RNNDownBeatProcessor,
+        )
+    except ImportError as exc:
+        raise SystemExit(
+            "madmom timing is not installed. See scripts/recordings/README.md"
+        ) from exc
+
+    activations = RNNDownBeatProcessor()(str(audio))
+    original_asarray = np.asarray
+
+    def compatible_asarray(value: Any, *args: Any, **kwargs: Any) -> Any:
+        try:
+            return original_asarray(value, *args, **kwargs)
+        except ValueError:
+            if not (
+                isinstance(value, list)
+                and value
+                and all(isinstance(item, tuple) and len(item) == 2 for item in value)
+            ):
+                raise
+            result = np.empty((len(value), 2), dtype=object)
+            for index, (path, score) in enumerate(value):
+                result[index] = [path, score]
+            return result
+
+    np.asarray = compatible_asarray
+    try:
+        events = DBNDownBeatTrackingProcessor(
+            beats_per_bar=[4], fps=100
+        )(activations)
+    finally:
+        np.asarray = original_asarray
+
+    beats = sorted(float(value) for value in events[:, 0])
+    downbeats = sorted(float(value) for value in events[events[:, 1] == 1, 0])
+    return beats, downbeats
+
+
 def normalize_song_timing(downbeats: list[float], duration: float) -> SongTiming:
     """Resolve half/double-time changes into one fixed 4/4 grid for the song.
 
@@ -232,14 +309,60 @@ def normalize_song_timing(downbeats: list[float], duration: float) -> SongTiming
     )
 
 
-def analyze_chords(audio: Path) -> list[dict[str, Any]]:
-    try:
-        from lv_chordia.chord_recognition import chord_recognition
-    except ImportError as exc:
-        raise SystemExit(
-            "lv-chordia is not installed. See scripts/recordings/README.md"
-        ) from exc
-    return chord_recognition(audio_path=str(audio), chord_dict_name="ismir2017")
+def timing_grid_agreement(
+    reference: SongTiming, other: SongTiming, tolerance_ratio: float = 0.12
+) -> float:
+    """Fraction of reference bars supported by the other timing grid."""
+    tolerance = tolerance_ratio * reference.bar_duration
+    matches = [
+        time
+        for time in reference.downbeats
+        if other.downbeats and min(abs(time - value) for value in other.downbeats) <= tolerance
+    ]
+    return len(matches) / max(1, len(reference.downbeats))
+
+
+def select_song_timing(
+    model_downbeats: dict[str, list[float]], duration: float
+) -> tuple[SongTiming, str, str, dict[str, SongTiming]]:
+    """Select full-bar timing and fuse models only at the same metric level."""
+    normalized = {
+        model: normalize_song_timing(downbeats, duration)
+        for model, downbeats in model_downbeats.items()
+    }
+    selected_model = next(iter(normalized))
+    selected = normalized[selected_model]
+    reason = f"{selected_model} is the primary timing model"
+
+    for model, candidate in list(normalized.items())[1:]:
+        ratio = candidate.bar_duration / selected.bar_duration
+        support = timing_grid_agreement(candidate, selected)
+        if 1.8 <= ratio <= 2.2 and support >= 0.65:
+            selected_model = model
+            selected = candidate
+            reason = (
+                f"selected {model} full bars; the previous grid was half-bar "
+                f"timing ({support:.0%} boundary support)"
+            )
+            continue
+
+        if 0.95 <= ratio <= 1.05 and support >= 0.65:
+            averaged = []
+            tolerance = 0.12 * selected.bar_duration
+            for time in selected.downbeats:
+                nearest = min(candidate.downbeats, key=lambda value: abs(value - time))
+                if abs(nearest - time) <= tolerance:
+                    averaged.append((time + nearest) / 2.0)
+            if len(averaged) >= 3:
+                previous_model = selected_model
+                selected = normalize_song_timing(averaged, duration)
+                selected_model = f"{previous_model}+{model}"
+                reason = (
+                    f"averaged same-level grids from {previous_model} and {model} "
+                    f"({support:.0%} boundary support)"
+                )
+
+    return selected, selected_model, reason, normalized
 
 
 def chord_family(label: str) -> str | None:
@@ -264,6 +387,44 @@ def simplified_label(label: str) -> tuple[str, str | None]:
     return f"{root}:{family}", family
 
 
+NOTE_TO_PITCH_CLASS = {
+    "C": 0,
+    "B#": 0,
+    "C#": 1,
+    "DB": 1,
+    "D": 2,
+    "D#": 3,
+    "EB": 3,
+    "E": 4,
+    "FB": 4,
+    "E#": 5,
+    "F": 5,
+    "F#": 6,
+    "GB": 6,
+    "G": 7,
+    "G#": 8,
+    "AB": 8,
+    "A": 9,
+    "A#": 10,
+    "BB": 10,
+    "B": 11,
+    "CB": 11,
+}
+
+
+def chord_root(label: str) -> int | None:
+    if chord_family(label) is None:
+        return None
+    root = (
+        label.partition(":")[0]
+        .partition("/")[0]
+        .upper()
+        .replace("♯", "#")
+        .replace("♭", "B")
+    )
+    return NOTE_TO_PITCH_CLASS.get(root)
+
+
 def analyze_bar(index: int, start: float, end: float, chords: Iterable[dict[str, Any]]) -> BarAnalysis:
     weights: Counter[str] = Counter()
     events: list[tuple[float, float, str]] = []
@@ -282,14 +443,15 @@ def analyze_bar(index: int, start: float, end: float, chords: Iterable[dict[str,
     winner = ordered[0][0]
     family = chord_family(winner)
     votes = tuple(ChordVote(label, chord_family(label), seconds) for label, seconds in ordered)
-    selected = [winner]
     dominance = ordered[0][1] / duration
-    if dominance < TWO_CHORD_PRIMARY_MAX and len(ordered) > 1:
-        runner_up, runner_up_seconds = ordered[1]
-        if runner_up_seconds / duration >= TWO_CHORD_SECONDARY_MIN:
-            selected.append(runner_up)
+    selected = [
+        label
+        for label, seconds in ordered
+        if seconds / duration >= MIN_CHORD_OCCUPANCY
+    ][:MAX_CHORDS_PER_BAR]
 
-    # Preserve musical order even when the second chord occupies more time.
+    # The candidates above are ranked by duration; restore musical order for
+    # display so a bar reads from its first chord to its last chord.
     selected.sort(key=lambda label: min(a for a, _, event_label in events if event_label == label))
     chord_sequence = tuple(
         ChordSlice(
@@ -312,9 +474,82 @@ def build_bars(downbeats: list[float], chords: list[dict[str, Any]]) -> list[Bar
     ]
 
 
+def _agreement(values: list[Any]) -> float:
+    return 0.0 if not values else Counter(values).most_common(1)[0][1] / len(values)
+
+
+def _sequence_signature(prediction: ModelBarPrediction) -> tuple[tuple[int | None, str | None], ...]:
+    return tuple(
+        (chord_root(piece.label), piece.family) for piece in prediction.chord_sequence
+    )
+
+
+def build_ensemble_bars(
+    downbeats: list[float],
+    model_chords: dict[str, list[dict[str, Any]]],
+    primary_model: str,
+) -> list[BarAnalysis]:
+    """Align detector outputs to bars and attach transparent agreement data.
+
+    The primary model wins ties, preserving the historical single-model
+    behavior when two detectors disagree. Agreement is evaluated separately
+    for enharmonic root pitch class and simplified chord family.
+    """
+    per_model = {
+        model: build_bars(downbeats, chords)
+        for model, chords in model_chords.items()
+    }
+    primary_bars = per_model[primary_model]
+    combined: list[BarAnalysis] = []
+    for bar_index, primary in enumerate(primary_bars):
+        predictions = tuple(
+            ModelBarPrediction(
+                model=model,
+                chord=bars[bar_index].chord,
+                family=bars[bar_index].family,
+                dominance=bars[bar_index].dominance,
+                chord_sequence=bars[bar_index].chord_sequence,
+            )
+            for model, bars in per_model.items()
+            if bar_index < len(bars)
+        )
+        label_counts = Counter(prediction.chord for prediction in predictions)
+        most_votes = max(label_counts.values(), default=0)
+        consensus_labels = {
+            label for label, count in label_counts.items() if count == most_votes
+        }
+        consensus = (
+            primary.chord
+            if primary.chord in consensus_labels
+            else next(iter(consensus_labels), primary.chord)
+        )
+        combined.append(
+            replace(
+                primary,
+                chord=consensus,
+                family=chord_family(consensus),
+                model_predictions=predictions,
+                root_agreement=_agreement(
+                    [chord_root(item.chord) for item in predictions]
+                ),
+                family_agreement=_agreement([item.family for item in predictions]),
+                sequence_agreement=_agreement(
+                    [_sequence_signature(item) for item in predictions]
+                ),
+            )
+        )
+    return combined
+
+
 def build_candidates(bars: list[BarAnalysis]) -> list[Candidate]:
+    """Build non-overlapping four-bar blocks on the song's phrase grid.
+
+    Once measure one has been established, sliding windows such as 8-11 are
+    awkward exercise excerpts even when their model confidence is high. Keep
+    every proposal on the 1-4, 5-8, 9-12, ... grid instead.
+    """
     candidates: list[Candidate] = []
-    for offset in range(0, max(0, len(bars) - 3)):
+    for offset in range(0, max(0, len(bars) - 3), 4):
         window = tuple(bars[offset : offset + 4])
         reasons: list[str] = []
         if any(
@@ -326,6 +561,8 @@ def build_candidates(bars: list[BarAnalysis]) -> list[Candidate]:
         explained = [sum(chord.occupancy for chord in bar.chord_sequence) for bar in window]
         if any(coverage < 0.80 for coverage in explained):
             reasons.append("one or more measures have an ambiguous chord")
+        if any(bar.sequence_agreement < 1.0 for bar in window):
+            reasons.append("chord models disagree on an ordered chord sequence")
         lengths = [bar.end - bar.start for bar in window]
         if min(lengths) <= 0 or max(lengths) / min(lengths) > 1.35:
             reasons.append("measure lengths vary unusually")
@@ -341,21 +578,64 @@ def build_candidates(bars: list[BarAnalysis]) -> list[Candidate]:
                 bars=window,
                 eligible=not reasons,
                 reasons=tuple(reasons),
+                playback_start=window[0].start,
             )
         )
     return candidates
 
 
 def select_candidates(candidates: list[Candidate], limit: int) -> list[Candidate]:
-    """Prefer high-confidence eligible windows without overlapping each other."""
-    selected: list[Candidate] = []
-    for candidate in sorted(candidates, key=lambda c: (c.eligible, c.score), reverse=True):
-        if any(candidate.start < other.end and other.start < candidate.end for other in selected):
-            continue
-        selected.append(candidate)
-        if len(selected) >= limit:
-            break
-    return sorted(selected, key=lambda c: c.start)
+    """Prefer confident phrase-aligned blocks and return them chronologically."""
+    ranked = sorted(
+        candidates,
+        key=lambda candidate: (candidate.eligible, candidate.score),
+        reverse=True,
+    )
+    return sorted(ranked[:limit], key=lambda candidate: candidate.start)
+
+
+def detect_onsets(audio: Path) -> list[float]:
+    """Return transient times used only to refine report playback cues."""
+    try:
+        import librosa
+    except ImportError:
+        return []
+
+    samples, sample_rate = librosa.load(str(audio), sr=None, mono=True)
+    hop_length = 256
+    envelope = librosa.onset.onset_strength(
+        y=samples, sr=sample_rate, hop_length=hop_length
+    )
+    frames = librosa.onset.onset_detect(
+        onset_envelope=envelope,
+        sr=sample_rate,
+        hop_length=hop_length,
+        backtrack=False,
+    )
+    return [
+        float(value)
+        for value in librosa.frames_to_time(
+            frames, sr=sample_rate, hop_length=hop_length
+        )
+    ]
+
+
+def snap_playback_starts(
+    candidates: list[Candidate],
+    onsets: list[float],
+    max_delay: float = 0.12,
+) -> list[Candidate]:
+    """Move playback forward to a nearby onset, never before the boundary."""
+    snapped: list[Candidate] = []
+    for candidate in candidates:
+        nearby = [
+            onset
+            for onset in onsets
+            if candidate.start <= onset <= candidate.start + max_delay
+        ]
+        playback_start = min(nearby, default=candidate.start)
+        snapped.append(replace(candidate, playback_start=playback_start))
+    return snapped
 
 
 def wav_duration(path: Path) -> float:
@@ -403,6 +683,7 @@ def report_html(
     waveform: list[float],
     source_hash: str,
     timing_model: str,
+    chord_models: list[str],
 ) -> str:
     width, height, mid = 1200, 180, 90
     polygon: list[str] = ["0,90"]
@@ -430,11 +711,31 @@ def report_html(
             if len(bar.chord_sequence) > 1
             else f"{bar.dominance:.0%} occupancy"
         )
+        model_rows = ""
+        agreement = ""
+        if len(bar.model_predictions) > 1:
+            model_rows = (
+                '<div class="model-votes">'
+                + "".join(
+                    f'<div><span>{html.escape(prediction.model)}</span>'
+                    f'<strong>{html.escape(" → ".join(piece.label for piece in prediction.chord_sequence) or prediction.chord)}</strong>'
+                    f'<small>{prediction.dominance:.0%}</small></div>'
+                    for prediction in bar.model_predictions
+                )
+                + "</div>"
+            )
+            agreement = (
+                f'<div class="agreement">Sequence agreement {bar.sequence_agreement:.0%} · '
+                f'root agreement {bar.root_agreement:.0%} · '
+                f'quality agreement {bar.family_agreement:.0%}</div>'
+            )
         return f"""
             <div class="measure">
               <div class="measure-number">Measure {bar.index} · {bar.end - bar.start:.2f}s</div>
               <div class="chord">{chord_markup}</div>
               <div class="confidence">{description}</div>
+              {agreement}
+              {model_rows}
             </div>
         """
 
@@ -449,7 +750,7 @@ def report_html(
               <header>
                 <div><strong>{format_time(candidate.start)}–{format_time(candidate.end)}</strong>
                 <span class="pill">{status}</span></div>
-                <button data-start="{candidate.start:.6f}" data-end="{candidate.end:.6f}">Play 4 measures</button>
+                <button data-start="{candidate.playback_start:.6f}" data-end="{candidate.end:.6f}">Play 4 measures</button>
               </header>
               <div class="measures">{measures}</div>
               <p class="score">Mean explained occupancy: {candidate.score:.0%} · fixed song tempo: {candidate.local_bpm:.1f} BPM</p>
@@ -494,6 +795,10 @@ def report_html(
     .chord-piece {{ display: grid; }}
     .chord-piece small {{ color: #8f9bb0; font-size: 10px; font-weight: 600; }}
     .arrow {{ color: #f2c14e; font-size: 15px; }}
+    .agreement {{ color: #d6bb70; font-size: 11px; margin-top: 8px; }}
+    .model-votes {{ display: grid; gap: 4px; border-top: 1px solid #303747; margin-top: 8px; padding-top: 8px; }}
+    .model-votes div {{ display: grid; grid-template-columns: 72px 1fr auto; align-items: baseline; gap: 6px; font-size: 11px; }}
+    .model-votes span, .model-votes small {{ color: #8f9bb0; }}
     .warning {{ color: #f0b7a4; margin-bottom: 0; }}
     footer {{ margin-top: 40px; color: #7f899d; font: 12px ui-monospace, monospace; overflow-wrap: anywhere; }}
     @media (max-width: 700px) {{ .measures {{ grid-template-columns: repeat(2, 1fr); }} .card header {{ align-items: flex-start; flex-direction: column; }} }}
@@ -507,9 +812,9 @@ def report_html(
   <audio id="player" controls preload="metadata" src="{html.escape(audio_name)}"></audio>
   <div class="stats"><span>{format_time(duration)}</span><span>{bpm_text} BPM · fixed song tempo</span><span>{len(downbeats)} normalized downbeats</span><span>{len(candidates)} displayed windows</span></div>
   <div class="overview"><svg viewBox="0 0 {width} {height}" role="img" aria-label="Waveform with detected downbeats"><polygon points="{' '.join(polygon)}"/><g>{downbeat_lines}</g></svg></div>
-  <h2>Proposed four-measure windows</h2>
+  <h2>Phrase-aligned four-measure windows</h2>
   <div class="cards">{''.join(cards) if cards else '<p>No complete four-measure windows were detected.</p>'}</div>
-  <footer>Timing: {html.escape(timing_model)} · Chords: lv-chordia/ismir2017 · Source SHA-256: {source_hash}</footer>
+  <footer>Timing: {html.escape(timing_model)} · Chords: {html.escape(', '.join(chord_models))} · Source SHA-256: {source_hash}</footer>
 </main>
 <script>
   const player = document.querySelector('#player');
@@ -571,9 +876,37 @@ def main() -> int:
     parser.add_argument("--work-root", type=Path, default=DEFAULT_WORK_ROOT)
     parser.add_argument("--device", default="cpu", choices=("cpu", "mps", "cuda"))
     parser.add_argument("--timing-checkpoint", default="final0")
+    parser.add_argument(
+        "--timing-models",
+        default="beat-this,madmom",
+        help="Comma-separated timing detectors (beat-this,madmom)",
+    )
     parser.add_argument("--candidate-limit", type=int, default=16)
+    parser.add_argument(
+        "--chord-models",
+        default="lv-chordia",
+        help=f"Comma-separated chord detectors ({', '.join(available_models())})",
+    )
     parser.add_argument("--reuse-analysis", action="store_true")
     args = parser.parse_args()
+
+    timing_models = list(
+        dict.fromkeys(
+            part.strip() for part in args.timing_models.split(",") if part.strip()
+        )
+    )
+    if not timing_models or set(timing_models) - {"beat-this", "madmom"}:
+        raise SystemExit("Choose timing models from: beat-this, madmom")
+
+    chord_models = list(
+        dict.fromkeys(
+            part.strip() for part in args.chord_models.split(",") if part.strip()
+        )
+    )
+    unknown_models = set(chord_models) - set(available_models())
+    if not chord_models or unknown_models:
+        choices = ", ".join(available_models())
+        raise SystemExit(f"Choose one or more chord models from: {choices}")
 
     source = args.audio.expanduser().resolve()
     if not source.is_file():
@@ -583,8 +916,6 @@ def main() -> int:
     work_dir.mkdir(parents=True, exist_ok=True)
     normalized = work_dir / "audio.wav"
     preview = work_dir / "audio-preview.mp3"
-    timing_path = work_dir / "timing.json"
-    chords_path = work_dir / "chords.json"
 
     if not normalized.exists():
         print("Normalizing audio...", flush=True)
@@ -593,30 +924,59 @@ def main() -> int:
         print("Creating report preview...", flush=True)
         make_preview_audio(normalized, preview)
 
-    if args.reuse_analysis and timing_path.exists():
-        timing = json.loads(timing_path.read_text(encoding="utf-8"))
-        beats, downbeats = timing["beats"], timing["downbeats"]
-    else:
-        print("Detecting beats and downbeats...", flush=True)
-        beats, downbeats = analyze_timing(normalized, args.device, args.timing_checkpoint)
+    timing_outputs: dict[str, tuple[list[float], list[float]]] = {}
+    for model in timing_models:
+        timing_path = work_dir / (
+            "timing.json" if model == "beat-this" else f"timing.{model}.json"
+        )
+        if args.reuse_analysis and timing_path.exists():
+            cached = json.loads(timing_path.read_text(encoding="utf-8"))
+            timing_outputs[model] = (cached["beats"], cached["downbeats"])
+            continue
+
+        print(f"Detecting beats and downbeats with {model}...", flush=True)
+        if model == "beat-this":
+            result = analyze_timing(normalized, args.device, args.timing_checkpoint)
+        else:
+            result = analyze_timing_madmom(normalized)
+        timing_outputs[model] = result
         timing_path.write_text(
-            json.dumps({"beats": beats, "downbeats": downbeats}, indent=2) + "\n",
+            json.dumps({"beats": result[0], "downbeats": result[1]}, indent=2)
+            + "\n",
             encoding="utf-8",
         )
 
-    if args.reuse_analysis and chords_path.exists():
-        chords = json.loads(chords_path.read_text(encoding="utf-8"))
-    else:
-        print("Recognizing chords...", flush=True)
-        chords = analyze_chords(normalized)
-        chords_path.write_text(json.dumps(chords, indent=2) + "\n", encoding="utf-8")
+    model_chords: dict[str, list[dict[str, Any]]] = {}
+    for model in chord_models:
+        chords_path = work_dir / (
+            "chords.json" if model == "lv-chordia" else f"chords.{model}.json"
+        )
+        if args.reuse_analysis and chords_path.exists():
+            model_chords[model] = json.loads(chords_path.read_text(encoding="utf-8"))
+            continue
+        print(f"Recognizing chords with {model}...", flush=True)
+        try:
+            model_chords[model] = analyze_chords(model, normalized, args.device)
+        except ChordModelUnavailable as exc:
+            raise SystemExit(str(exc)) from exc
+        chords_path.write_text(
+            json.dumps(model_chords[model], indent=2) + "\n", encoding="utf-8"
+        )
 
     duration = wav_duration(normalized)
-    song_timing = normalize_song_timing(downbeats, duration)
+    song_timing, selected_timing_model, timing_reason, model_timings = (
+        select_song_timing(
+            {model: output[1] for model, output in timing_outputs.items()}, duration
+        )
+    )
     normalized_downbeats = list(song_timing.downbeats)
-    bars = build_bars(normalized_downbeats, chords)
+    selected_beats = timing_outputs.get(
+        selected_timing_model, next(iter(timing_outputs.values()))
+    )[0]
+    bars = build_ensemble_bars(normalized_downbeats, model_chords, chord_models[0])
     all_candidates = build_candidates(bars)
     candidates = select_candidates(all_candidates, max(1, args.candidate_limit))
+    candidates = snap_playback_starts(candidates, detect_onsets(normalized))
     source_hash = sha256_file(source)
     analysis = {
         "source": {"path": str(source), "sha256": source_hash, "artist": args.artist, "title": title},
@@ -626,17 +986,28 @@ def main() -> int:
             "durationSec": duration,
         },
         "timing": {
-            "model": f"beat-this/{args.timing_checkpoint}",
-            "beats": beats,
-            "rawDownbeats": downbeats,
+            "model": selected_timing_model,
+            "models": {
+                model: {
+                    "beats": output[0],
+                    "rawDownbeats": output[1],
+                    "normalizedBpm": model_timings[model].bpm,
+                    "barDurationSec": model_timings[model].bar_duration,
+                }
+                for model, output in timing_outputs.items()
+            },
+            "decision": timing_reason,
+            "beats": selected_beats,
+            "rawDownbeats": list(song_timing.detected_downbeats),
             "downbeats": normalized_downbeats,
-            "rawMedianBpm": median_bpm(beats),
+            "rawMedianBpm": median_bpm(selected_beats),
             "medianBpm": song_timing.bpm,
             "fixedBpm": song_timing.bpm,
             "barDurationSec": song_timing.bar_duration,
             "meter": "4/4",
         },
-        "chordModel": "lv-chordia/ismir2017",
+        "chordModel": chord_models[0],
+        "chordModels": chord_models,
         "bars": [asdict(bar) for bar in bars],
         "candidates": [asdict(candidate) for candidate in candidates],
     }
@@ -654,7 +1025,8 @@ def main() -> int:
             candidates,
             waveform_points(normalized),
             source_hash,
-            f"beat-this/{args.timing_checkpoint}",
+            f"{selected_timing_model}: {timing_reason}",
+            chord_models,
         ),
         encoding="utf-8",
     )
