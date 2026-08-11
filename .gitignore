@@ -19,3 +19,4 @@ __pycache__/
 # model output, and review reports must never be committed.
 .venv-recordings/
 .recordings/
+.vercel

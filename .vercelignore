@@ -1,0 +1,10 @@
+.git
+.vercel
+node_modules
+dist
+.venv-*
+.recordings
+*.local
+.DS_Store
+__pycache__
+*.py[cod]
