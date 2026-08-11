@@ -39,7 +39,7 @@ export function Slots() {
           if (!isGiven) setActiveSlot(i);
         }}
         disabled={phase !== 'answering' || isGiven}
-        className={`relative ${compact ? 'h-20 w-16 text-xl' : 'h-24 w-20 text-2xl'} rounded-xl border-2 font-bold transition ${tone} ${
+        className={`relative ${compact ? 'h-16 min-w-0 flex-1 text-lg sm:h-20 sm:w-16 sm:flex-none sm:text-xl' : 'h-24 w-20 text-2xl'} rounded-xl border-2 font-bold transition ${tone} ${
           isPlaying ? 'ring-4 ring-amber-400' : ''
         } ${isGiven ? 'cursor-default' : ''}`}
       >
@@ -83,13 +83,13 @@ export function Slots() {
       return { number: exercise.song!.startMeasure + measureOffset, indices };
     });
     return (
-      <div className="flex w-full flex-wrap justify-center gap-3">
+      <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-center sm:gap-3">
         {measures.map((measure) => (
-          <div key={measure.number} className="rounded-xl border border-slate-700 bg-slate-800/40 p-3">
-            <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+          <div key={measure.number} className="min-w-0 rounded-xl border border-slate-700 bg-slate-800/40 p-2 sm:p-3">
+            <p className="mb-1.5 truncate text-center text-[9px] font-semibold uppercase tracking-wider text-slate-500 sm:mb-2 sm:text-[10px] sm:tracking-widest">
               Measure {measure.number}
             </p>
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-1 sm:gap-2">
               {measure.indices.map((i) => renderSlot(i, true))}
             </div>
           </div>

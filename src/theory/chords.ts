@@ -95,14 +95,46 @@ export function chordKey(c: Chord): string {
   return `${c.rootPc}:${c.quality}`;
 }
 
-const FLAT_NOTE_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'];
-const SHARP_NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_LETTERS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] as const;
+const NATURAL_PITCH_CLASSES: Record<(typeof NOTE_LETTERS)[number], number> = {
+  C: 0,
+  D: 2,
+  E: 4,
+  F: 5,
+  G: 7,
+  A: 9,
+  B: 11,
+};
+
+// Each chromatic root still belongs to a named scale degree. Keeping that
+// degree's letter lets the accidental follow the key rather than applying a
+// global "sharp key / flat key" switch. For example, the IV of F must use the
+// fourth letter (B), whose target pitch is Bb—not the enharmonic A#.
+const ROOT_DEGREE_OFFSETS = [0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6] as const;
+
+function spellChordRoot(c: Chord, key: string): string | null {
+  const keyPc = Note.chroma(key);
+  const tonicLetter = key.trim().toUpperCase().match(/^[A-G]/)?.[0] as
+    | (typeof NOTE_LETTERS)[number]
+    | undefined;
+  if (typeof keyPc !== 'number' || !Number.isInteger(keyPc) || !tonicLetter) return null;
+
+  const relativePc = ((c.rootPc % 12) + 12) % 12;
+  const degreeOffset = ROOT_DEGREE_OFFSETS[relativePc];
+  const tonicLetterIndex = NOTE_LETTERS.indexOf(tonicLetter);
+  const letter = NOTE_LETTERS[(tonicLetterIndex + degreeOffset) % NOTE_LETTERS.length]!;
+  const targetPc = (keyPc + relativePc) % 12;
+  const accidentalOffset = (targetPc - NATURAL_PITCH_CLASSES[letter] + 12) % 12;
+
+  if (accidentalOffset === 0) return letter;
+  if (accidentalOffset === 1) return `${letter}#`;
+  if (accidentalOffset === 11) return `${letter}b`;
+  return null;
+}
 
 export function toAbsoluteChord(c: Chord, key: string): string {
-  const keyPc = Note.chroma(key);
-  if (typeof keyPc !== 'number' || !Number.isInteger(keyPc)) return '?';
-  const names = key.includes('b') ? FLAT_NOTE_NAMES : SHARP_NOTE_NAMES;
-  const root = names[(keyPc + c.rootPc + 12) % 12]!;
+  const root = spellChordRoot(c, key);
+  if (!root) return '?';
   const suffix = c.quality === 'maj' ? '' : c.quality === 'min' ? 'm' : '°';
   return `${root}${suffix}`;
 }
