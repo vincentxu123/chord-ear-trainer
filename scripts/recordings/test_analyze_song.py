@@ -1,12 +1,15 @@
 import unittest
 
 from analyze_song import (
+    MAJOR_KEY_PROFILE,
+    MINOR_KEY_PROFILE,
     analyze_bar,
     build_bars,
     build_candidates,
     build_ensemble_bars,
     chord_family,
     chord_root,
+    estimate_key_from_chroma,
     normalize_song_timing,
     select_song_timing,
     snap_playback_starts,
@@ -14,6 +17,19 @@ from analyze_song import (
 
 
 class AnalyzeSongTests(unittest.TestCase):
+    def test_key_estimation_recovers_rotated_major_and_minor_profiles(self):
+        d_major = MAJOR_KEY_PROFILE[-2:] + MAJOR_KEY_PROFILE[:-2]
+        a_minor = MINOR_KEY_PROFILE[-9:] + MINOR_KEY_PROFILE[:-9]
+
+        self.assertEqual(
+            (estimate_key_from_chroma(d_major)["key"], estimate_key_from_chroma(d_major)["mode"]),
+            ("D", "major"),
+        )
+        self.assertEqual(
+            (estimate_key_from_chroma(a_minor)["key"], estimate_key_from_chroma(a_minor)["mode"]),
+            ("A", "minor"),
+        )
+
     def test_chord_family_reduces_supported_labels(self):
         self.assertEqual(chord_family("C:maj7"), "maj")
         self.assertEqual(chord_family("A:min7"), "min")

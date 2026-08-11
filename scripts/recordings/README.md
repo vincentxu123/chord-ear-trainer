@@ -2,8 +2,10 @@
 
 This tooling is deliberately separate from the app's generated-clip pipeline.
 It reads a local recording, detects beats/downbeats and chords, resolves
-half-time/double-time tracker changes into one fixed 4/4 tempo grid, proposes
-four-measure exercises, and writes a local static review report.
+half-time/double-time tracker changes into one fixed 4/4 tempo grid, and
+automatically publishes every eligible four-measure exercise. A static audit
+report is written after publication so a human can double-check the result,
+but approval is not part of the gate.
 
 Exercise proposals stay on a non-overlapping four-measure phrase grid:
 measures 1-4, 5-8, 9-12, and so on. Confidence ranking can omit a weaker
@@ -23,6 +25,7 @@ Requires FFmpeg and Python 3.11+.
 ```bash
 python3.11 -m venv .venv-recordings
 .venv-recordings/bin/python -m pip install -r scripts/recordings/requirements.txt
+.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements-btc.txt
 .venv-recordings/bin/python -m pip install "setuptools<81" Cython
 .venv-recordings/bin/python -m pip install --no-build-isolation madmom==0.16.1
 ```
@@ -32,7 +35,27 @@ model produces a well-supported 2:1 half-bar grid, the slower full-bar grid
 wins. Same-level grids are averaged; incompatible grids remain visible in the
 analysis metadata.
 
-## Analyze a song
+## Process and add a song (recommended)
+
+One command runs both timing models and both chord models, estimates key/mode,
+publishes every automatically eligible window, updates the app manifest, and
+then writes `publish-report.html`:
+
+```bash
+npm run songs:process -- \
+  --audio "/absolute/path/to/song.mp3" \
+  --artist "Jay Chou" \
+  --title "Song title"
+```
+
+Use `--device mps` on a compatible Mac if CPU inference is too slow. Model
+outputs are cached under `.recordings/`; `--reuse-analysis` reuses them while
+rebuilding timing normalization, automatic tonality, candidate gates, exports,
+and the audit report. Key estimation uses an audio chromagram and standard key
+profiles. `--key F --mode major` remains available as an optional correction,
+not a required approval step.
+
+## Analyze without publishing
 
 ```bash
 .venv-recordings/bin/python scripts/recordings/analyze_song.py \
@@ -41,13 +64,11 @@ analysis metadata.
   --title "Song title"
 ```
 
-The command prints the location of `review.html`. Open that file locally to
-listen to each proposed window while inspecting its measure and chord labels.
-The first run downloads model weights. Use `--device mps` on a compatible Mac
-if CPU inference is too slow.
+The command prints the location of `review.html`. This standalone diagnostic
+does not update the app. The first run downloads model weights.
 
-`lv-chordia` remains the default detector. To compare it with the independent
-BTC transformer model, install the optional dependencies and select both:
+The automatic default runs `lv-chordia` and the independent BTC transformer.
+To run a deliberately reduced diagnostic, select a model explicitly:
 
 ```bash
 .venv-recordings/bin/python -m pip install -r scripts/recordings/requirements-btc.txt
@@ -55,27 +76,26 @@ BTC transformer model, install the optional dependencies and select both:
   --audio ".recordings/imports/song.mp3" \
   --artist "Jay Chou" \
   --title "Song title" \
-  --chord-models lv-chordia,btc
+  --chord-models lv-chordia
 ```
 
-Each detector writes a separate cached timeline. The report aligns them to the
-fixed measure grid and shows ordered-sequence, root, and simplified-quality
-agreement. A candidate is green only when both models agree on the complete
-ordered chord sequence in all four measures. The unofficial BTC packaging is
-pinned to the tested integration revision in `chord_models.py`; review its
-custom code and update that hash deliberately when testing a new release.
-Model agreement is evidence for review, not ground truth.
+Each detector writes a separate cached timeline. The pipeline aligns them to
+the fixed measure grid and compares ordered sequences, roots, and simplified
+qualities. Export requires at least two predictions and complete ordered chord
+sequence agreement in all four measures, in addition to the structural timing,
+coverage, and supported-harmony gates. The unofficial BTC packaging is pinned
+to the tested integration revision in `chord_models.py`; review its custom code
+and update that hash deliberately when testing a new release.
 
-## Export eligible candidates to the app
-
-After reviewing the reports, export only green candidate rows:
+## Rebuild exports from cached analyses
 
 ```bash
 npm run songs:export
 ```
 
-This creates short MP3s and an exact-cue manifest under `public/song-clips/`.
-The catalog in `export_candidates.py` contains the reviewed tonal center for
-each song so absolute model labels can be converted to the app's relative
-Roman-numeral representation. Model agreement is deliberately conservative,
-but chords, bar lines, keys, and modes still benefit from human review.
+This rebuilds short MP3s and the exact-cue manifest under
+`public/song-clips/` from every cached analysis. There is no hard-coded song
+catalog: artist/title come from the analysis and key/mode come from automatic
+estimation or an optional override. The generated `publish-report.html` in
+each song's `.recordings` directory lists every included and excluded window,
+its model predictions, and exclusion reasons.

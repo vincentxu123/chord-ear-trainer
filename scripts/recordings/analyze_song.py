@@ -31,6 +31,10 @@ MAX_CHORDS_PER_BAR = BEATS_PER_BAR
 # a useful lower bound for a chord worth showing in a four-beat measure.
 MIN_CHORD_OCCUPANCY = 1 / (BEATS_PER_BAR * 2)
 
+KEY_NAMES = ("C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B")
+MAJOR_KEY_PROFILE = (6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
+MINOR_KEY_PROFILE = (6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
+
 
 @dataclass(frozen=True)
 class ChordVote:
@@ -92,6 +96,63 @@ class SongTiming:
     bar_duration: float
     downbeats: tuple[float, ...]
     detected_downbeats: tuple[float, ...]
+
+
+def _correlation(left: Iterable[float], right: Iterable[float]) -> float:
+    left_values = list(left)
+    right_values = list(right)
+    left_mean = statistics.fmean(left_values)
+    right_mean = statistics.fmean(right_values)
+    numerator = sum(
+        (left_value - left_mean) * (right_value - right_mean)
+        for left_value, right_value in zip(left_values, right_values)
+    )
+    left_scale = math.sqrt(sum((value - left_mean) ** 2 for value in left_values))
+    right_scale = math.sqrt(sum((value - right_mean) ** 2 for value in right_values))
+    return numerator / max(left_scale * right_scale, 1e-12)
+
+
+def estimate_key_from_chroma(chroma: Iterable[float]) -> dict[str, Any]:
+    """Estimate tonic and mode with rotated Krumhansl-Schmuckler profiles."""
+    chroma_values = tuple(float(value) for value in chroma)
+    if len(chroma_values) != 12:
+        raise ValueError("Key estimation needs exactly 12 chroma bins")
+
+    scores: list[tuple[float, int, str]] = []
+    for tonic in range(12):
+        for mode, profile in (
+            ("major", MAJOR_KEY_PROFILE),
+            ("minor", MINOR_KEY_PROFILE),
+        ):
+            rotated = [0.0] * 12
+            for pitch_class, value in enumerate(profile):
+                rotated[(pitch_class + tonic) % 12] = value
+            scores.append((_correlation(chroma_values, rotated), tonic, mode))
+
+    scores.sort(reverse=True)
+    best_score, tonic, mode = scores[0]
+    runner_up = scores[1][0]
+    return {
+        "key": KEY_NAMES[tonic],
+        "mode": mode,
+        "method": "chroma-cqt-krumhansl-schmuckler",
+        "score": best_score,
+        "margin": best_score - runner_up,
+    }
+
+
+def estimate_tonality(audio: Path) -> dict[str, Any]:
+    try:
+        import librosa
+    except ImportError as exc:
+        raise SystemExit(
+            "librosa is required for automatic key estimation. Reinstall the "
+            "recording-analysis requirements."
+        ) from exc
+
+    samples, sample_rate = librosa.load(str(audio), sr=11025, mono=True)
+    chroma = librosa.feature.chroma_cqt(y=samples, sr=sample_rate)
+    return estimate_key_from_chroma(chroma.mean(axis=1))
 
 
 def run(command: list[str]) -> None:
@@ -881,14 +942,25 @@ def main() -> int:
         default="beat-this,madmom",
         help="Comma-separated timing detectors (beat-this,madmom)",
     )
-    parser.add_argument("--candidate-limit", type=int, default=16)
+    parser.add_argument(
+        "--candidate-limit",
+        type=int,
+        default=0,
+        help="Maximum windows to retain; 0 keeps every phrase-aligned window",
+    )
     parser.add_argument(
         "--chord-models",
-        default="lv-chordia",
+        default="lv-chordia,btc",
         help=f"Comma-separated chord detectors ({', '.join(available_models())})",
     )
+    parser.add_argument("--key", choices=KEY_NAMES)
+    parser.add_argument("--mode", choices=("major", "minor"))
     parser.add_argument("--reuse-analysis", action="store_true")
+    parser.add_argument("--skip-report", action="store_true")
     args = parser.parse_args()
+
+    if (args.key is None) != (args.mode is None):
+        raise SystemExit("Provide both --key and --mode, or omit both for automatic estimation")
 
     timing_models = list(
         dict.fromkeys(
@@ -975,8 +1047,23 @@ def main() -> int:
     )[0]
     bars = build_ensemble_bars(normalized_downbeats, model_chords, chord_models[0])
     all_candidates = build_candidates(bars)
-    candidates = select_candidates(all_candidates, max(1, args.candidate_limit))
+    candidates = (
+        all_candidates
+        if args.candidate_limit <= 0
+        else select_candidates(all_candidates, args.candidate_limit)
+    )
     candidates = snap_playback_starts(candidates, detect_onsets(normalized))
+    tonality = (
+        {
+            "key": args.key,
+            "mode": args.mode,
+            "method": "provided-override",
+            "score": None,
+            "margin": None,
+        }
+        if args.key and args.mode
+        else estimate_tonality(normalized)
+    )
     source_hash = sha256_file(source)
     analysis = {
         "source": {"path": str(source), "sha256": source_hash, "artist": args.artist, "title": title},
@@ -1008,29 +1095,31 @@ def main() -> int:
         },
         "chordModel": chord_models[0],
         "chordModels": chord_models,
+        "tonality": tonality,
         "bars": [asdict(bar) for bar in bars],
         "candidates": [asdict(candidate) for candidate in candidates],
     }
     (work_dir / "analysis.json").write_text(
         json.dumps(analysis, indent=2) + "\n", encoding="utf-8"
     )
-    (work_dir / "review.html").write_text(
-        report_html(
-            title,
-            args.artist,
-            preview.name,
-            duration,
-            song_timing.bpm,
-            normalized_downbeats,
-            candidates,
-            waveform_points(normalized),
-            source_hash,
-            f"{selected_timing_model}: {timing_reason}",
-            chord_models,
-        ),
-        encoding="utf-8",
-    )
-    print(f"Review report: {work_dir / 'review.html'}")
+    if not args.skip_report:
+        (work_dir / "review.html").write_text(
+            report_html(
+                title,
+                args.artist,
+                preview.name,
+                duration,
+                song_timing.bpm,
+                normalized_downbeats,
+                candidates,
+                waveform_points(normalized),
+                source_hash,
+                f"{selected_timing_model}: {timing_reason}",
+                chord_models,
+            ),
+            encoding="utf-8",
+        )
+        print(f"Analysis report: {work_dir / 'review.html'}")
     print(f"Analysis JSON: {work_dir / 'analysis.json'}")
     return 0
 

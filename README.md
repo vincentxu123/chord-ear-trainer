@@ -72,6 +72,7 @@ small Python venv for QC. Full strategy, validation rules, and commands are in
 | `npm run typecheck` | Type-check only |
 | `npm run clips:generate` | Offline: generate + QC clips into `public/clips/` |
 | `npm run clips:qc` | Offline: re-validate the existing clip library |
+| `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 
 ## Project structure

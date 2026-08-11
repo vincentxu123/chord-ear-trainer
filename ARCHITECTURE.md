@@ -157,16 +157,18 @@ After deletions or curation, close ID gaps with `npx tsx scripts/renumberClips.t
 ### Commercial-recording candidate gate
 
 The separate pipeline in `scripts/recordings/` analyzes user-supplied songs
-with two timing models and two chord models. `export_candidates.py` exports
-only green four-measure rows where:
+with two timing models and two chord models. `process_song.py` estimates the
+tonal center and automatically exports every four-measure row where:
 
 - measure timing is stable;
 - every detected chord is supported and explains enough of its measure; and
 - both chord models return the same enharmonic root/quality sequence in every measure.
 
 The exporter writes short 96 kbps MP3 excerpts plus exact chord cues to
-`public/song-clips/`. These assets are for private research/review; public
-deployment requires the appropriate recording rights.
+`public/song-clips/`, updates the manifest incrementally, and then generates a
+local `publish-report.html` showing included and excluded windows. The report
+is an audit artifact, not an approval gate. These assets are for private
+research/review; public deployment requires the appropriate recording rights.
 
 ---
 
