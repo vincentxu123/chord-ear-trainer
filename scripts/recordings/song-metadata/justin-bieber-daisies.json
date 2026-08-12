@@ -1,0 +1,12 @@
+{
+  "artist": "Justin Bieber",
+  "title": "DAISIES",
+  "notes": "In measures 9–12, the first chord of measure 11 (the fifth chord in the exercise) is A-flat major rather than E-flat major.",
+  "chordOverrides": [
+    {
+      "measure": 11,
+      "chordPosition": 1,
+      "label": "Ab:maj"
+    }
+  ]
+}

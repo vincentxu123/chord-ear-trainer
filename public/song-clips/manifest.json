@@ -1,6 +1,6 @@
 {
-  "version": "5bcb903eb4e0",
-  "totalBytes": 4914751,
+  "version": "1f6da6ce8efa",
+  "totalBytes": 5020435,
   "clips": [
     {
       "id": "neon-genesis-evangelion-op-piano-m042",
@@ -978,7 +978,7 @@
           "quality": "maj"
         },
         {
-          "rootPc": 7,
+          "rootPc": 0,
           "quality": "maj"
         },
         {
@@ -1003,6 +1003,68 @@
         5.371904761904762,
         6.521610425317153,
         7.5819047619047595
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "daisies-m013",
+      "file": "daisies-m013.mp3",
+      "title": "DAISIES",
+      "artist": "Justin Bieber",
+      "startMeasure": 13,
+      "endMeasure": 16,
+      "key": "Ab",
+      "mode": "major",
+      "bpm": 110.21787993251776,
+      "durationSec": 8.701653128810058,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.0144217687074821,
+        2.169137710795951,
+        3.194421768707482,
+        4.346642850133982,
+        5.374421768707482,
+        6.52414798947202,
+        7.79442176870748
       ],
       "measureChordCounts": [
         2,

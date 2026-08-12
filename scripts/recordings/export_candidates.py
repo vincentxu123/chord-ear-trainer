@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import json
 import subprocess
@@ -73,6 +74,21 @@ def chord_to_relative(label: str, key: str) -> dict[str, Any]:
     if family not in {"maj", "min", "dim"}:
         raise ValueError(f"Unsupported chord label: {label}")
     return {"rootPc": (root_pc - key_pc) % 12, "quality": family}
+
+
+def chord_label_for_export(
+    analysis: dict[str, Any], measure: int, chord_position: int, detected_label: str
+) -> str:
+    """Apply a verified, song-specific correction to one detected chord slot."""
+    for override in (analysis.get("songMetadata") or {}).get("chordOverrides", []):
+        if (
+            int(override["measure"]) == measure
+            and int(override["chordPosition"]) == chord_position
+        ):
+            label = str(override["label"])
+            chord_to_relative(label, str(analysis["tonality"]["key"]))
+            return label
+    return detected_label
 
 
 def tonality_for_measure(
@@ -174,8 +190,11 @@ def manifest_entry(
     for bar in candidate["bars"]:
         sequence = bar["chord_sequence"]
         measure_counts.append(len(sequence))
-        for piece in sequence:
-            chords.append(chord_to_relative(piece["label"], tonality["key"]))
+        for position, piece in enumerate(sequence, start=1):
+            label = chord_label_for_export(
+                analysis, int(bar["index"]), position, str(piece["label"])
+            )
+            chords.append(chord_to_relative(label, tonality["key"]))
             cue_times.append(max(0.0, float(piece["start"]) - playback_start))
 
     if cue_times:
@@ -263,7 +282,14 @@ def publish_report_html(
             reasons.append(duplicate_reasons[candidate_id])
         measures: list[str] = []
         for bar in candidate.get("bars", []):
-            sequence = " → ".join(piece["label"] for piece in bar.get("chord_sequence", [])) or "N"
+            sequence = " → ".join(
+                chord_label_for_export(
+                    analysis, int(bar["index"]), position, str(piece["label"])
+                )
+                for position, piece in enumerate(
+                    bar.get("chord_sequence", []), start=1
+                )
+            ) or "N"
             model_rows = "".join(
                 f"<li><span>{html.escape(prediction['model'])}</span> "
                 f"{html.escape(' → '.join(piece['label'] for piece in prediction.get('chord_sequence', [])) or prediction['chord'])}</li>"
@@ -351,6 +377,19 @@ def load_manifest(path: Path) -> list[dict[str, Any]]:
     return list(json.loads(path.read_text(encoding="utf-8")).get("clips", []))
 
 
+def library_metadata(output: Path, entries: list[dict[str, Any]]) -> dict[str, Any]:
+    """Build a revision that changes whenever any published audio changes."""
+    digest = hashlib.sha256()
+    total_bytes = 0
+    for entry in entries:
+        path = output / entry["file"]
+        audio = path.read_bytes()
+        digest.update(entry["file"].encode("utf-8"))
+        digest.update(audio)
+        total_bytes += len(audio)
+    return {"version": digest.hexdigest()[:12], "totalBytes": total_bytes}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--analysis-root", type=Path, default=DEFAULT_ANALYSIS_ROOT)
@@ -421,9 +460,10 @@ def main() -> int:
         )
 
     entries.sort(key=lambda entry: (entry["artist"], entry["title"], entry["startMeasure"]))
+    metadata = library_metadata(args.output, entries)
     temporary_manifest = manifest_path.with_suffix(".json.tmp")
     temporary_manifest.write_text(
-        json.dumps({"clips": entries}, indent=2, ensure_ascii=False) + "\n",
+        json.dumps({**metadata, "clips": entries}, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
     exported_files = {entry["file"] for entry in entries}
