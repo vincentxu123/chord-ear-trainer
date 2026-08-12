@@ -529,9 +529,10 @@ def infer_phrase_start_measure(bars: list[BarAnalysis]) -> dict[str, Any]:
     """Conservatively skip a single sparse pickup/lead-in measure.
 
     Phrase phase is not identifiable from every recording. We only move the
-    grid when measure one is mostly silence/unsupported harmony and the next
-    four measures are well covered. This catches a one-measure pickup without
-    guessing from ordinary harmonic repetition.
+    grid when measure one is mostly silence/unsupported harmony, or contains a
+    retained no-chord region, and the next four measures are well covered. This
+    catches a one-measure pickup without guessing from ordinary harmonic
+    repetition.
     """
     default = {
         "measure": 1,
@@ -542,11 +543,21 @@ def infer_phrase_start_measure(bars: list[BarAnalysis]) -> dict[str, Any]:
         return default
     first_coverage = supported_chord_coverage(bars[0])
     following = [supported_chord_coverage(bar) for bar in bars[1:5]]
-    if first_coverage <= 0.5 and min(following) >= 0.8:
+    first_sequence = bars[0].chord_sequence
+    no_chord_occupancy = sum(
+        chord.occupancy
+        for chord in first_sequence
+        if chord.label in {"N", "X", "NC", "None", ""}
+    )
+    has_no_chord_region = no_chord_occupancy > 0.0
+    if (first_coverage <= 0.5 or has_no_chord_region) and min(following) >= 0.8:
+        evidence = (
+            no_chord_occupancy if has_no_chord_region else 1.0 - first_coverage
+        )
         return {
             "measure": 2,
             "method": "sparse-leading-measure",
-            "confidence": min(1.0, statistics.fmean(following) - first_coverage),
+            "confidence": min(1.0, statistics.fmean(following) * evidence),
         }
     return default
 

@@ -43,7 +43,7 @@ small library).
 - [x] Refine the Real Music interface for mobile practice
 - [x] Add skip, first-chord anchoring, and chord-position playback controls
 - [x] Improve key-change detection with sustained harmonic segmentation
-- [x] Improve phrase detection for songs that begin with a pickup measure
+- [x] Detect sparse and partial pickup measures for phrase alignment
 - [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
 - [ ] Train a more accurate chord-detection model
 
@@ -163,10 +163,10 @@ tonality, model-agreement, export, and report behavior remains unchanged.
 
 Pickup measures and sustained modulations are inferred automatically from the
 agreed chord analysis. The pickup detector is deliberately conservative: it
-only shifts the phrase grid when the first measure is sparse and the following
-measures are structurally strong. Tonality segmentation requires a new region
-to persist for at least 12 measures, and windows crossing a detected change are
-excluded.
+only shifts the phrase grid when the first measure is sparse or contains a
+retained no-chord region, and the following measures are structurally strong.
+Tonality segmentation requires a new region to persist for at least 12
+measures, and windows crossing a detected change are excluded.
 
 For verified corrections to pickup numbering or modulation boundaries, add a
 tracked JSON sidecar under `scripts/recordings/song-metadata/` using the

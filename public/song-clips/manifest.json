@@ -1481,26 +1481,18 @@
       ]
     },
     {
-      "id": "blue-m005",
-      "file": "blue-m005.mp3",
+      "id": "blue-m002",
+      "file": "blue-m002.mp3",
       "title": "blue",
       "artist": "yung kai",
-      "startMeasure": 5,
-      "endMeasure": 8,
+      "startMeasure": 2,
+      "endMeasure": 5,
       "key": "E",
       "mode": "major",
       "bpm": 65.00181692496342,
-      "durationSec": 14.747532832035736,
+      "durationSec": 14.768817941015428,
       "chords": [
         {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
           "rootPc": 5,
           "quality": "maj"
         },
@@ -1523,17 +1515,25 @@
         {
           "rootPc": 7,
           "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
         }
       ],
       "cueTimesSec": [
         0.0,
-        1.8338095238095224,
-        3.6709193762741616,
-        5.523809523809524,
-        7.363809523809524,
-        9.263809523809522,
-        11.073809523809524,
-        12.883809523809523
+        1.8317080885507888,
+        3.6922044852538534,
+        5.5517080885507895,
+        7.384408970507721,
+        9.19170808855079,
+        11.076613455761574,
+        12.931708088550788
       ],
       "measureChordCounts": [
         2,
@@ -1543,30 +1543,18 @@
       ]
     },
     {
-      "id": "blue-m033",
-      "file": "blue-m033.mp3",
+      "id": "blue-m030",
+      "file": "blue-m030.mp3",
       "title": "blue",
       "artist": "yung kai",
-      "startMeasure": 33,
-      "endMeasure": 36,
+      "startMeasure": 30,
+      "endMeasure": 33,
       "key": "E",
       "mode": "major",
       "bpm": 65.00181692496342,
-      "durationSec": 14.730800369257096,
+      "durationSec": 14.741715258166735,
       "chords": [
         {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
           "rootPc": 5,
           "quality": "maj"
         },
@@ -1589,91 +1577,36 @@
         {
           "rootPc": 7,
           "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
         }
       ],
       "cueTimesSec": [
         0.0,
-        0.025351473922910372,
-        1.9253514739229018,
-        3.6541869134955363,
-        5.475351473922899,
-        7.3653514739229,
-        9.24535147392291,
-        11.038595884003243,
-        12.88535147392291
-      ],
-      "measureChordCounts": [
-        3,
-        2,
-        2,
-        2
-      ]
-    },
-    {
-      "id": "blue-m041",
-      "file": "blue-m041.mp3",
-      "title": "blue",
-      "artist": "yung kai",
-      "startMeasure": 41,
-      "endMeasure": 44,
-      "key": "E",
-      "mode": "major",
-      "bpm": 65.00181692496342,
-      "durationSec": 14.767483870335582,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        1.8443990929705478,
-        3.6908704145740217,
-        5.514399092970535,
-        7.383074899827875,
-        8.39439909297053,
-        9.204399092970533,
-        11.075279385081728,
-        12.854399092970539
+        1.842879818594099,
+        3.7028798185940985,
+        5.7028798185940985,
+        7.3573062876590285,
+        9.202879818594099,
+        11.049510772912882,
+        11.11287981859411,
+        13.0128798185941
       ],
       "measureChordCounts": [
         2,
         2,
-        3,
-        2
+        2,
+        3
       ]
     },
     {

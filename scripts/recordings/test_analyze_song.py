@@ -127,10 +127,37 @@ class AnalyzeSongTests(unittest.TestCase):
         self.assertEqual(inference["measure"], 2)
         self.assertEqual(inference["method"], "sparse-leading-measure")
 
+    def test_infers_first_measure_with_no_chord_region_despite_high_coverage(self):
+        bars = build_bars(
+            [float(i) for i in range(6)],
+            [
+                {"start_time": 0.0, "end_time": 0.8, "chord": "B:maj"},
+                {"start_time": 0.8, "end_time": 1.0, "chord": "N"},
+                {"start_time": 1.0, "end_time": 5.0, "chord": "E:maj"},
+            ],
+        )
+
+        inference = infer_phrase_start_measure(bars)
+
+        self.assertEqual(inference["measure"], 2)
+        self.assertEqual(inference["method"], "sparse-leading-measure")
+
     def test_keeps_first_measure_without_strong_pickup_evidence(self):
         bars = build_bars(
             [float(i) for i in range(6)],
             [{"start_time": 0.0, "end_time": 5.0, "chord": "C:maj"}],
+        )
+
+        self.assertEqual(infer_phrase_start_measure(bars)["measure"], 1)
+
+    def test_no_chord_region_still_requires_strong_following_measures(self):
+        bars = build_bars(
+            [float(i) for i in range(6)],
+            [
+                {"start_time": 0.0, "end_time": 0.8, "chord": "B:maj"},
+                {"start_time": 0.8, "end_time": 2.0, "chord": "N"},
+                {"start_time": 2.0, "end_time": 5.0, "chord": "E:maj"},
+            ],
         )
 
         self.assertEqual(infer_phrase_start_measure(bars)["measure"], 1)
