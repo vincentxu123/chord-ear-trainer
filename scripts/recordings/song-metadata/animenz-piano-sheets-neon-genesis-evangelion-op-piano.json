@@ -1,6 +1,13 @@
 {
   "artist": "Animenz Piano Sheets",
   "title": "Neon Genesis Evangelion OP [Piano]",
-  "notes": "Expressive rubato makes the automatic measure boundaries unreliable before measure 42. Publish only windows starting at measure 42 or later.",
-  "publishStartMeasure": 42
+  "notes": "The arrangement is in C minor. Expressive rubato makes the automatic measure boundaries unreliable before measure 42, so publish only windows starting at measure 42 or later.",
+  "publishStartMeasure": 42,
+  "tonalities": [
+    {
+      "startMeasure": 1,
+      "key": "C",
+      "mode": "minor"
+    }
+  ]
 }

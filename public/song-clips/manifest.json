@@ -7,37 +7,37 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 42,
       "endMeasure": 45,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.473296111010654,
       "chords": [
-        {
-          "rootPc": 4,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
         {
           "rootPc": 7,
           "quality": "maj"
         },
         {
           "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
           "quality": "min"
         },
         {
-          "rootPc": 2,
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
           "quality": "min"
         }
       ],
@@ -64,41 +64,41 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 46,
       "endMeasure": 49,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.524288405678504,
       "chords": [
         {
-          "rootPc": 7,
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 3,
           "quality": "maj"
         },
         {
           "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
           "quality": "maj"
         },
         {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
+          "rootPc": 3,
           "quality": "maj"
         },
         {
           "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
           "quality": "min"
         },
         {
-          "rootPc": 2,
+          "rootPc": 5,
           "quality": "min"
         }
       ],
@@ -126,41 +126,41 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 50,
       "endMeasure": 53,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.517230813725035,
       "chords": [
         {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
+          "rootPc": 10,
           "quality": "maj"
         },
         {
           "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
           "quality": "min"
         },
         {
-          "rootPc": 2,
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
           "quality": "min"
         }
       ],
@@ -188,26 +188,14 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 70,
       "endMeasure": 73,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.585867578114545,
       "chords": [
         {
-          "rootPc": 7,
+          "rootPc": 10,
           "quality": "maj"
-        },
-        {
-          "rootPc": 4,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
         },
         {
           "rootPc": 7,
@@ -215,14 +203,26 @@
         },
         {
           "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
           "quality": "min"
         },
         {
-          "rootPc": 2,
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
           "quality": "min"
         }
       ],
@@ -250,29 +250,29 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 82,
       "endMeasure": 85,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.585867578114545,
       "chords": [
         {
-          "rootPc": 5,
+          "rootPc": 8,
           "quality": "maj"
         },
         {
-          "rootPc": 7,
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 3,
           "quality": "maj"
         },
         {
           "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
           "quality": "min"
         },
         {
-          "rootPc": 11,
+          "rootPc": 2,
           "quality": "min"
         }
       ],
@@ -297,41 +297,41 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 126,
       "endMeasure": 129,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.585867578114545,
       "chords": [
         {
-          "rootPc": 9,
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
           "quality": "min"
         },
         {
           "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
           "quality": "min"
         },
         {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 7,
+          "rootPc": 10,
           "quality": "maj"
         },
         {
-          "rootPc": 0,
+          "rootPc": 3,
           "quality": "maj"
         }
       ],
@@ -359,33 +359,33 @@
       "artist": "Animenz Piano Sheets",
       "startMeasure": 130,
       "endMeasure": 133,
-      "key": "Eb",
-      "mode": "major",
+      "key": "C",
+      "mode": "minor",
       "bpm": 126.55111496668188,
       "durationSec": 7.585867578114545,
       "chords": [
         {
-          "rootPc": 9,
+          "rootPc": 0,
           "quality": "min"
         },
         {
-          "rootPc": 2,
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
           "quality": "min"
         },
         {
           "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 2,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
           "quality": "min"
         }
       ],
