@@ -611,6 +611,132 @@
       ]
     },
     {
+      "id": "あぶく-official-video-m045",
+      "file": "あぶく-official-video-m045.mp3",
+      "title": "あぶく（OFFICIAL VIDEO）",
+      "artist": "ヨルシカ",
+      "startMeasure": 45,
+      "endMeasure": 48,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 164.04996296077735,
+      "durationSec": 5.851875749764886,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.462968937441218,
+        3.0541432735956136,
+        4.388906812323654
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "あぶく-official-video-m089",
+      "file": "あぶく-official-video-m089.mp3",
+      "title": "あぶく（OFFICIAL VIDEO）",
+      "artist": "ヨルシカ",
+      "startMeasure": 89,
+      "endMeasure": 92,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 164.04996296077735,
+      "durationSec": 5.851875749764872,
+      "chords": [
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.462968937441218,
+        2.925937874882436,
+        4.443510026181912
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "あぶく-official-video-m141",
+      "file": "あぶく-official-video-m141.mp3",
+      "title": "あぶく（OFFICIAL VIDEO）",
+      "artist": "ヨルシカ",
+      "startMeasure": 141,
+      "endMeasure": 144,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 164.04996296077735,
+      "durationSec": 5.851875749764872,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.4629689374411896,
+        3.0291252792384284,
+        4.509125279238447
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
       "id": "jie-kou-m037",
       "file": "jie-kou-m037.mp3",
       "title": "借口 / Jie Kou",
