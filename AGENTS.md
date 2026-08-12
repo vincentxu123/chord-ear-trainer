@@ -30,8 +30,8 @@
   other songs. `npm run songs:export` rebuilds the entire exported library from
   all cached `.recordings/*/analysis.json` files, so use it only when that scope
   is intended.
-- Difficulty is derived by the app from unique chords: Easy is up to 3, Medium
-  is 4–5, and Hard is 6+. Do not add difficulty fields to the manifest.
+- Difficulty is derived by the app from unique chords: Beginner is up to 3 and
+  Advanced is 4+. Do not add difficulty fields to the manifest.
 - Run `npm test` and `npm run build` after processing. Commit only the intended
   `public/song-clips/*.mp3` files and `public/song-clips/manifest.json`.
 - Never commit `.recordings/`, `.venv-recordings/`, source recordings, model

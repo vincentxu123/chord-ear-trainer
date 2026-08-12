@@ -42,7 +42,7 @@ export interface SongExerciseDetails {
   startMeasure: number;
   endMeasure: number;
   measureChordCounts: number[];
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: 'beginner' | 'advanced';
   uniqueChordCount: number;
 }
 

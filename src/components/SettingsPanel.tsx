@@ -15,9 +15,8 @@ import {
 
 const SONG_DIFFICULTIES: { id: SongDifficulty; label: string }[] = [
   { id: 'all', label: 'All' },
-  { id: 'easy', label: 'Easy' },
-  { id: 'medium', label: 'Medium' },
-  { id: 'hard', label: 'Hard' },
+  { id: 'beginner', label: 'Beginner' },
+  { id: 'advanced', label: 'Advanced' },
 ];
 
 export function SettingsPanel() {
@@ -57,7 +56,7 @@ export function SettingsPanel() {
   const sources: { id: SoundSource; label: string; disabled?: boolean }[] = [
     { id: 'synth', label: 'Piano' },
     { id: 'clips', label: 'Generated', disabled: !clipsAvailable },
-    { id: 'songs', label: 'Jay Chou', disabled: !songsAvailable },
+    { id: 'songs', label: 'Real Music', disabled: !songsAvailable },
   ];
 
   return (
@@ -95,7 +94,7 @@ export function SettingsPanel() {
       {songMode && (
         <div>
           <span className="text-sm font-medium text-slate-300">Difficulty</span>
-          <div className="mt-2 grid grid-cols-4 gap-2">
+          <div className="mt-2 grid grid-cols-3 gap-2">
             {SONG_DIFFICULTIES.map(({ id, label }) => {
               const count = songEntries.filter((entry) =>
                 matchesSongDifficulty(entry.chords, id),
@@ -120,7 +119,7 @@ export function SettingsPanel() {
             })}
           </div>
           <p className="mt-1 text-xs text-slate-400">
-            Easy: up to 3 unique chords · Medium: 4–5 · Hard: 6+
+            Beginner: up to 3 unique chords · Advanced: 4+
           </p>
         </div>
       )}

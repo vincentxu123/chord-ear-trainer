@@ -1,6 +1,6 @@
 import type { Chord } from '../theory/types';
 
-export type SongDifficulty = 'all' | 'easy' | 'medium' | 'hard';
+export type SongDifficulty = 'all' | 'beginner' | 'advanced';
 export type RatedSongDifficulty = Exclude<SongDifficulty, 'all'>;
 
 export function countUniqueChords(chords: Chord[]): number {
@@ -9,9 +9,7 @@ export function countUniqueChords(chords: Chord[]): number {
 
 export function rateSongDifficulty(chords: Chord[]): RatedSongDifficulty {
   const uniqueChordCount = countUniqueChords(chords);
-  if (uniqueChordCount <= 3) return 'easy';
-  if (uniqueChordCount <= 5) return 'medium';
-  return 'hard';
+  return uniqueChordCount <= 3 ? 'beginner' : 'advanced';
 }
 
 export function matchesSongDifficulty(

@@ -110,7 +110,7 @@ export function Practice() {
             <span className="text-amber-200/70">
               {' '}· measures {exercise.song.startMeasure}–{exercise.song.endMeasure}
             </span>
-            <span className="text-amber-200/70">
+            <span className="capitalize text-amber-200/70">
               {' '}· {exercise.song.difficulty} · {exercise.song.uniqueChordCount} unique chords
             </span>
           </div>
