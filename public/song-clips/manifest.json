@@ -259,6 +259,291 @@
       ]
     },
     {
+      "id": "v-m001",
+      "file": "v-m001.mp3",
+      "title": "'무제(無題) (Untitled, 2014)' M/V",
+      "artist": "G-DRAGON",
+      "startMeasure": 1,
+      "endMeasure": 4,
+      "key": "E",
+      "mode": "major",
+      "bpm": 79.99691224643601,
+      "durationSec": 11.995503419626274,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.5422902494331066,
+        2.9951560339423082,
+        5.995271829170292,
+        7.582290249433107,
+        8.995387624398276
+      ],
+      "measureChordCounts": [
+        2,
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "v-m009",
+      "file": "v-m009.mp3",
+      "title": "'무제(無題) (Untitled, 2014)' M/V",
+      "artist": "G-DRAGON",
+      "startMeasure": 9,
+      "endMeasure": 12,
+      "key": "E",
+      "mode": "major",
+      "bpm": 79.99691224643601,
+      "durationSec": 11.952166742901422,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.4880272108843542,
+        2.951819357217456,
+        4.4380272108843535,
+        5.95193515244544,
+        7.498027210884356,
+        8.952050947673438,
+        10.448027210884351
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "v-m013",
+      "file": "v-m013.mp3",
+      "title": "'무제(無題) (Untitled, 2014)' M/V",
+      "artist": "G-DRAGON",
+      "startMeasure": 13,
+      "endMeasure": 16,
+      "key": "E",
+      "mode": "major",
+      "bpm": 79.99691224643601,
+      "durationSec": 12.000463180911957,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.5158604679829324,
+        3.000115795227991,
+        4.485860467982931,
+        6.0658604679829295,
+        7.5558604679829315,
+        9.000347385683966,
+        10.475860467982933
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "v-m045",
+      "file": "v-m045.mp3",
+      "title": "'무제(無題) (Untitled, 2014)' M/V",
+      "artist": "G-DRAGON",
+      "startMeasure": 45,
+      "endMeasure": 48,
+      "key": "E",
+      "mode": "major",
+      "bpm": 79.99691224643601,
+      "durationSec": 12.000463180911964,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 8,
+          "quality": "dim"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.000115795227998,
+        5.292155020687289,
+        6.000231590455968,
+        9.052155020687309
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "v-m061",
+      "file": "v-m061.mp3",
+      "title": "'무제(無題) (Untitled, 2014)' M/V",
+      "artist": "G-DRAGON",
+      "startMeasure": 61,
+      "endMeasure": 64,
+      "key": "E",
+      "mode": "major",
+      "bpm": 79.99691224643601,
+      "durationSec": 12.000463180911936,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.470302297039467,
+        3.0303022970394693,
+        4.490302297039477,
+        6.000231590455968,
+        7.490302297039477,
+        9.020302297039478,
+        10.510302297039459
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
       "id": "daisies-m009",
       "file": "daisies-m009.mp3",
       "title": "DAISIES",
@@ -607,6 +892,202 @@
         2,
         1,
         2,
+        2
+      ]
+    },
+    {
+      "id": "blue-m005",
+      "file": "blue-m005.mp3",
+      "title": "blue",
+      "artist": "yung kai",
+      "startMeasure": 5,
+      "endMeasure": 8,
+      "key": "E",
+      "mode": "major",
+      "bpm": 65.00181692496342,
+      "durationSec": 14.747532832035736,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8338095238095224,
+        3.6709193762741616,
+        5.523809523809524,
+        7.363809523809524,
+        9.263809523809522,
+        11.073809523809524,
+        12.883809523809523
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "blue-m033",
+      "file": "blue-m033.mp3",
+      "title": "blue",
+      "artist": "yung kai",
+      "startMeasure": 33,
+      "endMeasure": 36,
+      "key": "E",
+      "mode": "major",
+      "bpm": 65.00181692496342,
+      "durationSec": 14.730800369257096,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.025351473922910372,
+        1.9253514739229018,
+        3.6541869134955363,
+        5.475351473922899,
+        7.3653514739229,
+        9.24535147392291,
+        11.038595884003243,
+        12.88535147392291
+      ],
+      "measureChordCounts": [
+        3,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "blue-m041",
+      "file": "blue-m041.mp3",
+      "title": "blue",
+      "artist": "yung kai",
+      "startMeasure": 41,
+      "endMeasure": 44,
+      "key": "E",
+      "mode": "major",
+      "bpm": 65.00181692496342,
+      "durationSec": 14.767483870335582,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8443990929705478,
+        3.6908704145740217,
+        5.514399092970535,
+        7.383074899827875,
+        8.39439909297053,
+        9.204399092970533,
+        11.075279385081728,
+        12.854399092970539
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        3,
         2
       ]
     },
