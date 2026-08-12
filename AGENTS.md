@@ -6,6 +6,11 @@
   `README.md` and update it when the work adds, completes, removes, or changes
   the scope of a TODO.
 
+## Git workflow
+
+- Commit and push changes directly to `master` by default. Do not create or use
+  another branch unless the user explicitly requests one.
+
 ## UI design
 
 - Prefer simple, minimal interfaces whose controls and visual hierarchy make
