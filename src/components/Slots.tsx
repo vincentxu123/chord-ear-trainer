@@ -105,7 +105,7 @@ export function Slots() {
         ) : (
           <>
             <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
-            {exercise.song && answer && showAbsoluteChordNames && (
+            {answer && showAbsoluteChordNames && (
               <span className="block text-[10px] font-medium text-slate-400">
                 {toAbsoluteChord(answer, exercise.key)}
               </span>

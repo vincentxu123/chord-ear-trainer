@@ -1,4 +1,4 @@
-import { toRoman } from '../theory/chords';
+import { toAbsoluteChord, toRoman } from '../theory/chords';
 import { useSession } from '../store/session';
 import { useSettings } from '../store/settings';
 import { buildWrongAnswerIssueUrl } from '../reportIssue';
@@ -12,7 +12,11 @@ export function Feedback() {
 
   const perfect = result.correctCount === result.total;
   const solution = exercise.progression.chords
-    .map((c) => toRoman(c, exercise.mode))
+    .map((c) => {
+      const roman = toRoman(c, exercise.mode);
+      if (!showAbsoluteChordNames) return roman;
+      return `${roman} (${toAbsoluteChord(c, exercise.key)})`;
+    })
     .join(' – ');
 
   return (
@@ -22,9 +26,8 @@ export function Feedback() {
       </p>
       <p className="mt-1 text-sm text-slate-400">
         Solution: <span className="font-semibold text-slate-200">{solution}</span>
-        {(!exercise.song || showAbsoluteChordNames) && (
-          <> in {exercise.key} {exercise.mode}</>
-        )}
+        {' '}
+        in {exercise.key} {exercise.mode}
       </p>
       {!perfect && exercise.song && exercise.media && (
         <a

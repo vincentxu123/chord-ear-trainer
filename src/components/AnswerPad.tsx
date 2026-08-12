@@ -76,7 +76,7 @@ export function AnswerPad() {
               }`}
             >
               <span className="block">{toRoman(chord, mode)}</span>
-              {songMode && showAbsoluteChordNames && (
+              {showAbsoluteChordNames && (
                 <span className="mt-0.5 block text-[11px] font-medium opacity-70">
                   {toAbsoluteChord(chord, exercise.key)}
                 </span>

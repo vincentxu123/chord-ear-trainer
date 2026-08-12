@@ -109,19 +109,17 @@ export function SettingsPanel() {
         </div>
       )}
 
-      {songMode && (
-        <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-            <input
-              type="checkbox"
-              checked={showAbsoluteChordNames}
-              onChange={(event) => setShowAbsoluteChordNames(event.target.checked)}
-              className="h-4 w-4"
-            />
-            Show absolute chord names
-          </label>
-        </div>
-      )}
+      <div>
+        <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+          <input
+            type="checkbox"
+            checked={showAbsoluteChordNames}
+            onChange={(event) => setShowAbsoluteChordNames(event.target.checked)}
+            className="h-4 w-4"
+          />
+          Show absolute chord names
+        </label>
+      </div>
 
       <div className={mediaMode ? 'opacity-40' : ''}>
         <label className="flex justify-between text-sm font-medium text-slate-300">
