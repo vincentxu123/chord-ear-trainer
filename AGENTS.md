@@ -6,6 +6,13 @@
   `README.md` and update it when the work adds, completes, removes, or changes
   the scope of a TODO.
 
+## UI design
+
+- Prefer simple, minimal interfaces whose controls and visual hierarchy make
+  the next action clear without explanatory help text. Use familiar icons for
+  compact actions when their meaning remains clear, and always provide an
+  accessible label.
+
 ## Adding real-song exercises
 
 - Use the automated recording pipeline; do not hand-edit

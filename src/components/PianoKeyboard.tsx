@@ -14,6 +14,25 @@ const WHITE_H = 150;
 const BLACK_W = 26;
 const BLACK_H = 96;
 
+function KeyboardToggleIcon({ expanded }: { expanded: boolean }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="4" width="18" height="10" rx="2" />
+      <path d="M6 4v5m3-5v5m3-5v5m3-5v5m3-5v5M5.5 9v5m3-5v5m3-5v5m3-5v5m4-5v5" />
+      <path d={expanded ? 'm9 17 3 3 3-3' : 'm9 20 3-3 3 3'} />
+    </svg>
+  );
+}
+
 export function PianoKeyboard() {
   const [active, setActive] = useState<string | null>(null);
   const [visible, setVisible] = useState(true);
@@ -46,10 +65,12 @@ export function PianoKeyboard() {
         <button
           type="button"
           aria-expanded="false"
+          aria-label="Show piano keyboard"
+          title="Show piano keyboard"
           onClick={() => setVisible(true)}
-          className="rounded-full border border-slate-600 bg-slate-700 px-4 py-2 text-xs font-semibold text-slate-100 transition hover:bg-slate-600"
+          className="rounded-full border border-slate-600 bg-slate-700 p-2 text-slate-100 transition hover:bg-slate-600"
         >
-          Show keyboard
+          <KeyboardToggleIcon expanded={false} />
         </button>
       </div>
     );
@@ -57,21 +78,16 @@ export function PianoKeyboard() {
 
   return (
     <div className="sticky bottom-0 z-20 border-t border-slate-700 bg-slate-800/95 py-3 backdrop-blur">
-      <div className="relative mx-auto mb-2 flex max-w-4xl items-center justify-center px-3 text-center text-xs text-slate-400">
-        <span>
-          {active ? (
-            <span className="font-semibold text-sky-300">Playing {active}</span>
-          ) : (
-            'Click a key to hear a note'
-          )}
-        </span>
+      <div className="mx-auto mb-2 flex max-w-4xl justify-end px-3">
         <button
           type="button"
           aria-expanded="true"
+          aria-label="Hide piano keyboard"
+          title="Hide piano keyboard"
           onClick={() => setVisible(false)}
-          className="absolute right-3 rounded-full border border-slate-600 bg-slate-700 px-3 py-1 text-[10px] font-semibold text-slate-200 transition hover:bg-slate-600"
+          className="rounded-full border border-slate-600 bg-slate-700 p-2 text-slate-200 transition hover:bg-slate-600"
         >
-          Hide keyboard
+          <KeyboardToggleIcon expanded />
         </button>
       </div>
       <div className="overflow-x-auto pb-1">
