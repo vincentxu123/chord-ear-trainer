@@ -1,4 +1,6 @@
 {
+  "version": "5bcb903eb4e0",
+  "totalBytes": 4914751,
   "clips": [
     {
       "id": "neon-genesis-evangelion-op-piano-m042",
@@ -1758,90 +1760,6 @@
       ]
     },
     {
-      "id": "wo-bu-pei-m009",
-      "file": "wo-bu-pei-m009.mp3",
-      "title": "我不配 / Wo Bu Pei",
-      "artist": "周杰倫 / Jay Chou",
-      "startMeasure": 9,
-      "endMeasure": 12,
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108.00024391927974,
-      "durationSec": 8.883220414970395,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        2.2165688050153847,
-        4.532675736961451,
-        6.6610032116520586
-      ],
-      "measureChordCounts": [
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    {
-      "id": "wo-bu-pei-m017",
-      "file": "wo-bu-pei-m017.mp3",
-      "title": "我不配 / Wo Bu Pei",
-      "artist": "周杰倫 / Jay Chou",
-      "startMeasure": 17,
-      "endMeasure": 20,
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108.00024391927974,
-      "durationSec": 8.87447278074611,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        2.2078211707910995,
-        4.4361904761904825,
-        6.652255577427773
-      ],
-      "measureChordCounts": [
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    {
       "id": "wo-bu-pei-m025",
       "file": "wo-bu-pei-m025.mp3",
       "title": "我不配 / Wo Bu Pei",
@@ -1875,48 +1793,6 @@
         2.1990735365668144,
         4.421290739885151,
         6.643507943203488
-      ],
-      "measureChordCounts": [
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    {
-      "id": "wo-bu-pei-m065",
-      "file": "wo-bu-pei-m065.mp3",
-      "title": "我不配 / Wo Bu Pei",
-      "artist": "周杰倫 / Jay Chou",
-      "startMeasure": 65,
-      "endMeasure": 68,
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108.00024391927974,
-      "durationSec": 8.880036862021711,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        2.2133852520667006,
-        4.465328798185936,
-        6.657819658703374
       ],
       "measureChordCounts": [
         1,
@@ -1973,90 +1849,6 @@
       ]
     },
     {
-      "id": "wo-bu-pei-m073",
-      "file": "wo-bu-pei-m073.mp3",
-      "title": "我不配 / Wo Bu Pei",
-      "artist": "周杰倫 / Jay Chou",
-      "startMeasure": 73,
-      "endMeasure": 76,
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108.00024391927974,
-      "durationSec": 8.871289227797433,
-      "chords": [
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 4,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        2.2046376178424225,
-        4.4268548211607595,
-        6.649072024479096
-      ],
-      "measureChordCounts": [
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    {
-      "id": "wo-bu-pei-m081",
-      "file": "wo-bu-pei-m081.mp3",
-      "title": "我不配 / Wo Bu Pei",
-      "artist": "周杰倫 / Jay Chou",
-      "startMeasure": 81,
-      "endMeasure": 84,
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108.00024391927974,
-      "durationSec": 8.874151570897425,
-      "chords": [
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        },
-        {
-          "rootPc": 9,
-          "quality": "min"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        2.207499960942414,
-        4.453968253968242,
-        6.651934367579088
-      ],
-      "measureChordCounts": [
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    {
       "id": "wo-bu-pei-m085",
       "file": "wo-bu-pei-m085.mp3",
       "title": "我不配 / Wo Bu Pei",
@@ -2093,53 +1885,6 @@
       ],
       "measureChordCounts": [
         1,
-        1,
-        1,
-        1
-      ]
-    },
-    {
-      "id": "wo-bu-pei-m101",
-      "file": "wo-bu-pei-m101.mp3",
-      "title": "我不配 / Wo Bu Pei",
-      "artist": "周杰倫 / Jay Chou",
-      "startMeasure": 101,
-      "endMeasure": 104,
-      "key": "Bb",
-      "mode": "major",
-      "bpm": 108.00024391927974,
-      "durationSec": 8.863892462661,
-      "chords": [
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 5,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 7,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        },
-        {
-          "rootPc": 0,
-          "quality": "maj"
-        }
-      ],
-      "cueTimesSec": [
-        0.0,
-        0.4093650793650738,
-        2.1972408527059883,
-        4.419458056024325,
-        6.641675259342662
-      ],
-      "measureChordCounts": [
-        2,
         1,
         1,
         1
