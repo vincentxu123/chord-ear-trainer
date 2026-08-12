@@ -33,6 +33,7 @@ export function Practice() {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasPlayed, setHasPlayed] = useState(false);
   const [hintedExercise, setHintedExercise] = useState<typeof exercise>(null);
   const showChordHint = exercise !== null && hintedExercise === exercise;
 
@@ -65,10 +66,12 @@ export function Practice() {
   // Buffer the clip while the user is still looking at the fresh round.
   useEffect(() => {
     if (exercise?.media) clipPlayer.preload(exercise.media.url);
+    setHasPlayed(false);
   }, [exercise]);
 
   const handlePlay = async () => {
     if (!exercise) return;
+    setHasPlayed(true);
     setIsLoading(true);
     const callbacks = {
       onChord: setPlayingIndex,
@@ -99,6 +102,7 @@ export function Practice() {
     stopAll();
     setPlayingIndex(null);
     setIsPlaying(false);
+    setHasPlayed(false);
     newRound(useSettings.getState());
   };
 
@@ -140,6 +144,7 @@ export function Practice() {
           onNext={handleNext}
           isPlaying={isPlaying}
           isLoading={isLoading}
+          hasPlayed={hasPlayed}
         />
         <Feedback />
         <AnswerPad />

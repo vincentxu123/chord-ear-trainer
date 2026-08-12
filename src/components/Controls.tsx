@@ -7,6 +7,7 @@ interface ControlsProps {
   onNext: () => void;
   isPlaying: boolean;
   isLoading: boolean;
+  hasPlayed: boolean;
 }
 
 export function Controls({
@@ -16,13 +17,14 @@ export function Controls({
   onNext,
   isPlaying,
   isLoading,
+  hasPlayed,
 }: ControlsProps) {
   const phase = useSession((s) => s.phase);
   const answers = useSession((s) => s.answers);
   const submit = useSession((s) => s.submit);
   const allFilled = answers.length > 0 && answers.every((a) => a !== null);
 
-  let playLabel = phase === 'idle' ? 'Play' : 'Replay';
+  let playLabel = hasPlayed ? 'Replay' : 'Play';
   if (isLoading) playLabel = 'Loading…';
 
   return (
