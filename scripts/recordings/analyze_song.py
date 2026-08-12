@@ -35,6 +35,37 @@ KEY_NAMES = ("C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B")
 MAJOR_KEY_PROFILE = (6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88)
 MINOR_KEY_PROFILE = (6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17)
 
+# Chord-quality profiles used for structural key segmentation. Secondary
+# dominants get partial credit in major keys so common progressions such as
+# I-vi-II-V are not mislabeled as the relative minor merely because of V/vi.
+HARMONIC_KEY_PROFILES = {
+    "major": {
+        (0, "maj"): 1.0,
+        (2, "min"): 0.8,
+        (2, "maj"): 0.35,
+        (4, "min"): 0.7,
+        (4, "maj"): 0.45,
+        (5, "maj"): 0.9,
+        (7, "maj"): 1.0,
+        (9, "min"): 0.8,
+        (9, "maj"): 0.35,
+        (11, "dim"): 0.7,
+    },
+    "minor": {
+        (0, "min"): 1.0,
+        (2, "dim"): 0.7,
+        (3, "maj"): 0.9,
+        (5, "min"): 0.8,
+        (7, "maj"): 1.0,
+        (7, "min"): 0.5,
+        (8, "maj"): 0.9,
+        (10, "maj"): 0.7,
+    },
+}
+MIN_TONALITY_SEGMENT_BARS = 12
+MIN_TONALITY_GAIN_PER_BAR = 0.12
+TONALITY_BOUNDARY_LOOKAHEAD = 4
+
 
 @dataclass(frozen=True)
 class ChordVote:
@@ -484,6 +515,178 @@ def chord_root(label: str) -> int | None:
         .replace("♭", "B")
     )
     return NOTE_TO_PITCH_CLASS.get(root)
+
+
+def supported_chord_coverage(bar: BarAnalysis) -> float:
+    return sum(
+        chord.occupancy
+        for chord in bar.chord_sequence
+        if chord.family in SUPPORTED_FAMILIES
+    )
+
+
+def infer_phrase_start_measure(bars: list[BarAnalysis]) -> dict[str, Any]:
+    """Conservatively skip a single sparse pickup/lead-in measure.
+
+    Phrase phase is not identifiable from every recording. We only move the
+    grid when measure one is mostly silence/unsupported harmony and the next
+    four measures are well covered. This catches a one-measure pickup without
+    guessing from ordinary harmonic repetition.
+    """
+    default = {
+        "measure": 1,
+        "method": "default-first-measure",
+        "confidence": 0.0,
+    }
+    if len(bars) < 5:
+        return default
+    first_coverage = supported_chord_coverage(bars[0])
+    following = [supported_chord_coverage(bar) for bar in bars[1:5]]
+    if first_coverage <= 0.5 and min(following) >= 0.8:
+        return {
+            "measure": 2,
+            "method": "sparse-leading-measure",
+            "confidence": min(1.0, statistics.fmean(following) - first_coverage),
+        }
+    return default
+
+
+def _tonality_score(
+    bars: list[BarAnalysis], start: int, end: int, tonic: int, mode: str
+) -> tuple[float, float]:
+    score = 0.0
+    weight = 0.0
+    profile = HARMONIC_KEY_PROFILES[mode]
+    for bar in bars[start:end]:
+        for chord in bar.chord_sequence:
+            root = chord_root(chord.label)
+            if root is None or chord.family not in SUPPORTED_FAMILIES:
+                continue
+            score += chord.occupancy * profile.get(
+                ((root - tonic) % 12, chord.family), -0.7
+            )
+            weight += chord.occupancy
+    return score, weight
+
+
+def _best_harmonic_tonality(
+    bars: list[BarAnalysis], start: int, end: int
+) -> dict[str, Any]:
+    scored: list[tuple[float, float, int, str]] = []
+    for tonic in range(12):
+        for mode in HARMONIC_KEY_PROFILES:
+            score, weight = _tonality_score(bars, start, end, tonic, mode)
+            scored.append((score, weight, tonic, mode))
+    scored.sort(reverse=True)
+    score, weight, tonic, mode = scored[0]
+    runner_up = scored[1][0]
+    return {
+        "key": KEY_NAMES[tonic],
+        "mode": mode,
+        "score": score / max(weight, 1e-9),
+        "margin": (score - runner_up) / max(weight, 1e-9),
+        "rawScore": score,
+    }
+
+
+def _find_tonality_segments(
+    bars: list[BarAnalysis], start: int, end: int
+) -> list[tuple[int, int]]:
+    base = _best_harmonic_tonality(bars, start, end)
+    choices: list[tuple[float, int, dict[str, Any], dict[str, Any]]] = []
+    for split in range(
+        start + MIN_TONALITY_SEGMENT_BARS,
+        end - MIN_TONALITY_SEGMENT_BARS + 1,
+    ):
+        left = _best_harmonic_tonality(bars, start, split)
+        right = _best_harmonic_tonality(bars, split, end)
+        choices.append(
+            (
+                left["rawScore"] + right["rawScore"] - base["rawScore"],
+                split,
+                left,
+                right,
+            )
+        )
+    if not choices:
+        return [(start, end)]
+    gain, split, left, right = max(choices, key=lambda item: item[0])
+    same_tonality = (left["key"], left["mode"]) == (right["key"], right["mode"])
+    if same_tonality or gain / max(1, end - start) < MIN_TONALITY_GAIN_PER_BAR:
+        return [(start, end)]
+    return _find_tonality_segments(bars, start, split) + _find_tonality_segments(
+        bars, split, end
+    )
+
+
+def _refine_tonality_boundary(
+    bars: list[BarAnalysis],
+    rough: int,
+    previous: dict[str, Any],
+    following: dict[str, Any],
+) -> int:
+    previous_tonic = KEY_NAMES.index(previous["key"])
+    following_tonic = KEY_NAMES.index(following["key"])
+    start = max(1, rough - MIN_TONALITY_SEGMENT_BARS)
+    end = min(
+        len(bars) - TONALITY_BOUNDARY_LOOKAHEAD + 1,
+        rough + MIN_TONALITY_SEGMENT_BARS,
+    )
+    for boundary in range(start, end + 1):
+        window_end = boundary + TONALITY_BOUNDARY_LOOKAHEAD
+        new_score, new_weight = _tonality_score(
+            bars, boundary, window_end, following_tonic, following["mode"]
+        )
+        old_score, old_weight = _tonality_score(
+            bars, boundary, window_end, previous_tonic, previous["mode"]
+        )
+        new_fit = new_score / max(new_weight, 1e-9)
+        old_fit = old_score / max(old_weight, 1e-9)
+        boundary_new_score, boundary_new_weight = _tonality_score(
+            bars, boundary, boundary + 1, following_tonic, following["mode"]
+        )
+        boundary_old_score, boundary_old_weight = _tonality_score(
+            bars, boundary, boundary + 1, previous_tonic, previous["mode"]
+        )
+        boundary_new_fit = boundary_new_score / max(boundary_new_weight, 1e-9)
+        boundary_old_fit = boundary_old_score / max(boundary_old_weight, 1e-9)
+        if (
+            new_fit >= 0.75
+            and new_fit - old_fit >= 0.45
+            and boundary_new_fit - boundary_old_fit >= 0.2
+        ):
+            return boundary
+    return rough
+
+
+def infer_tonalities(bars: list[BarAnalysis]) -> list[dict[str, Any]]:
+    """Infer sustained key regions from duration-weighted chord sequences."""
+    if not bars:
+        return []
+    segments = _find_tonality_segments(bars, 0, len(bars))
+    tonalities = [_best_harmonic_tonality(bars, start, end) for start, end in segments]
+    boundaries = [0]
+    for index, (_, rough_end) in enumerate(segments[:-1]):
+        boundaries.append(
+            _refine_tonality_boundary(
+                bars, rough_end, tonalities[index], tonalities[index + 1]
+            )
+        )
+    boundaries.append(len(bars))
+
+    result: list[dict[str, Any]] = []
+    for index, (start, end) in enumerate(zip(boundaries, boundaries[1:])):
+        tonality = _best_harmonic_tonality(bars, start, end)
+        result.append(
+            {
+                "startMeasure": bars[start].index,
+                "key": tonality["key"],
+                "mode": tonality["mode"],
+                "score": tonality["score"],
+                "margin": tonality["margin"],
+            }
+        )
+    return result
 
 
 def analyze_bar(index: int, start: float, end: float, chords: Iterable[dict[str, Any]]) -> BarAnalysis:
@@ -1060,7 +1263,10 @@ def main() -> int:
         if song_metadata.get("artist") != args.artist or song_metadata.get("title") != title:
             raise SystemExit("Song metadata artist/title does not match the requested song")
     bars = build_ensemble_bars(normalized_downbeats, model_chords, chord_models[0])
-    phrase_start_measure = int((song_metadata or {}).get("phraseStartMeasure", 1))
+    automatic_phrase_start = infer_phrase_start_measure(bars)
+    phrase_start_measure = int(
+        (song_metadata or {}).get("phraseStartMeasure", automatic_phrase_start["measure"])
+    )
     all_candidates = build_candidates(bars, phrase_start_measure)
     candidates = (
         all_candidates
@@ -1068,7 +1274,7 @@ def main() -> int:
         else select_candidates(all_candidates, args.candidate_limit)
     )
     candidates = snap_playback_starts(candidates, detect_onsets(normalized))
-    tonality = (
+    chroma_tonality = (
         {
             "key": args.key,
             "mode": args.mode,
@@ -1079,6 +1285,26 @@ def main() -> int:
         if args.key and args.mode
         else estimate_tonality(normalized)
     )
+    automatic_tonalities = infer_tonalities(bars)
+    configured_tonalities = list((song_metadata or {}).get("tonalities", []))
+    if configured_tonalities:
+        tonalities = configured_tonalities
+        tonality_method = "song-metadata"
+    elif args.key and args.mode:
+        tonalities = [{"startMeasure": 1, "key": args.key, "mode": args.mode}]
+        tonality_method = "provided-override"
+    else:
+        tonalities = automatic_tonalities
+        tonality_method = "harmonic-segmentation"
+    first_tonality = tonalities[0] if tonalities else chroma_tonality
+    tonality = {
+        "key": first_tonality["key"],
+        "mode": first_tonality["mode"],
+        "method": tonality_method,
+        "score": first_tonality.get("score"),
+        "margin": first_tonality.get("margin"),
+        "chromaEstimate": chroma_tonality,
+    }
     source_hash = sha256_file(source)
     analysis = {
         "source": {"path": str(source), "sha256": source_hash, "artist": args.artist, "title": title},
@@ -1111,6 +1337,18 @@ def main() -> int:
         "chordModel": chord_models[0],
         "chordModels": chord_models,
         "tonality": tonality,
+        "tonalities": tonalities,
+        "structure": {
+            "phraseStartMeasure": phrase_start_measure,
+            "phraseStartMethod": (
+                "song-metadata"
+                if (song_metadata or {}).get("phraseStartMeasure") is not None
+                else automatic_phrase_start["method"]
+            ),
+            "phraseStartConfidence": automatic_phrase_start["confidence"],
+            "automaticPhraseStart": automatic_phrase_start,
+            "automaticTonalities": automatic_tonalities,
+        },
         "songMetadata": song_metadata,
         "bars": [asdict(bar) for bar in bars],
         "candidates": [asdict(candidate) for candidate in candidates],

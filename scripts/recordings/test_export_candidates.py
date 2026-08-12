@@ -91,8 +91,19 @@ class ExportCandidateTests(unittest.TestCase):
 
         self.assertFalse(candidate_is_included(self.analysis, self.candidate))
         self.assertIn(
-            "window crosses a configured tonality change",
+            "window crosses a tonality change",
             candidate_exclusion_reasons(self.analysis, self.candidate),
+        )
+
+    def test_uses_automatic_tonality_regions(self):
+        self.analysis["tonalities"] = [
+            {"startMeasure": 1, "key": "Eb", "mode": "major"},
+            {"startMeasure": 43, "key": "F", "mode": "major"},
+        ]
+
+        self.assertEqual(
+            tonality_for_measure(self.analysis, 43, {"key": "C", "mode": "minor"}),
+            {"key": "F", "mode": "major"},
         )
 
     def test_excludes_a_window_with_only_one_unique_chord(self):

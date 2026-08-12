@@ -32,8 +32,18 @@ small library).
 
 ## Project TODOs
 
-- [ ] Improve key-change detection
-- [ ] Improve phrase detection, including songs that begin with a pickup measure
+- [x] Build the core piano ear-training flow with randomized functional progressions
+- [x] Make chord selection uniform across the configured vocabulary
+- [x] Add the interactive on-screen piano keyboard
+- [x] Add generated full-band clip practice with strict offline quality control
+- [x] Add dual-model real-recording analysis and validated Real Music practice
+- [x] Automate real-song ingestion, publication, deduplication, and audit reports
+- [x] Add permitted single-video YouTube ingestion with source provenance
+- [x] Add real-song difficulty filters and relative-only chord display
+- [x] Refine the Real Music interface for mobile practice
+- [x] Add skip, first-chord anchoring, and chord-position playback controls
+- [x] Improve key-change detection with sustained harmonic segmentation
+- [x] Improve phrase detection for songs that begin with a pickup measure
 - [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
 - [ ] Train a more accurate chord-detection model
 
@@ -151,12 +161,21 @@ from its metadata, and records a `.source.json` provenance file. Pass `--artist`
 and `--title` to override imperfect YouTube metadata. All `songs:process`
 tonality, model-agreement, export, and report behavior remains unchanged.
 
-For known pickup numbering or modulations, add a tracked JSON sidecar under
-`scripts/recordings/song-metadata/` using the artist/title slug as its filename.
+Pickup measures and sustained modulations are inferred automatically from the
+agreed chord analysis. The pickup detector is deliberately conservative: it
+only shifts the phrase grid when the first measure is sparse and the following
+measures are structurally strong. Tonality segmentation requires a new region
+to persist for at least 12 measures, and windows crossing a detected change are
+excluded.
+
+For verified corrections to pickup numbering or modulation boundaries, add a
+tracked JSON sidecar under `scripts/recordings/song-metadata/` using the
+artist/title slug as its filename.
 The pipeline loads it automatically: `phraseStartMeasure` aligns the
 four-measure exercise grid after any pickup measures, and ordered `tonalities`
 entries set the key and mode from a given measure onward. Windows that cross a
-configured tonality change are excluded automatically.
+tonality change are excluded automatically. Sidecar values take precedence over
+automatic inference.
 
 Finally, run `npm test` and `npm run build`, then commit the changed files under
 `public/song-clips/`. Never commit `.recordings/`, `.venv-recordings/`, or the

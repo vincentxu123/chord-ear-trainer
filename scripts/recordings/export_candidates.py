@@ -78,7 +78,7 @@ def chord_to_relative(label: str, key: str) -> dict[str, Any]:
 def tonality_for_measure(
     analysis: dict[str, Any], measure: int, fallback: dict[str, str]
 ) -> dict[str, str]:
-    tonalities = (analysis.get("songMetadata") or {}).get("tonalities", [])
+    tonalities = analysis_tonalities(analysis)
     selected = fallback
     for tonality in sorted(tonalities, key=lambda item: int(item["startMeasure"])):
         if int(tonality["startMeasure"]) > measure:
@@ -91,6 +91,14 @@ def tonality_for_measure(
     if mode not in {"major", "minor"}:
         raise ValueError(f"Song metadata has unsupported mode: {mode!r}")
     return {"key": key, "mode": mode}
+
+
+def analysis_tonalities(analysis: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return effective regions, retaining compatibility with older analyses."""
+    return list(
+        analysis.get("tonalities")
+        or (analysis.get("songMetadata") or {}).get("tonalities", [])
+    )
 
 
 def candidate_chord_identities(candidate: dict[str, Any]) -> set[tuple[int, str]]:
@@ -111,12 +119,12 @@ def candidate_exclusion_reasons(
     reasons = list(candidate.get("reasons", []))
     start_measure = int(candidate["index"])
     end_measure = start_measure + len(candidate.get("bars", [])) - 1
-    tonality_changes = (analysis.get("songMetadata") or {}).get("tonalities", [])
+    tonality_changes = analysis_tonalities(analysis)
     if any(
         start_measure < int(tonality["startMeasure"]) <= end_measure
         for tonality in tonality_changes
     ):
-        reasons.append("window crosses a configured tonality change")
+        reasons.append("window crosses a tonality change")
     if len(candidate_chord_identities(candidate)) == 1:
         reasons.append("window contains only one unique chord")
     models = list(dict.fromkeys(analysis.get("chordModels", [])))
@@ -269,13 +277,14 @@ def publish_report_html(
     excluded_count = len(analysis.get("candidates", [])) - included_count
     preview_name = html.escape(str(analysis["audio"]["preview"]))
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    tonalities = (analysis.get("songMetadata") or {}).get("tonalities", [])
+    tonalities = analysis_tonalities(analysis)
     if tonalities:
         tonality_summary = " → ".join(
             f"{item['key']} {item['mode']} from measure {int(item['startMeasure'])}"
             for item in tonalities
         )
-        tonality_summary += " (song metadata)"
+        method = str(analysis.get("tonality", {}).get("method", "automatic"))
+        tonality_summary += f" ({method})"
     else:
         method = str(analysis.get("tonality", {}).get("method", "unknown"))
         tonality_summary = f"{metadata['key']} {metadata['mode']} ({method})"

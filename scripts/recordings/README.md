@@ -60,12 +60,18 @@ and the audit report. Key estimation uses an audio chromagram and standard key
 profiles. `--key F --mode major` remains available as an optional correction,
 not a required approval step.
 
-Song-specific musical facts that cannot be inferred reliably, such as pickup
-measure numbering or modulations, live in tracked JSON sidecars under
-`scripts/recordings/song-metadata/`. The pipeline automatically loads a sidecar
-whose filename matches the artist/title slug. `phraseStartMeasure` aligns the
-four-measure exercise grid after any pickup measures, while ordered `tonalities`
-entries assign key and mode from each `startMeasure` onward.
+The pipeline conservatively detects a sparse one-measure pickup and segments
+sustained harmonic key regions of at least 12 measures. Detected modulation
+boundaries are refined using the first four measures that strongly fit the new
+key, and crossing exercise windows are excluded automatically.
+
+Verified song-specific corrections to pickup measure numbering or modulations
+live in tracked JSON sidecars under `scripts/recordings/song-metadata/`. The
+pipeline automatically loads a sidecar whose filename matches the artist/title
+slug. `phraseStartMeasure` aligns the four-measure exercise grid after any
+pickup measures, while ordered `tonalities` entries assign key and mode from
+each `startMeasure` onward.
+Sidecar values override the corresponding automatic inference.
 
 ## Download and process one YouTube video
 

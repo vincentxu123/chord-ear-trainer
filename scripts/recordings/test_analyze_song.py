@@ -10,6 +10,8 @@ from analyze_song import (
     chord_family,
     chord_root,
     estimate_key_from_chroma,
+    infer_phrase_start_measure,
+    infer_tonalities,
     normalize_song_timing,
     select_song_timing,
     snap_playback_starts,
@@ -110,6 +112,47 @@ class AnalyzeSongTests(unittest.TestCase):
 
         self.assertEqual([candidate.index for candidate in candidates], [2, 6])
         self.assertEqual(candidates[0].bars[0].index, 2)
+
+    def test_infers_sparse_first_measure_as_pickup(self):
+        bars = build_bars(
+            [float(i) for i in range(6)],
+            [
+                {"start_time": 0.0, "end_time": 1.0, "chord": "N"},
+                {"start_time": 1.0, "end_time": 5.0, "chord": "C:maj"},
+            ],
+        )
+
+        inference = infer_phrase_start_measure(bars)
+
+        self.assertEqual(inference["measure"], 2)
+        self.assertEqual(inference["method"], "sparse-leading-measure")
+
+    def test_keeps_first_measure_without_strong_pickup_evidence(self):
+        bars = build_bars(
+            [float(i) for i in range(6)],
+            [{"start_time": 0.0, "end_time": 5.0, "chord": "C:maj"}],
+        )
+
+        self.assertEqual(infer_phrase_start_measure(bars)["measure"], 1)
+
+    def test_detects_sustained_modulation_and_exact_boundary(self):
+        first_progression = ["Eb:maj", "C:min", "F:min", "Bb:maj"] * 3
+        second_progression = ["F:maj", "D:min", "G:min", "C:maj"] * 3
+        labels = first_progression + second_progression
+        bars = build_bars(
+            [float(i) for i in range(len(labels) + 1)],
+            [
+                {"start_time": float(i), "end_time": float(i + 1), "chord": label}
+                for i, label in enumerate(labels)
+            ],
+        )
+
+        tonalities = infer_tonalities(bars)
+
+        self.assertEqual(
+            [(item["startMeasure"], item["key"], item["mode"]) for item in tonalities],
+            [(1, "Eb", "major"), (13, "F", "major")],
+        )
 
     def test_playback_cue_only_snaps_forward_to_nearby_onset(self):
         bars = build_bars(
