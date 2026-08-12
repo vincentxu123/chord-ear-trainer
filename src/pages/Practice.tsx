@@ -30,10 +30,10 @@ export function Practice() {
   const newRound = useSession((s) => s.newRound);
   const setPlayingIndex = useSession((s) => s.setPlayingIndex);
   const exercise = useSession((s) => s.exercise);
+  const activeSlot = useSession((s) => s.activeSlot);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasPlayed, setHasPlayed] = useState(false);
   const [hintedExercise, setHintedExercise] = useState<typeof exercise>(null);
   const showChordHint = exercise !== null && hintedExercise === exercise;
 
@@ -66,12 +66,10 @@ export function Practice() {
   // Buffer the clip while the user is still looking at the fresh round.
   useEffect(() => {
     if (exercise?.media) clipPlayer.preload(exercise.media.url);
-    setHasPlayed(false);
   }, [exercise]);
 
-  const handlePlay = async () => {
+  const handlePlay = async (startIndex: number) => {
     if (!exercise) return;
-    setHasPlayed(true);
     setIsLoading(true);
     const callbacks = {
       onChord: setPlayingIndex,
@@ -82,9 +80,14 @@ export function Practice() {
     };
     try {
       if (exercise.media) {
-        await clipPlayer.play(exercise, callbacks);
+        await clipPlayer.play(exercise, callbacks, startIndex);
       } else {
-        await synth.play(exercise, useSettings.getState().tempoBpm, callbacks);
+        await synth.play(
+          exercise,
+          useSettings.getState().tempoBpm,
+          callbacks,
+          startIndex,
+        );
       }
       setIsPlaying(true);
     } finally {
@@ -102,7 +105,6 @@ export function Practice() {
     stopAll();
     setPlayingIndex(null);
     setIsPlaying(false);
-    setHasPlayed(false);
     newRound(useSettings.getState());
   };
 
@@ -138,13 +140,12 @@ export function Practice() {
         )}
         <Slots />
         <Controls
-          onPlay={handlePlay}
+          onPlay={() => handlePlay(activeSlot)}
+          onReplay={() => handlePlay(0)}
           onStop={handleStop}
           onSkip={handleNext}
-          onNext={handleNext}
           isPlaying={isPlaying}
           isLoading={isLoading}
-          hasPlayed={hasPlayed}
         />
         <Feedback />
         <AnswerPad />

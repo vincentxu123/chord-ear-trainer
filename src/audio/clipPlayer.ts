@@ -30,22 +30,23 @@ export class ClipAudioSource {
     this.url = url;
   }
 
-  async play(exercise: Exercise, cb: PlayCallbacks = {}): Promise<void> {
+  async play(exercise: Exercise, cb: PlayCallbacks = {}, startIndex = 0): Promise<void> {
     const media = exercise.media;
     if (!media) throw new Error('Exercise has no media clip');
     this.preload(media.url);
     const audio = this.audio!;
     this.stopTracking();
-    audio.currentTime = 0;
 
     const { chords, beatsPerChord } = exercise.progression;
     const chordSec = beatsPerChord * (60 / media.bpm);
     const cueTimes = media.cueTimesSec;
+    const firstChord = Math.max(0, Math.min(startIndex, chords.length - 1));
+    audio.currentTime = cueTimes?.[firstChord] ?? firstChord * chordSec;
     const endSec = cueTimes
       ? media.durationSec
       : exactClipDurationSec(chords.length, beatsPerChord, media.bpm, PLAYBACK_PASSES);
     let last = -1;
-    let currentCue = 0;
+    let currentCue = firstChord;
     let finished = false;
 
     const finish = () => {

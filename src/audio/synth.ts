@@ -29,7 +29,12 @@ export class SynthAudioSource {
     this.ready = Tone.loaded();
   }
 
-  async play(exercise: Exercise, tempoBpm: number, cb: PlayCallbacks = {}): Promise<void> {
+  async play(
+    exercise: Exercise,
+    tempoBpm: number,
+    cb: PlayCallbacks = {},
+    startIndex = 0,
+  ): Promise<void> {
     await Tone.start(); // must be called from a user gesture
     await this.ready;
     this.stop();
@@ -44,17 +49,19 @@ export class SynthAudioSource {
     const ticksPerChord = beatsPerChord * transport.PPQ;
     const chordSeconds = beatsPerChord * (60 / tempoBpm);
 
-    chords.forEach((chord, i) => {
+    const firstChord = Math.max(0, Math.min(startIndex, chords.length - 1));
+    chords.slice(firstChord).forEach((chord, offset) => {
+      const i = firstChord + offset;
       const notes = chordToNotes(chord, exercise.key);
       transport.schedule((time) => {
         this.sampler.triggerAttackRelease(notes, chordSeconds * 0.95, time);
         if (cb.onChord) draw.schedule(() => cb.onChord!(i), time);
-      }, `${i * ticksPerChord}i`);
+      }, `${offset * ticksPerChord}i`);
     });
 
     transport.schedule((time) => {
       if (cb.onEnd) draw.schedule(() => cb.onEnd!(), time);
-    }, `${chords.length * ticksPerChord}i`);
+    }, `${(chords.length - firstChord) * ticksPerChord}i`);
 
     transport.start();
   }
