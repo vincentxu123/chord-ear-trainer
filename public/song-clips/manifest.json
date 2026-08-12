@@ -1,6 +1,321 @@
 {
   "clips": [
     {
+      "id": "i-think-they-call-this-love-m005",
+      "file": "i-think-they-call-this-love-m005.mp3",
+      "title": "I Think They Call This Love",
+      "artist": "Elliot James Reay",
+      "startMeasure": 5,
+      "endMeasure": 8,
+      "key": "F",
+      "mode": "minor",
+      "bpm": 69.99636172109739,
+      "durationSec": 13.682751288394108,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.672448979591838,
+        3.3965023706451873,
+        5.082448979591838,
+        6.825252009894832,
+        8.502448979591836,
+        10.254001649144477,
+        11.932448979591836
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "i-think-they-call-this-love-m017",
+      "file": "i-think-they-call-this-love-m017.mp3",
+      "title": "I Think They Call This Love",
+      "artist": "Elliot James Reay",
+      "startMeasure": 17,
+      "endMeasure": 20,
+      "key": "F",
+      "mode": "minor",
+      "bpm": 69.99636172109739,
+      "durationSec": 13.6819873222016,
+      "chords": [
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.6766893424036269,
+        3.395738404452665,
+        5.106689342403634,
+        6.82448804370231,
+        8.526689342403635,
+        10.253237682951955,
+        12.096689342403629
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "i-think-they-call-this-love-m021",
+      "file": "i-think-they-call-this-love-m021.mp3",
+      "title": "I Think They Call This Love",
+      "artist": "Elliot James Reay",
+      "startMeasure": 21,
+      "endMeasure": 24,
+      "key": "F",
+      "mode": "minor",
+      "bpm": 69.99636172109739,
+      "durationSec": 13.685602659245504,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.705306122448988,
+        3.425306122448987,
+        5.115306122448985,
+        6.828103380746228,
+        8.555306122448982,
+        10.256853019995873,
+        11.99530612244898
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "i-think-they-call-this-love-m033",
+      "file": "i-think-they-call-this-love-m033.mp3",
+      "title": "I Think They Call This Love",
+      "artist": "Elliot James Reay",
+      "startMeasure": 33,
+      "endMeasure": 36,
+      "key": "F",
+      "mode": "minor",
+      "bpm": 69.99636172109739,
+      "durationSec": 13.696448670377237,
+      "chords": [
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.6711564625850315,
+        3.4111564625850264,
+        5.131156462585025,
+        6.838949391877961,
+        8.521156462585026,
+        10.267699031127606,
+        12.00115646258503
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "i-think-they-call-this-love-m045",
+      "file": "i-think-they-call-this-love-m045.mp3",
+      "title": "I Think They Call This Love",
+      "artist": "Elliot James Reay",
+      "startMeasure": 45,
+      "endMeasure": 48,
+      "key": "F",
+      "mode": "minor",
+      "bpm": 69.99636172109739,
+      "durationSec": 13.672464749536175,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.692176870748284,
+        3.3921768707482727,
+        5.042176870748278,
+        6.814965471036913,
+        8.502176870748286,
+        10.243715110286558,
+        11.262176870748277,
+        11.932176870748293
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        3
+      ]
+    },
+    {
       "id": "jie-kou-m037",
       "file": "jie-kou-m037.mp3",
       "title": "借口 / Jie Kou",
