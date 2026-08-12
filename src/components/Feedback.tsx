@@ -1,7 +1,9 @@
 import { toRoman } from '../theory/chords';
 import { useSession } from '../store/session';
+import { useSettings } from '../store/settings';
 
 export function Feedback() {
+  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const result = useSession((s) => s.result);
   const exercise = useSession((s) => s.exercise);
   if (!result || !exercise) return null;
@@ -18,7 +20,9 @@ export function Feedback() {
       </p>
       <p className="mt-1 text-sm text-slate-400">
         Solution: <span className="font-semibold text-slate-200">{solution}</span>
-        {' '}in {exercise.key} {exercise.mode}
+        {(!exercise.song || showAbsoluteChordNames) && (
+          <> in {exercise.key} {exercise.mode}</>
+        )}
       </p>
     </div>
   );

@@ -1,7 +1,9 @@
 import { toAbsoluteChord, toRoman } from '../theory/chords';
 import { GIVEN_SLOT_COUNT, useSession } from '../store/session';
+import { useSettings } from '../store/settings';
 
 export function Slots() {
+  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const exercise = useSession((s) => s.exercise);
   const answers = useSession((s) => s.answers);
   const activeSlot = useSession((s) => s.activeSlot);
@@ -44,7 +46,7 @@ export function Slots() {
         } ${isGiven ? 'cursor-default' : ''}`}
       >
         <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
-        {exercise.song && answer && (
+        {exercise.song && answer && showAbsoluteChordNames && (
           <span className="block text-[10px] font-medium text-slate-400">
             {toAbsoluteChord(answer, exercise.key)}
           </span>

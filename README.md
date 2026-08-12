@@ -26,7 +26,7 @@ small library).
 - First chord pre-filled and locked as a listening anchor
 - Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
 - Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
-- Real Music mode: exact chord-change cues, measure-grouped answers, absolute chord labels, and Beginner/Advanced filtering
+- Real Music mode: exact chord-change cues, measure-grouped answers, optional absolute chord labels, and Beginner/Advanced filtering
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
 

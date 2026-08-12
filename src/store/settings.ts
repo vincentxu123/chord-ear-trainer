@@ -13,6 +13,7 @@ export interface PracticeSettings {
   includeDiminished: boolean; // add the diatonic diminished triad (vii° / ii°)
   randomizeKey: boolean;
   songDifficulty: SongDifficulty;
+  showAbsoluteChordNames: boolean;
 }
 
 export const TEMPO_MIN = 100;
@@ -30,6 +31,7 @@ interface SettingsStore extends PracticeSettings {
   setIncludeChromatic: (value: boolean) => void;
   setIncludeDiminished: (value: boolean) => void;
   setSongDifficulty: (difficulty: SongDifficulty) => void;
+  setShowAbsoluteChordNames: (value: boolean) => void;
 }
 
 export const useSettings = create<SettingsStore>((set) => ({
@@ -40,6 +42,7 @@ export const useSettings = create<SettingsStore>((set) => ({
   includeDiminished: false,
   randomizeKey: true,
   songDifficulty: 'all',
+  showAbsoluteChordNames: true,
   setSoundSource: (source) => set({ soundSource: source }),
   setTempo: (bpm) => set({ tempoBpm: clamp(Math.round(bpm), TEMPO_MIN, TEMPO_MAX) }),
   setLength: (length) => set({ progressionLength: clamp(length, LENGTH_MIN, LENGTH_MAX) }),
@@ -47,4 +50,5 @@ export const useSettings = create<SettingsStore>((set) => ({
   setIncludeChromatic: (value) => set({ includeChromatic: value }),
   setIncludeDiminished: (value) => set({ includeDiminished: value }),
   setSongDifficulty: (difficulty) => set({ songDifficulty: difficulty }),
+  setShowAbsoluteChordNames: (value) => set({ showAbsoluteChordNames: value }),
 }));

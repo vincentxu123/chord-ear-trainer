@@ -15,6 +15,7 @@ export function AnswerPad() {
   const soundSource = useSettings((s) => s.soundSource);
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
+  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const exercise = useSession((s) => s.exercise);
   const selectChord = useSession((s) => s.selectChord);
   const phase = useSession((s) => s.phase);
@@ -75,7 +76,7 @@ export function AnswerPad() {
               }`}
             >
               <span className="block">{toRoman(chord, mode)}</span>
-              {songMode && (
+              {songMode && showAbsoluteChordNames && (
                 <span className="mt-0.5 block text-[11px] font-medium opacity-70">
                   {toAbsoluteChord(chord, exercise.key)}
                 </span>

@@ -27,6 +27,7 @@ export function SettingsPanel() {
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const songDifficulty = useSettings((s) => s.songDifficulty);
+  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const setSoundSource = useSettings((s) => s.setSoundSource);
   const setTempo = useSettings((s) => s.setTempo);
   const setLength = useSettings((s) => s.setLength);
@@ -34,6 +35,7 @@ export function SettingsPanel() {
   const setIncludeChromatic = useSettings((s) => s.setIncludeChromatic);
   const setIncludeDiminished = useSettings((s) => s.setIncludeDiminished);
   const setSongDifficulty = useSettings((s) => s.setSongDifficulty);
+  const setShowAbsoluteChordNames = useSettings((s) => s.setShowAbsoluteChordNames);
   const clipStatus = useClips((s) => s.status);
   const clipCount = useClips((s) => s.entries.length);
   const songStatus = useSongs((s) => s.status);
@@ -120,6 +122,23 @@ export function SettingsPanel() {
           </div>
           <p className="mt-1 text-xs text-slate-400">
             Beginner: up to 3 unique chords · Advanced: 4+
+          </p>
+        </div>
+      )}
+
+      {songMode && (
+        <div>
+          <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+            <input
+              type="checkbox"
+              checked={showAbsoluteChordNames}
+              onChange={(event) => setShowAbsoluteChordNames(event.target.checked)}
+              className="h-4 w-4"
+            />
+            Show absolute chord names
+          </label>
+          <p className="mt-1 pl-6 text-xs text-slate-400">
+            Roman numerals always remain visible.
           </p>
         </div>
       )}
