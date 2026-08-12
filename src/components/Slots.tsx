@@ -22,6 +22,7 @@ export function Slots() {
     const isGiven = i < GIVEN_SLOT_COUNT;
     const isActive = i === activeSlot;
     const isPlaying = i === playingIndex;
+    const incorrectSlot = slot && !slot.correct ? slot : null;
 
     let tone = 'border-slate-600 bg-slate-800 text-slate-200';
     if (isGiven && phase !== 'revealed') {
@@ -37,6 +38,11 @@ export function Slots() {
         key={i}
         type="button"
         onClick={() => setActiveSlot(i)}
+        aria-label={
+          incorrectSlot && answer
+            ? `Your answer: ${toRoman(answer, mode)}, ${toAbsoluteChord(answer, exercise.key)}. Correct answer: ${toRoman(incorrectSlot.expected, mode)}, ${toAbsoluteChord(incorrectSlot.expected, exercise.key)}.`
+            : undefined
+        }
         className={`relative ${compact ? 'h-16 min-w-0 flex-1 text-lg sm:h-20 sm:w-16 sm:flex-none sm:text-xl' : 'h-24 w-20 text-2xl'} rounded-xl border-2 font-bold transition ${tone} ${
           isPlaying
             ? 'ring-4 ring-amber-400'
@@ -45,20 +51,36 @@ export function Slots() {
               : ''
         }`}
       >
-        <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
-        {exercise.song && answer && showAbsoluteChordNames && (
-          <span className="block text-[10px] font-medium text-slate-400">
-            {toAbsoluteChord(answer, exercise.key)}
+        {incorrectSlot && answer ? (
+          <span className="flex h-full flex-col justify-center px-1 py-1">
+            <span className="truncate text-[9px] font-medium text-red-200/75 line-through sm:text-[10px]">
+              {toRoman(answer, mode)} · {toAbsoluteChord(answer, exercise.key)}
+            </span>
+            <span className="mt-1 rounded-md bg-green-950/70 px-1 py-1 text-green-200 ring-1 ring-inset ring-green-400/40">
+              <span className="block text-[8px] font-semibold uppercase leading-none tracking-wide text-green-300/75 sm:text-[9px]">
+                Correct
+              </span>
+              <span className="mt-0.5 block text-base leading-none sm:text-lg">
+                {toRoman(incorrectSlot.expected, mode)}
+              </span>
+              <span className="mt-0.5 block text-[10px] font-semibold leading-none text-green-300 sm:text-xs">
+                {toAbsoluteChord(incorrectSlot.expected, exercise.key)}
+              </span>
+            </span>
           </span>
+        ) : (
+          <>
+            <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
+            {exercise.song && answer && showAbsoluteChordNames && (
+              <span className="block text-[10px] font-medium text-slate-400">
+                {toAbsoluteChord(answer, exercise.key)}
+              </span>
+            )}
+          </>
         )}
         {isGiven && phase === 'answering' && (
           <span className="mt-1 block text-[10px] font-medium uppercase tracking-wide text-slate-400">
             given
-          </span>
-        )}
-        {slot && !slot.correct && (
-          <span className="mt-1 block text-xs font-medium text-green-300">
-            {toRoman(slot.expected, mode)}
           </span>
         )}
         {phase === 'answering' && answer && !isGiven && (
