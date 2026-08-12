@@ -23,6 +23,13 @@ export function Slots() {
     const isActive = i === activeSlot;
     const isPlaying = i === playingIndex;
     const incorrectSlot = slot && !slot.correct ? slot : null;
+    const size = compact
+      ? incorrectSlot
+        ? 'h-24 min-w-0 flex-1 sm:h-28 sm:w-20 sm:flex-none'
+        : 'h-16 min-w-0 flex-1 sm:h-20 sm:w-16 sm:flex-none'
+      : incorrectSlot
+        ? 'h-32 w-24'
+        : 'h-24 w-20';
 
     let tone = 'border-slate-600 bg-slate-800 text-slate-200';
     if (isGiven && phase !== 'revealed') {
@@ -43,7 +50,7 @@ export function Slots() {
             ? `Your answer: ${toRoman(answer, mode)}, ${toAbsoluteChord(answer, exercise.key)}. Correct answer: ${toRoman(incorrectSlot.expected, mode)}, ${toAbsoluteChord(incorrectSlot.expected, exercise.key)}.`
             : undefined
         }
-        className={`relative ${compact ? 'h-16 min-w-0 flex-1 text-lg sm:h-20 sm:w-16 sm:flex-none sm:text-xl' : 'h-24 w-20 text-2xl'} rounded-xl border-2 font-bold transition ${tone} ${
+        className={`relative ${size} ${compact ? 'text-lg sm:text-xl' : 'text-2xl'} overflow-hidden rounded-xl border-2 font-bold transition ${tone} ${
           isPlaying
             ? 'ring-4 ring-amber-400'
             : isActive
@@ -52,15 +59,23 @@ export function Slots() {
         }`}
       >
         {incorrectSlot && answer ? (
-          <span className="flex h-full flex-col justify-center px-1 py-1">
-            <span className="truncate text-[9px] font-medium text-red-200/75 line-through sm:text-[10px]">
-              {toRoman(answer, mode)} · {toAbsoluteChord(answer, exercise.key)}
-            </span>
-            <span className="mt-1 rounded-md bg-green-950/70 px-1 py-1 text-green-200 ring-1 ring-inset ring-green-400/40">
-              <span className="block text-[8px] font-semibold uppercase leading-none tracking-wide text-green-300/75 sm:text-[9px]">
-                Correct
+          <span className="grid h-full grid-rows-2">
+            <span className="flex flex-col justify-center bg-red-950/35 px-1 py-1">
+              <span className="block text-[8px] font-semibold uppercase leading-none tracking-wide text-red-200/70 sm:text-[9px]">
+                Your answer
               </span>
-              <span className="mt-0.5 block text-base leading-none sm:text-lg">
+              <span className="mt-1 block text-base leading-none text-red-100 sm:text-lg">
+                {toRoman(answer, mode)}
+              </span>
+              <span className="mt-0.5 block text-[10px] font-semibold leading-none text-red-200 sm:text-xs">
+                {toAbsoluteChord(answer, exercise.key)}
+              </span>
+            </span>
+            <span className="flex flex-col justify-center border-t border-green-400/40 bg-green-950/70 px-1 py-1">
+              <span className="block text-[8px] font-semibold uppercase leading-none tracking-wide text-green-300/75 sm:text-[9px]">
+                Correct answer
+              </span>
+              <span className="mt-1 block text-base leading-none text-green-100 sm:text-lg">
                 {toRoman(incorrectSlot.expected, mode)}
               </span>
               <span className="mt-0.5 block text-[10px] font-semibold leading-none text-green-300 sm:text-xs">
