@@ -1,0 +1,4 @@
+# Optional second chord detector. The downloaded Hugging Face repository uses
+# custom inference code, so review/pin it before using this in unattended jobs.
+transformers>=4.55,<6
+huggingface-hub>=0.34,<2

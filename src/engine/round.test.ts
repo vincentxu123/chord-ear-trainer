@@ -10,6 +10,8 @@ const settings: PracticeSettings = {
   includeChromatic: false,
   includeDiminished: false,
   randomizeKey: true,
+  songDifficulty: 'all',
+  showAbsoluteChordNames: true,
 };
 
 describe('generateRound', () => {

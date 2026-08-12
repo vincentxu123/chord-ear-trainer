@@ -13,18 +13,20 @@ feedback.
 | Mode | What you hear |
 |------|----------------|
 | **Piano** | Progressions synthesized on the fly with a sampled piano (Tone.js). Unlimited variety; tempo, length, key, and chromatic options are adjustable. |
-| **Real music** | Short instrumental clips generated offline with AI (full-band texture over a known 4-chord loop). Tempo/length come from the recording. |
+| **Generated** | Short instrumental clips generated offline with AI (full-band texture over a known 4-chord loop). Tempo/length come from the recording. |
+| **Real Music** | Four-measure excerpts from real songs. Only rows where both timing/chord pipelines agree are exported. |
 
 Switch between them in the settings panel. Real music unlocks once
-`public/clips/manifest.json` has entries (this repo may already include a small
-library).
+`public/song-clips/manifest.json` has entries (this repo may already include a
+small library).
 
 ## Features
 
 - Relative / Roman-numeral answers, independent of absolute key
 - First chord pre-filled and locked as a listening anchor
 - Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
-- Real music mode: generated clips with Stop / Replay, slot highlights synced to the clip BPM
+- Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
+- Real Music mode: exact chord-change cues, measure-grouped answers, optional absolute chord labels, and Beginner/Advanced filtering
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
 
@@ -53,11 +55,82 @@ Open the local URL Vite prints. Click **Play**, fill the open slots from the
 answer pad, then **Submit**. Piano samples load from a CDN on first play (needs
 network once).
 
-### Optional: generate more Real music clips
+## Adding a real song
 
-Clip generation is offline and optional. It needs a Replicate API token and a
-small Python venv for QC. Full strategy, validation rules, and commands are in
-[ARCHITECTURE.md](./ARCHITECTURE.md).
+The recording pipeline is automatic: give it one local audio file and its
+metadata, and it analyzes the whole song, publishes every eligible
+four-measure excerpt, updates the web app manifest, and writes an audit report.
+There is no manual approval step. Only windows where both timing/chord
+pipelines pass the structural checks and both chord models agree on the full
+ordered chord sequence are added.
+
+### One-time setup
+
+Install **FFmpeg** and **Python 3.11+**, then create the local analysis
+environment from the repository root:
+
+```bash
+python3.11 -m venv .venv-recordings
+.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements.txt
+.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements-btc.txt
+.venv-recordings/bin/python -m pip install "setuptools<81" Cython
+.venv-recordings/bin/python -m pip install --no-build-isolation madmom==0.16.1
+```
+
+The first analysis downloads model weights and can take a while. On a
+compatible Apple Silicon Mac, `--device mps` can speed up inference.
+
+### Process and publish
+
+The source file can live anywhere outside the repository; pass its absolute
+path directly. Do not copy commercial source recordings into a tracked folder.
+
+```bash
+npm run songs:process -- \
+  --audio "/absolute/path/to/song.mp3" \
+  --artist "Jay Chou" \
+  --title "擱淺 / Ge Qian" \
+  --device mps
+```
+
+`--device` is optional and defaults to `cpu`. The command:
+
+1. runs Beat This and madmom to establish one fixed 4/4 measure grid;
+2. runs lv-chordia and BTC for chord recognition;
+3. estimates the key and mode;
+4. exports agreed four-measure windows to `public/song-clips/`;
+5. updates `public/song-clips/manifest.json`; and
+6. writes `.recordings/<song-slug>/publish-report.html` with every included and
+   excluded window and the reason for each exclusion.
+
+Open the report after processing for a human sanity check, but it does not
+control publication. The app automatically derives Beginner (up to 3 unique
+chords) or Advanced (4+) difficulty, so no difficulty metadata is needed.
+
+If the automatically estimated tonality is clearly wrong, rerun with both an
+explicit key and mode:
+
+```bash
+npm run songs:process -- \
+  --audio "/absolute/path/to/song.mp3" \
+  --artist "Jay Chou" \
+  --title "擱淺 / Ge Qian" \
+  --key F \
+  --mode major \
+  --reuse-analysis
+```
+
+`--reuse-analysis` reuses cached model output while rebuilding timing
+normalization, tonality, eligibility, exports, and the report. Reprocessing the
+same artist/title replaces that song's existing manifest entries without
+removing other songs.
+
+Finally, run `npm test` and `npm run build`, then commit the changed files under
+`public/song-clips/`. Never commit `.recordings/`, `.venv-recordings/`, or the
+source recording. For deeper diagnostics and cache/export commands, see
+[scripts/recordings/README.md](./scripts/recordings/README.md). The analysis
+pipeline is suitable for private research, but publishing audio requires the
+necessary distribution rights.
 
 ## Scripts
 
@@ -70,6 +143,8 @@ small Python venv for QC. Full strategy, validation rules, and commands are in
 | `npm run typecheck` | Type-check only |
 | `npm run clips:generate` | Offline: generate + QC clips into `public/clips/` |
 | `npm run clips:qc` | Offline: re-validate the existing clip library |
+| `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report |
+| `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 
 ## Project structure
 
@@ -87,7 +162,12 @@ scripts/
   qcClips.py         lv-chordia label validation
   renumberClips.ts   Sequential clip IDs after curation
 public/clips/        MP3 library + manifest.json (curated, ~60 clips)
+public/song-clips/   Eligible real-song excerpts + exact cue manifest
 ```
+
+The commercial-recording pipeline is intended for private research and review.
+Do not deploy its audio publicly unless you have the necessary distribution
+rights; the analysis code works independently of the bundled examples.
 
 Theory and engine layers are pure (no audio/DOM) and covered by unit tests.
 Deeper notes on how Real music clips are produced and validated live in

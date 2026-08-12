@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { chordToNotes, randomKey, KEYS } from './voicing';
 import {
   toRoman,
+  toAbsoluteChord,
   chordsEqual,
   DIATONIC_MAJOR,
   DIATONIC_MINOR,
@@ -40,6 +41,24 @@ describe('toRoman', () => {
   it('labels diminished triads with a degree symbol', () => {
     expect(toRoman({ rootPc: 11, quality: 'dim' }, 'major')).toBe('vii°');
     expect(toRoman({ rootPc: 2, quality: 'dim' }, 'minor')).toBe('ii°');
+  });
+});
+
+describe('toAbsoluteChord', () => {
+  it('spells diatonic chord roots with the key-appropriate letter', () => {
+    expect(toAbsoluteChord({ rootPc: 5, quality: 'maj' }, 'F')).toBe('Bb');
+    expect(toAbsoluteChord({ rootPc: 5, quality: 'maj' }, 'B')).toBe('E');
+    expect(toAbsoluteChord({ rootPc: 5, quality: 'maj' }, 'Gb')).toBe('Cb');
+  });
+
+  it('spells chromatic roots by scale degree instead of a global accidental preference', () => {
+    expect(toAbsoluteChord({ rootPc: 3, quality: 'maj' }, 'C')).toBe('Eb');
+    expect(toAbsoluteChord({ rootPc: 6, quality: 'dim' }, 'D')).toBe('G#°');
+    expect(toAbsoluteChord({ rootPc: 8, quality: 'min' }, 'F')).toBe('Dbm');
+  });
+
+  it('returns a placeholder for invalid keys', () => {
+    expect(toAbsoluteChord({ rootPc: 0, quality: 'maj' }, 'nope')).toBe('?');
   });
 });
 

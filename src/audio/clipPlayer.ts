@@ -40,8 +40,12 @@ export class ClipAudioSource {
 
     const { chords, beatsPerChord } = exercise.progression;
     const chordSec = beatsPerChord * (60 / media.bpm);
-    const endSec = exactClipDurationSec(chords.length, beatsPerChord, media.bpm, PLAYBACK_PASSES);
+    const cueTimes = media.cueTimesSec;
+    const endSec = cueTimes
+      ? media.durationSec
+      : exactClipDurationSec(chords.length, beatsPerChord, media.bpm, PLAYBACK_PASSES);
     let last = -1;
+    let currentCue = 0;
     let finished = false;
 
     const finish = () => {
@@ -57,7 +61,14 @@ export class ClipAudioSource {
         finish();
         return;
       }
-      const index = Math.floor(audio.currentTime / chordSec) % chords.length;
+      while (
+        cueTimes &&
+        currentCue + 1 < cueTimes.length &&
+        cueTimes[currentCue + 1]! <= audio.currentTime
+      ) {
+        currentCue += 1;
+      }
+      const index = cueTimes ? currentCue : Math.floor(audio.currentTime / chordSec) % chords.length;
       if (index !== last) {
         last = index;
         cb.onChord?.(index);

@@ -16,6 +16,7 @@ const BLACK_H = 96;
 
 export function PianoKeyboard() {
   const [active, setActive] = useState<string | null>(null);
+  const [visible, setVisible] = useState(true);
 
   const press = (note: string) => {
     setActive(note);
@@ -39,14 +40,39 @@ export function PianoKeyboard() {
     </button>
   );
 
+  if (!visible) {
+    return (
+      <div className="sticky bottom-0 z-20 flex justify-center border-t border-slate-700 bg-slate-800/95 px-3 py-2 backdrop-blur">
+        <button
+          type="button"
+          aria-expanded="false"
+          onClick={() => setVisible(true)}
+          className="rounded-full border border-slate-600 bg-slate-700 px-4 py-2 text-xs font-semibold text-slate-100 transition hover:bg-slate-600"
+        >
+          Show keyboard
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="sticky bottom-0 border-t border-slate-700 bg-slate-800/95 py-3 backdrop-blur">
-      <div className="mb-2 text-center text-xs text-slate-400">
-        {active ? (
-          <span className="font-semibold text-sky-300">Playing {active}</span>
-        ) : (
-          'Click a key to hear a note'
-        )}
+    <div className="sticky bottom-0 z-20 border-t border-slate-700 bg-slate-800/95 py-3 backdrop-blur">
+      <div className="relative mx-auto mb-2 flex max-w-4xl items-center justify-center px-3 text-center text-xs text-slate-400">
+        <span>
+          {active ? (
+            <span className="font-semibold text-sky-300">Playing {active}</span>
+          ) : (
+            'Click a key to hear a note'
+          )}
+        </span>
+        <button
+          type="button"
+          aria-expanded="true"
+          onClick={() => setVisible(false)}
+          className="absolute right-3 rounded-full border border-slate-600 bg-slate-700 px-3 py-1 text-[10px] font-semibold text-slate-200 transition hover:bg-slate-600"
+        >
+          Hide keyboard
+        </button>
       </div>
       <div className="overflow-x-auto pb-1">
         <div className="mx-auto flex w-fit">

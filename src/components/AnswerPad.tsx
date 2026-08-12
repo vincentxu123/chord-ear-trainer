@@ -1,4 +1,11 @@
-import { chordPool, isChromatic, toRoman } from '../theory/chords';
+import {
+  chordKey,
+  chordPool,
+  isChromatic,
+  sortChordsForDisplay,
+  toAbsoluteChord,
+  toRoman,
+} from '../theory/chords';
 import { synth } from '../audio/synth';
 import { useSettings } from '../store/settings';
 import { useSession } from '../store/session';
@@ -8,20 +15,30 @@ export function AnswerPad() {
   const soundSource = useSettings((s) => s.soundSource);
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
+  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const exercise = useSession((s) => s.exercise);
   const selectChord = useSession((s) => s.selectChord);
   const phase = useSession((s) => s.phase);
 
   if (!exercise) return null;
 
-  // Clip library is diatonic-only for now; ignore leftover piano-mode toggles.
+  // Generated clips are diatonic. Real-song excerpts always show the full
+  // chromatic pool so an amber choice does not reveal that it is in the answer;
+  // any unusual solution chord outside that shared pool is still merged below.
   const clipMode = soundSource === 'clips';
+  const songMode = soundSource === 'songs';
   const mode = exercise.mode;
-  const chords = chordPool(
+  const baseChords = chordPool(
     mode,
-    clipMode ? false : includeChromatic,
-    clipMode ? false : includeDiminished,
+    songMode ? true : clipMode ? false : includeChromatic,
+    clipMode || songMode ? false : includeDiminished,
   );
+  const chords = songMode
+    ? sortChordsForDisplay(
+        [...new Map([...baseChords, ...exercise.progression.chords].map((chord) => [chordKey(chord), chord])).values()],
+        mode,
+      )
+    : baseChords;
 
   const handleClick = (chord: Chord) => {
     if (phase === 'answering') selectChord(chord);
@@ -34,7 +51,7 @@ export function AnswerPad() {
         {phase === 'revealed'
           ? 'Click any chord to hear it and compare with the solution.'
           : 'Pick a chord for the selected slot.'}
-        {includeChromatic && (
+        {(includeChromatic || songMode) && (
           <>
             {' '}
             <span className="ml-2 inline-block rounded border border-amber-500/70 bg-amber-950/70 px-2 py-0.5 text-amber-100">
@@ -58,7 +75,12 @@ export function AnswerPad() {
                   : 'bg-slate-700 text-white hover:bg-slate-600'
               }`}
             >
-              {toRoman(chord, mode)}
+              <span className="block">{toRoman(chord, mode)}</span>
+              {songMode && showAbsoluteChordNames && (
+                <span className="mt-0.5 block text-[11px] font-medium opacity-70">
+                  {toAbsoluteChord(chord, exercise.key)}
+                </span>
+              )}
             </button>
           );
         })}

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Chord, Exercise } from '../theory/types';
 import { generateRound, scoreAttempt, type AttemptResult } from '../engine/round';
 import { pickClipExercise } from './clips';
+import { pickSongExercise } from './songs';
 import type { PracticeSettings } from './settings';
 
 export type Phase = 'idle' | 'answering' | 'revealed';
@@ -36,8 +37,13 @@ export const useSession = create<SessionStore>((set, get) => ({
   newRound: (settings) => {
     // Clip mode falls back to synth generation while the library is missing
     // or still loading.
-    const exercise =
-      (settings.soundSource === 'clips' ? pickClipExercise() : null) ?? generateRound(settings);
+    const mediaExercise =
+      settings.soundSource === 'clips'
+        ? pickClipExercise()
+        : settings.soundSource === 'songs'
+          ? pickSongExercise(settings.songDifficulty)
+          : null;
+    const exercise = mediaExercise ?? generateRound(settings);
     const chords = exercise.progression.chords;
     const answers: (Chord | null)[] = chords.map((chord, i) =>
       i < GIVEN_SLOT_COUNT ? chord : null,
