@@ -48,11 +48,10 @@ export const useSession = create<SessionStore>((set, get) => ({
     const answers: (Chord | null)[] = chords.map((chord, i) =>
       i < GIVEN_SLOT_COUNT ? chord : null,
     );
-    const firstEmpty = answers.findIndex((a) => a === null);
     set({
       exercise,
       answers,
-      activeSlot: firstEmpty === -1 ? 0 : firstEmpty,
+      activeSlot: 0,
       result: null,
       phase: 'answering',
       playingIndex: null,
@@ -60,17 +59,23 @@ export const useSession = create<SessionStore>((set, get) => ({
   },
 
   setActiveSlot: (slot) => {
-    if (slot < GIVEN_SLOT_COUNT) return;
+    const chordCount = get().exercise?.progression.chords.length ?? 0;
+    if (slot < 0 || slot >= chordCount) return;
     set({ activeSlot: slot });
   },
 
   selectChord: (chord) => {
     const { phase, answers, activeSlot } = get();
-    if (phase !== 'answering' || activeSlot < GIVEN_SLOT_COUNT) return;
+    if (phase !== 'answering') return;
+    const targetSlot =
+      activeSlot < GIVEN_SLOT_COUNT
+        ? answers.findIndex((answer) => answer === null)
+        : activeSlot;
+    if (targetSlot === -1) return;
     const next = [...answers];
-    next[activeSlot] = chord;
+    next[targetSlot] = chord;
     const nextEmpty = next.findIndex((a) => a === null);
-    set({ answers: next, activeSlot: nextEmpty === -1 ? activeSlot : nextEmpty });
+    set({ answers: next, activeSlot: nextEmpty === -1 ? targetSlot : nextEmpty });
   },
 
   clearSlot: (slot) => {

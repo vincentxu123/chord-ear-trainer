@@ -20,7 +20,7 @@ export function Slots() {
     const answer = answers[i];
     const slot = result?.perSlot[i];
     const isGiven = i < GIVEN_SLOT_COUNT;
-    const isActive = phase === 'answering' && !isGiven && i === activeSlot;
+    const isActive = i === activeSlot;
     const isPlaying = i === playingIndex;
 
     let tone = 'border-slate-600 bg-slate-800 text-slate-200';
@@ -30,20 +30,20 @@ export function Slots() {
       tone = slot.correct
         ? 'border-green-500 bg-green-900/40 text-green-200'
         : 'border-red-500 bg-red-900/40 text-red-200';
-    } else if (isActive) {
-      tone = 'border-sky-400 bg-slate-800 text-white';
     }
 
     return (
       <button
         key={i}
-        onClick={() => {
-          if (!isGiven) setActiveSlot(i);
-        }}
-        disabled={phase !== 'answering' || isGiven}
+        type="button"
+        onClick={() => setActiveSlot(i)}
         className={`relative ${compact ? 'h-16 min-w-0 flex-1 text-lg sm:h-20 sm:w-16 sm:flex-none sm:text-xl' : 'h-24 w-20 text-2xl'} rounded-xl border-2 font-bold transition ${tone} ${
-          isPlaying ? 'ring-4 ring-amber-400' : ''
-        } ${isGiven ? 'cursor-default' : ''}`}
+          isPlaying
+            ? 'ring-4 ring-amber-400'
+            : isActive
+              ? 'ring-4 ring-sky-400'
+              : ''
+        }`}
       >
         <span className="block">{answer ? toRoman(answer, mode) : '·'}</span>
         {exercise.song && answer && showAbsoluteChordNames && (
