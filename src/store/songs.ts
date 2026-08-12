@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import type { Exercise } from '../theory/types';
 import { songClipToExercise } from '../songs/exercise';
+import { matchesSongDifficulty, type SongDifficulty } from '../songs/difficulty';
 import type { SongClipManifest, SongClipManifestEntry } from '../songs/types';
 
 export type SongLibraryStatus = 'idle' | 'loading' | 'ready' | 'unavailable';
@@ -35,10 +36,16 @@ export const useSongs = create<SongStore>((set, get) => ({
 
 let lastSongClipId: string | null = null;
 
-export function pickSongExercise(): Exercise | null {
+export function pickSongExercise(difficulty: SongDifficulty = 'all'): Exercise | null {
   const { entries } = useSongs.getState();
-  if (!entries.length) return null;
-  const pool = entries.length > 1 ? entries.filter((entry) => entry.id !== lastSongClipId) : entries;
+  const matchingEntries = entries.filter((entry) =>
+    matchesSongDifficulty(entry.chords, difficulty),
+  );
+  if (!matchingEntries.length) return null;
+  const pool =
+    matchingEntries.length > 1
+      ? matchingEntries.filter((entry) => entry.id !== lastSongClipId)
+      : matchingEntries;
   const entry = pool[Math.floor(Math.random() * pool.length)]!;
   lastSongClipId = entry.id;
   return songClipToExercise(entry, SONGS_BASE);

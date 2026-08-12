@@ -41,7 +41,7 @@ export const useSession = create<SessionStore>((set, get) => ({
       settings.soundSource === 'clips'
         ? pickClipExercise()
         : settings.soundSource === 'songs'
-          ? pickSongExercise()
+          ? pickSongExercise(settings.songDifficulty)
           : null;
     const exercise = mediaExercise ?? generateRound(settings);
     const chords = exercise.progression.chords;

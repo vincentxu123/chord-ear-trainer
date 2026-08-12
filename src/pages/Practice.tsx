@@ -22,6 +22,7 @@ export function Practice() {
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const soundSource = useSettings((s) => s.soundSource);
+  const songDifficulty = useSettings((s) => s.songDifficulty);
   const clipStatus = useClips((s) => s.status);
   const loadClips = useClips((s) => s.load);
   const songStatus = useSongs((s) => s.status);
@@ -54,6 +55,7 @@ export function Practice() {
     includeChromatic,
     includeDiminished,
     soundSource,
+    songDifficulty,
     mediaReadiness,
     newRound,
   ]);
@@ -107,6 +109,9 @@ export function Practice() {
             <span className="text-amber-200/70"> · {exercise.song.artist}</span>
             <span className="text-amber-200/70">
               {' '}· measures {exercise.song.startMeasure}–{exercise.song.endMeasure}
+            </span>
+            <span className="text-amber-200/70">
+              {' '}· {exercise.song.difficulty} · {exercise.song.uniqueChordCount} unique chords
             </span>
           </div>
         )}

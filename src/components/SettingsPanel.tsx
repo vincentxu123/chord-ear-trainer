@@ -8,6 +8,17 @@ import {
 } from '../store/settings';
 import { useClips } from '../store/clips';
 import { useSongs } from '../store/songs';
+import {
+  matchesSongDifficulty,
+  type SongDifficulty,
+} from '../songs/difficulty';
+
+const SONG_DIFFICULTIES: { id: SongDifficulty; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'easy', label: 'Easy' },
+  { id: 'medium', label: 'Medium' },
+  { id: 'hard', label: 'Hard' },
+];
 
 export function SettingsPanel() {
   const soundSource = useSettings((s) => s.soundSource);
@@ -16,22 +27,27 @@ export function SettingsPanel() {
   const randomizeKey = useSettings((s) => s.randomizeKey);
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
+  const songDifficulty = useSettings((s) => s.songDifficulty);
   const setSoundSource = useSettings((s) => s.setSoundSource);
   const setTempo = useSettings((s) => s.setTempo);
   const setLength = useSettings((s) => s.setLength);
   const setRandomizeKey = useSettings((s) => s.setRandomizeKey);
   const setIncludeChromatic = useSettings((s) => s.setIncludeChromatic);
   const setIncludeDiminished = useSettings((s) => s.setIncludeDiminished);
+  const setSongDifficulty = useSettings((s) => s.setSongDifficulty);
   const clipStatus = useClips((s) => s.status);
   const clipCount = useClips((s) => s.entries.length);
   const songStatus = useSongs((s) => s.status);
-  const songCount = useSongs((s) => s.entries.length);
+  const songEntries = useSongs((s) => s.entries);
 
   const clipMode = soundSource === 'clips';
   const songMode = soundSource === 'songs';
   const mediaMode = clipMode || songMode;
   const clipsAvailable = clipStatus === 'ready';
   const songsAvailable = songStatus === 'ready';
+  const matchingSongCount = songEntries.filter((entry) =>
+    matchesSongDifficulty(entry.chords, songDifficulty),
+  ).length;
 
   const lengths = Array.from(
     { length: LENGTH_MAX - LENGTH_MIN + 1 },
@@ -71,10 +87,43 @@ export function SettingsPanel() {
         )}
         {songMode && (
           <p className="mt-1 text-xs text-slate-400">
-            Playing from {songCount} validated four-measure excerpt{songCount === 1 ? '' : 's'}.
+            Playing from {matchingSongCount} of {songEntries.length} validated four-measure excerpts.
           </p>
         )}
       </div>
+
+      {songMode && (
+        <div>
+          <span className="text-sm font-medium text-slate-300">Difficulty</span>
+          <div className="mt-2 grid grid-cols-4 gap-2">
+            {SONG_DIFFICULTIES.map(({ id, label }) => {
+              const count = songEntries.filter((entry) =>
+                matchesSongDifficulty(entry.chords, id),
+              ).length;
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  aria-pressed={id === songDifficulty}
+                  onClick={() => setSongDifficulty(id)}
+                  disabled={count === 0}
+                  className={`rounded-lg px-2 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40 ${
+                    id === songDifficulty
+                      ? 'bg-amber-500 text-slate-950'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  }`}
+                >
+                  {label}
+                  <span className="ml-1 text-xs opacity-70">{count}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-1 text-xs text-slate-400">
+            Easy: up to 3 unique chords · Medium: 4–5 · Hard: 6+
+          </p>
+        </div>
+      )}
 
       <div className={mediaMode ? 'opacity-40' : ''}>
         <label className="flex justify-between text-sm font-medium text-slate-300">

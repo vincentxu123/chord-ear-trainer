@@ -1,5 +1,6 @@
 import type { Exercise } from '../theory/types';
 import type { SongClipManifestEntry } from './types';
+import { countUniqueChords, rateSongDifficulty } from './difficulty';
 
 export function songClipToExercise(entry: SongClipManifestEntry, baseUrl: string): Exercise {
   return {
@@ -26,6 +27,8 @@ export function songClipToExercise(entry: SongClipManifestEntry, baseUrl: string
       startMeasure: entry.startMeasure,
       endMeasure: entry.endMeasure,
       measureChordCounts: entry.measureChordCounts,
+      difficulty: rateSongDifficulty(entry.chords),
+      uniqueChordCount: countUniqueChords(entry.chords),
     },
   };
 }

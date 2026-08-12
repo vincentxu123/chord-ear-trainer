@@ -29,6 +29,8 @@ describe('songClipToExercise', () => {
     expect(exercise.progression.chords).toEqual(entry.chords);
     expect(exercise.media?.cueTimesSec).toEqual(entry.cueTimesSec);
     expect(exercise.song?.measureChordCounts).toEqual(entry.measureChordCounts);
+    expect(exercise.song?.difficulty).toBe('easy');
+    expect(exercise.song?.uniqueChordCount).toBe(3);
     expect(exercise.media?.url).toBe('/song-clips/jie-kou-m009.mp3');
   });
 });

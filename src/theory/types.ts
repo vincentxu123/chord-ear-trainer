@@ -42,6 +42,8 @@ export interface SongExerciseDetails {
   startMeasure: number;
   endMeasure: number;
   measureChordCounts: number[];
+  difficulty: 'easy' | 'medium' | 'hard';
+  uniqueChordCount: number;
 }
 
 // One concrete playable instance of a progression, shared by the engine and

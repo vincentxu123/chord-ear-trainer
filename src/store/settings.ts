@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { SongDifficulty } from '../songs/difficulty';
 
 // Media modes play static assets; 'clips' are generated and 'songs' are
 // validated excerpts from commercial recordings (see ARCHITECTURE.md).
@@ -11,6 +12,7 @@ export interface PracticeSettings {
   includeChromatic: boolean; // widen the pool with out-of-key chords
   includeDiminished: boolean; // add the diatonic diminished triad (vii° / ii°)
   randomizeKey: boolean;
+  songDifficulty: SongDifficulty;
 }
 
 export const TEMPO_MIN = 100;
@@ -27,6 +29,7 @@ interface SettingsStore extends PracticeSettings {
   setRandomizeKey: (value: boolean) => void;
   setIncludeChromatic: (value: boolean) => void;
   setIncludeDiminished: (value: boolean) => void;
+  setSongDifficulty: (difficulty: SongDifficulty) => void;
 }
 
 export const useSettings = create<SettingsStore>((set) => ({
@@ -36,10 +39,12 @@ export const useSettings = create<SettingsStore>((set) => ({
   includeChromatic: false,
   includeDiminished: false,
   randomizeKey: true,
+  songDifficulty: 'all',
   setSoundSource: (source) => set({ soundSource: source }),
   setTempo: (bpm) => set({ tempoBpm: clamp(Math.round(bpm), TEMPO_MIN, TEMPO_MAX) }),
   setLength: (length) => set({ progressionLength: clamp(length, LENGTH_MIN, LENGTH_MAX) }),
   setRandomizeKey: (value) => set({ randomizeKey: value }),
   setIncludeChromatic: (value) => set({ includeChromatic: value }),
   setIncludeDiminished: (value) => set({ includeDiminished: value }),
+  setSongDifficulty: (difficulty) => set({ songDifficulty: difficulty }),
 }));
