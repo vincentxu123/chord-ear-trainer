@@ -7,6 +7,10 @@ automatically publishes every eligible four-measure exercise. A static audit
 report is written after publication so a human can double-check the result,
 but approval is not part of the gate.
 
+Eligible windows are deduplicated within each song by their exact relative
+ordered chord sequence. The earliest occurrence is exported and later repeats
+remain visible in the audit report with their duplicate reason.
+
 Exercise proposals stay on a non-overlapping four-measure phrase grid:
 measures 1-4, 5-8, 9-12, and so on. Confidence ranking can omit a weaker
 block from a limited report, but it never shifts a window off that grid.
@@ -54,6 +58,13 @@ rebuilding timing normalization, automatic tonality, candidate gates, exports,
 and the audit report. Key estimation uses an audio chromagram and standard key
 profiles. `--key F --mode major` remains available as an optional correction,
 not a required approval step.
+
+Song-specific musical facts that cannot be inferred reliably, such as pickup
+measure numbering or modulations, live in tracked JSON sidecars under
+`scripts/recordings/song-metadata/`. The pipeline automatically loads a sidecar
+whose filename matches the artist/title slug. `phraseStartMeasure` aligns the
+four-measure exercise grid after any pickup measures, while ordered `tonalities`
+entries assign key and mode from each `startMeasure` onward.
 
 ## Analyze without publishing
 

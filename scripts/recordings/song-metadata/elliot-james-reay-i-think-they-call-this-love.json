@@ -1,0 +1,18 @@
+{
+  "artist": "Elliot James Reay",
+  "title": "I Think They Call This Love",
+  "notes": "Measure 1 is a pickup; complete four-measure phrases begin at measure 2. The song modulates to F major at measure 36.",
+  "phraseStartMeasure": 2,
+  "tonalities": [
+    {
+      "startMeasure": 1,
+      "key": "Eb",
+      "mode": "major"
+    },
+    {
+      "startMeasure": 36,
+      "key": "F",
+      "mode": "major"
+    }
+  ]
+}

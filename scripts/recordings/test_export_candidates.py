@@ -4,7 +4,9 @@ from export_candidates import (
     candidate_exclusion_reasons,
     candidate_is_included,
     chord_to_relative,
+    deduplicate_entries,
     derive_song_metadata,
+    tonality_for_measure,
 )
 
 
@@ -16,6 +18,7 @@ class ExportCandidateTests(unittest.TestCase):
             "chordModels": ["lv-chordia", "btc"],
         }
         self.candidate = {
+            "index": 1,
             "eligible": True,
             "reasons": [],
             "bars": [
@@ -57,6 +60,77 @@ class ExportCandidateTests(unittest.TestCase):
         self.assertEqual(
             chord_to_relative("Bb:maj", "F"),
             {"rootPc": 5, "quality": "maj"},
+        )
+
+    def test_uses_measure_specific_tonality_metadata(self):
+        self.analysis["songMetadata"] = {
+            "tonalities": [
+                {"startMeasure": 1, "key": "Eb", "mode": "major"},
+                {"startMeasure": 43, "key": "F", "mode": "major"},
+            ]
+        }
+
+        self.assertEqual(
+            tonality_for_measure(self.analysis, 42, {"key": "C", "mode": "minor"}),
+            {"key": "Eb", "mode": "major"},
+        )
+        self.assertEqual(
+            tonality_for_measure(self.analysis, 43, {"key": "C", "mode": "minor"}),
+            {"key": "F", "mode": "major"},
+        )
+
+    def test_excludes_windows_that_cross_a_tonality_change(self):
+        self.analysis["songMetadata"] = {
+            "tonalities": [
+                {"startMeasure": 1, "key": "Eb", "mode": "major"},
+                {"startMeasure": 43, "key": "F", "mode": "major"},
+            ]
+        }
+        self.candidate["index"] = 42
+
+        self.assertFalse(candidate_is_included(self.analysis, self.candidate))
+        self.assertIn(
+            "window crosses a configured tonality change",
+            candidate_exclusion_reasons(self.analysis, self.candidate),
+        )
+
+    def test_keeps_only_the_earliest_exact_chord_sequence(self):
+        entries = [
+            {
+                "id": "song-m002",
+                "startMeasure": 2,
+                "endMeasure": 5,
+                "chords": [
+                    {"rootPc": 0, "quality": "maj"},
+                    {"rootPc": 9, "quality": "min"},
+                ],
+            },
+            {
+                "id": "song-m018",
+                "startMeasure": 18,
+                "endMeasure": 21,
+                "chords": [
+                    {"rootPc": 0, "quality": "maj"},
+                    {"rootPc": 9, "quality": "min"},
+                ],
+            },
+            {
+                "id": "song-m022",
+                "startMeasure": 22,
+                "endMeasure": 25,
+                "chords": [
+                    {"rootPc": 0, "quality": "maj"},
+                    {"rootPc": 7, "quality": "maj"},
+                ],
+            },
+        ]
+
+        unique, reasons = deduplicate_entries(entries)
+
+        self.assertEqual([entry["id"] for entry in unique], ["song-m002", "song-m022"])
+        self.assertEqual(
+            reasons["song-m018"],
+            "duplicates the chord sequence from measures 2–5",
         )
 
 

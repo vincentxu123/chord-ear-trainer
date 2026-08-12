@@ -99,6 +99,18 @@ class AnalyzeSongTests(unittest.TestCase):
             [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]],
         )
 
+    def test_candidates_can_start_after_a_pickup_measure(self):
+        chords = [
+            {"start_time": float(i), "end_time": float(i + 1), "chord": "C:maj"}
+            for i in range(9)
+        ]
+        bars = build_bars([float(i) for i in range(10)], chords)
+
+        candidates = build_candidates(bars, phrase_start_measure=2)
+
+        self.assertEqual([candidate.index for candidate in candidates], [2, 6])
+        self.assertEqual(candidates[0].bars[0].index, 2)
+
     def test_playback_cue_only_snaps_forward_to_nearby_onset(self):
         bars = build_bars(
             [0.0, 1.0, 2.0, 3.0, 4.0],

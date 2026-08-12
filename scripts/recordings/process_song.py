@@ -31,6 +31,7 @@ def main() -> int:
     parser.add_argument("--device", default="cpu", choices=("cpu", "mps", "cuda"))
     parser.add_argument("--timing-checkpoint", default="final0")
     parser.add_argument("--reuse-analysis", action="store_true")
+    parser.add_argument("--metadata", type=Path)
     args = parser.parse_args()
 
     if (args.key is None) != (args.mode is None):
@@ -43,6 +44,13 @@ def main() -> int:
     work_root = args.work_root.expanduser().resolve()
     output = args.output.expanduser().resolve()
     work_dir = work_root / slug(f"{args.artist}-{title}")
+    metadata = args.metadata
+    if metadata is None:
+        conventional_metadata = (
+            SCRIPT_DIR / "song-metadata" / f"{slug(f'{args.artist}-{title}')}.json"
+        )
+        if conventional_metadata.is_file():
+            metadata = conventional_metadata
 
     analyze_command = [
         sys.executable,
@@ -69,6 +77,8 @@ def main() -> int:
     ]
     if args.key and args.mode:
         analyze_command.extend(["--key", args.key, "--mode", args.mode])
+    if metadata:
+        analyze_command.extend(["--song-metadata", str(metadata.expanduser().resolve())])
     if args.reuse_analysis:
         analyze_command.append("--reuse-analysis")
 

@@ -136,6 +136,7 @@ export function Practice() {
         <Controls
           onPlay={handlePlay}
           onStop={handleStop}
+          onSkip={handleNext}
           onNext={handleNext}
           isPlaying={isPlaying}
           isLoading={isLoading}

@@ -602,15 +602,21 @@ def build_ensemble_bars(
     return combined
 
 
-def build_candidates(bars: list[BarAnalysis]) -> list[Candidate]:
+def build_candidates(
+    bars: list[BarAnalysis], phrase_start_measure: int = 1
+) -> list[Candidate]:
     """Build non-overlapping four-bar blocks on the song's phrase grid.
 
     Once measure one has been established, sliding windows such as 8-11 are
     awkward exercise excerpts even when their model confidence is high. Keep
-    every proposal on the 1-4, 5-8, 9-12, ... grid instead.
+    every proposal on one configured four-measure grid instead.
     """
     candidates: list[Candidate] = []
-    for offset in range(0, max(0, len(bars) - 3), 4):
+    first_offset = next(
+        (offset for offset, bar in enumerate(bars) if bar.index == phrase_start_measure),
+        len(bars),
+    )
+    for offset in range(first_offset, max(first_offset, len(bars) - 3), 4):
         window = tuple(bars[offset : offset + 4])
         reasons: list[str] = []
         if any(
@@ -631,7 +637,7 @@ def build_candidates(bars: list[BarAnalysis]) -> list[Candidate]:
         local_bpm = 240.0 / statistics.fmean(lengths)
         candidates.append(
             Candidate(
-                index=offset + 1,
+                index=window[0].index,
                 start=window[0].start,
                 end=window[-1].end,
                 score=score,
@@ -957,6 +963,7 @@ def main() -> int:
     parser.add_argument("--mode", choices=("major", "minor"))
     parser.add_argument("--reuse-analysis", action="store_true")
     parser.add_argument("--skip-report", action="store_true")
+    parser.add_argument("--song-metadata", type=Path)
     args = parser.parse_args()
 
     if (args.key is None) != (args.mode is None):
@@ -1045,8 +1052,16 @@ def main() -> int:
     selected_beats = timing_outputs.get(
         selected_timing_model, next(iter(timing_outputs.values()))
     )[0]
+    song_metadata = None
+    if args.song_metadata:
+        song_metadata = json.loads(
+            args.song_metadata.expanduser().resolve().read_text(encoding="utf-8")
+        )
+        if song_metadata.get("artist") != args.artist or song_metadata.get("title") != title:
+            raise SystemExit("Song metadata artist/title does not match the requested song")
     bars = build_ensemble_bars(normalized_downbeats, model_chords, chord_models[0])
-    all_candidates = build_candidates(bars)
+    phrase_start_measure = int((song_metadata or {}).get("phraseStartMeasure", 1))
+    all_candidates = build_candidates(bars, phrase_start_measure)
     candidates = (
         all_candidates
         if args.candidate_limit <= 0
@@ -1096,6 +1111,7 @@ def main() -> int:
         "chordModel": chord_models[0],
         "chordModels": chord_models,
         "tonality": tonality,
+        "songMetadata": song_metadata,
         "bars": [asdict(bar) for bar in bars],
         "candidates": [asdict(candidate) for candidate in candidates],
     }

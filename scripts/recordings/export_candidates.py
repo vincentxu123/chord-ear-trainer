@@ -75,10 +75,36 @@ def chord_to_relative(label: str, key: str) -> dict[str, Any]:
     return {"rootPc": (root_pc - key_pc) % 12, "quality": family}
 
 
+def tonality_for_measure(
+    analysis: dict[str, Any], measure: int, fallback: dict[str, str]
+) -> dict[str, str]:
+    tonalities = (analysis.get("songMetadata") or {}).get("tonalities", [])
+    selected = fallback
+    for tonality in sorted(tonalities, key=lambda item: int(item["startMeasure"])):
+        if int(tonality["startMeasure"]) > measure:
+            break
+        selected = {"key": str(tonality["key"]), "mode": str(tonality["mode"])}
+    key = selected["key"]
+    mode = selected["mode"]
+    if key.upper().replace("♯", "#").replace("♭", "B") not in NOTE_TO_PC:
+        raise ValueError(f"Song metadata has unsupported key: {key!r}")
+    if mode not in {"major", "minor"}:
+        raise ValueError(f"Song metadata has unsupported mode: {mode!r}")
+    return {"key": key, "mode": mode}
+
+
 def candidate_exclusion_reasons(
     analysis: dict[str, Any], candidate: dict[str, Any]
 ) -> list[str]:
     reasons = list(candidate.get("reasons", []))
+    start_measure = int(candidate["index"])
+    end_measure = start_measure + len(candidate.get("bars", [])) - 1
+    tonality_changes = (analysis.get("songMetadata") or {}).get("tonalities", [])
+    if any(
+        start_measure < int(tonality["startMeasure"]) <= end_measure
+        for tonality in tonality_changes
+    ):
+        reasons.append("window crosses a configured tonality change")
     models = list(dict.fromkeys(analysis.get("chordModels", [])))
     if len(models) < 2:
         reasons.append("fewer than two chord models were run")
@@ -103,6 +129,8 @@ def candidate_is_included(analysis: dict[str, Any], candidate: dict[str, Any]) -
 def manifest_entry(
     analysis: dict[str, Any], candidate: dict[str, Any], metadata: dict[str, str]
 ) -> dict[str, Any]:
+    start_measure = int(candidate["index"])
+    tonality = tonality_for_measure(analysis, start_measure, metadata)
     playback_start = float(candidate["playback_start"])
     end = float(candidate["end"])
     chords: list[dict[str, Any]] = []
@@ -112,12 +140,11 @@ def manifest_entry(
         sequence = bar["chord_sequence"]
         measure_counts.append(len(sequence))
         for piece in sequence:
-            chords.append(chord_to_relative(piece["label"], metadata["key"]))
+            chords.append(chord_to_relative(piece["label"], tonality["key"]))
             cue_times.append(max(0.0, float(piece["start"]) - playback_start))
 
     if cue_times:
         cue_times[0] = 0.0
-    start_measure = int(candidate["index"])
     clip_id = f"{metadata['slug']}-m{start_measure:03d}"
     return {
         "id": clip_id,
@@ -126,8 +153,8 @@ def manifest_entry(
         "artist": metadata["artist"],
         "startMeasure": start_measure,
         "endMeasure": start_measure + len(candidate["bars"]) - 1,
-        "key": metadata["key"],
-        "mode": metadata["mode"],
+        "key": tonality["key"],
+        "mode": tonality["mode"],
         "bpm": analysis["timing"]["fixedBpm"],
         "durationSec": end - playback_start,
         "chords": chords,
@@ -135,6 +162,30 @@ def manifest_entry(
         "measureChordCounts": measure_counts,
         "_clipStartSec": playback_start,
     }
+
+
+def deduplicate_entries(
+    entries: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    """Keep the earliest occurrence of each relative ordered chord sequence."""
+    unique: list[dict[str, Any]] = []
+    first_by_sequence: dict[tuple[tuple[int, str], ...], dict[str, Any]] = {}
+    duplicate_reasons: dict[str, str] = {}
+    for entry in entries:
+        signature = tuple(
+            (int(chord["rootPc"]), str(chord["quality"]))
+            for chord in entry["chords"]
+        )
+        first = first_by_sequence.get(signature)
+        if first is not None:
+            duplicate_reasons[entry["id"]] = (
+                "duplicates the chord sequence from measures "
+                f"{first['startMeasure']}–{first['endMeasure']}"
+            )
+            continue
+        first_by_sequence[signature] = entry
+        unique.append(entry)
+    return unique, duplicate_reasons
 
 
 def export_audio(source: Path, output: Path, start: float, duration: float) -> None:
@@ -163,13 +214,18 @@ def export_audio(source: Path, output: Path, start: float, duration: float) -> N
 
 
 def publish_report_html(
-    analysis: dict[str, Any], metadata: dict[str, str], included_ids: set[str]
+    analysis: dict[str, Any],
+    metadata: dict[str, str],
+    included_ids: set[str],
+    duplicate_reasons: dict[str, str],
 ) -> str:
     cards: list[str] = []
     for candidate in analysis.get("candidates", []):
         candidate_id = f"{metadata['slug']}-m{int(candidate['index']):03d}"
         included = candidate_id in included_ids
         reasons = candidate_exclusion_reasons(analysis, candidate)
+        if candidate_id in duplicate_reasons:
+            reasons.append(duplicate_reasons[candidate_id])
         measures: list[str] = []
         for bar in candidate.get("bars", []):
             sequence = " → ".join(piece["label"] for piece in bar.get("chord_sequence", [])) or "N"
@@ -199,7 +255,16 @@ def publish_report_html(
     excluded_count = len(analysis.get("candidates", [])) - included_count
     preview_name = html.escape(str(analysis["audio"]["preview"]))
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    method = html.escape(str(analysis.get("tonality", {}).get("method", "unknown")))
+    tonalities = (analysis.get("songMetadata") or {}).get("tonalities", [])
+    if tonalities:
+        tonality_summary = " → ".join(
+            f"{item['key']} {item['mode']} from measure {int(item['startMeasure'])}"
+            for item in tonalities
+        )
+        tonality_summary += " (song metadata)"
+    else:
+        method = str(analysis.get("tonality", {}).get("method", "unknown"))
+        tonality_summary = f"{metadata['key']} {metadata['mode']} ({method})"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -229,7 +294,7 @@ def publish_report_html(
 </head>
 <body><main>
   <h1>{html.escape(metadata['title'])}</h1>
-  <p class="meta">{html.escape(metadata['artist'])} · {metadata['key']} {metadata['mode']} ({method}) · generated {generated_at}</p>
+  <p class="meta">{html.escape(metadata['artist'])} · {html.escape(tonality_summary)} · generated {generated_at}</p>
   <p class="notice">Automatic publish completed before this report: {included_count} windows included, {excluded_count} excluded. This page is an audit aid; no approval is required.</p>
   <audio id="player" controls preload="metadata" src="{preview_name}"></audio>
   <div class="cards">{''.join(cards) or '<p>No complete four-measure windows were found.</p>'}</div>
@@ -283,29 +348,41 @@ def main() -> int:
     args.output.mkdir(parents=True, exist_ok=True)
     manifest_path = args.output / "manifest.json"
     replacing = {(metadata["artist"], metadata["title"]) for _, _, metadata in loaded}
+    previous_entries = load_manifest(manifest_path)
+    replaced_entries = [
+        entry
+        for entry in previous_entries
+        if (entry.get("artist"), entry.get("title")) in replacing
+    ]
     entries = (
         [
             entry
-            for entry in load_manifest(manifest_path)
+            for entry in previous_entries
             if (entry.get("artist"), entry.get("title")) not in replacing
         ]
         if args.analysis
         else []
     )
-    reports: list[tuple[dict[str, Any], Path, dict[str, str], set[str]]] = []
+    reports: list[
+        tuple[dict[str, Any], Path, dict[str, str], set[str], dict[str, str]]
+    ] = []
 
     for analysis, work_dir, metadata in loaded:
         preview = work_dir / analysis["audio"]["preview"]
-        included_ids: set[str] = set()
-        for candidate in analysis.get("candidates", []):
-            if not candidate_is_included(analysis, candidate):
-                continue
-            entry = manifest_entry(analysis, candidate, metadata)
+        eligible_entries = [
+            manifest_entry(analysis, candidate, metadata)
+            for candidate in analysis.get("candidates", [])
+            if candidate_is_included(analysis, candidate)
+        ]
+        unique_entries, duplicate_reasons = deduplicate_entries(eligible_entries)
+        included_ids = {entry["id"] for entry in unique_entries}
+        for entry in unique_entries:
             start = entry.pop("_clipStartSec")
             export_audio(preview, args.output / entry["file"], start, entry["durationSec"])
-            included_ids.add(entry["id"])
             entries.append(entry)
-        reports.append((analysis, work_dir, metadata, included_ids))
+        reports.append(
+            (analysis, work_dir, metadata, included_ids, duplicate_reasons)
+        )
 
     entries.sort(key=lambda entry: (entry["artist"], entry["title"], entry["startMeasure"]))
     temporary_manifest = manifest_path.with_suffix(".json.tmp")
@@ -313,12 +390,22 @@ def main() -> int:
         json.dumps({"clips": entries}, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+    exported_files = {entry["file"] for entry in entries}
+    for replaced_entry in replaced_entries:
+        stale_file = replaced_entry.get("file")
+        if stale_file and stale_file not in exported_files:
+            stale_path = args.output / stale_file
+            if stale_path.is_file():
+                stale_path.unlink()
     temporary_manifest.replace(manifest_path)
 
-    for analysis, work_dir, metadata, included_ids in reports:
+    for analysis, work_dir, metadata, included_ids, duplicate_reasons in reports:
         report_path = work_dir / "publish-report.html"
         report_path.write_text(
-            publish_report_html(analysis, metadata, included_ids), encoding="utf-8"
+            publish_report_html(
+                analysis, metadata, included_ids, duplicate_reasons
+            ),
+            encoding="utf-8",
         )
         print(
             f"{metadata['title']}: included {len(included_ids)} of "

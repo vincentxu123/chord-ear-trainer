@@ -62,7 +62,8 @@ metadata, and it analyzes the whole song, publishes every eligible
 four-measure excerpt, updates the web app manifest, and writes an audit report.
 There is no manual approval step. Only windows where both timing/chord
 pipelines pass the structural checks and both chord models agree on the full
-ordered chord sequence are added.
+ordered chord sequence are added. Repeated windows with the same relative chord
+sequence are deduplicated within each song, keeping the earliest occurrence.
 
 ### One-time setup
 
@@ -124,6 +125,13 @@ npm run songs:process -- \
 normalization, tonality, eligibility, exports, and the report. Reprocessing the
 same artist/title replaces that song's existing manifest entries without
 removing other songs.
+
+For known pickup numbering or modulations, add a tracked JSON sidecar under
+`scripts/recordings/song-metadata/` using the artist/title slug as its filename.
+The pipeline loads it automatically: `phraseStartMeasure` aligns the
+four-measure exercise grid after any pickup measures, and ordered `tonalities`
+entries set the key and mode from a given measure onward. Windows that cross a
+configured tonality change are excluded automatically.
 
 Finally, run `npm test` and `npm run build`, then commit the changed files under
 `public/song-clips/`. Never commit `.recordings/`, `.venv-recordings/`, or the
