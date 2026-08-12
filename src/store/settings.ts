@@ -35,7 +35,7 @@ interface SettingsStore extends PracticeSettings {
 }
 
 export const useSettings = create<SettingsStore>((set) => ({
-  soundSource: 'synth',
+  soundSource: 'songs',
   tempoBpm: 280,
   progressionLength: 4,
   includeChromatic: false,

@@ -37,7 +37,6 @@ export function SettingsPanel() {
   const setSongDifficulty = useSettings((s) => s.setSongDifficulty);
   const setShowAbsoluteChordNames = useSettings((s) => s.setShowAbsoluteChordNames);
   const clipStatus = useClips((s) => s.status);
-  const clipCount = useClips((s) => s.entries.length);
   const songStatus = useSongs((s) => s.status);
   const songEntries = useSongs((s) => s.entries);
 
@@ -46,9 +45,6 @@ export function SettingsPanel() {
   const mediaMode = clipMode || songMode;
   const clipsAvailable = clipStatus === 'ready';
   const songsAvailable = songStatus === 'ready';
-  const matchingSongCount = songEntries.filter((entry) =>
-    matchesSongDifficulty(entry.chords, songDifficulty),
-  ).length;
 
   const lengths = Array.from(
     { length: LENGTH_MAX - LENGTH_MIN + 1 },
@@ -81,16 +77,6 @@ export function SettingsPanel() {
             </button>
           ))}
         </div>
-        {clipMode && (
-          <p className="mt-1 text-xs text-slate-400">
-            Playing from {clipCount} generated clip{clipCount === 1 ? '' : 's'}.
-          </p>
-        )}
-        {songMode && (
-          <p className="mt-1 text-xs text-slate-400">
-            Playing from {matchingSongCount} of {songEntries.length} validated four-measure excerpts.
-          </p>
-        )}
       </div>
 
       {songMode && (
@@ -120,9 +106,6 @@ export function SettingsPanel() {
               );
             })}
           </div>
-          <p className="mt-1 text-xs text-slate-400">
-            Beginner: up to 3 unique chords · Advanced: 4+
-          </p>
         </div>
       )}
 
@@ -137,9 +120,6 @@ export function SettingsPanel() {
             />
             Show absolute chord names
           </label>
-          <p className="mt-1 pl-6 text-xs text-slate-400">
-            Roman numerals always remain visible.
-          </p>
         </div>
       )}
 
@@ -179,11 +159,6 @@ export function SettingsPanel() {
             </button>
           ))}
         </div>
-        {mediaMode && (
-          <p className="mt-1 text-xs text-slate-400">
-            {songMode ? 'Set by the four-measure excerpt.' : 'Set by the clip (4 chords).'}
-          </p>
-        )}
       </div>
 
       <div className={mediaMode ? 'opacity-40' : ''}>
@@ -197,12 +172,6 @@ export function SettingsPanel() {
           />
           Randomize key each round
         </label>
-        {!randomizeKey && !mediaMode && (
-          <p className="mt-1 pl-6 text-xs text-slate-400">Defaults to C major.</p>
-        )}
-        {mediaMode && (
-          <p className="mt-1 pl-6 text-xs text-slate-400">Each recording has its own key.</p>
-        )}
       </div>
 
       <div className={mediaMode ? 'opacity-40' : ''}>
@@ -227,11 +196,6 @@ export function SettingsPanel() {
           />
           Include diminished chords (vii° / ii°)
         </label>
-        {mediaMode && (
-          <p className="mt-1 pl-6 text-xs text-slate-400">
-            {songMode ? 'Vocabulary follows the excerpt.' : 'Current clips are diatonic only.'}
-          </p>
-        )}
       </div>
     </div>
   );

@@ -33,6 +33,8 @@ export function Practice() {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [hintedExercise, setHintedExercise] = useState<typeof exercise>(null);
+  const showChordHint = exercise !== null && hintedExercise === exercise;
 
   useEffect(() => {
     void loadClips();
@@ -111,8 +113,23 @@ export function Practice() {
               {' '}· measures {exercise.song.startMeasure}–{exercise.song.endMeasure}
             </span>
             <span className="capitalize text-amber-200/70">
-              {' '}· {exercise.song.difficulty} · {exercise.song.uniqueChordCount} unique chords
+              {' '}· {exercise.song.difficulty}
             </span>
+            <span className="text-amber-200/70"> · </span>
+            <button
+              type="button"
+              aria-expanded={showChordHint}
+              onClick={() =>
+                setHintedExercise((hinted) =>
+                  hinted === exercise ? null : exercise,
+                )
+              }
+              className="font-semibold text-amber-100 underline decoration-amber-300/50 underline-offset-2 hover:text-white"
+            >
+              {showChordHint
+                ? `${exercise.song.uniqueChordCount} unique chords`
+                : 'Hint'}
+            </button>
           </div>
         )}
         <Slots />
