@@ -1,6 +1,591 @@
 {
   "clips": [
     {
+      "id": "neon-genesis-evangelion-op-piano-m006",
+      "file": "neon-genesis-evangelion-op-piano-m006.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 6,
+      "endMeasure": 9,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.585867578114545,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.4306631168469295,
+        1.8964668945286292,
+        3.2606631168469296,
+        3.7929337890572583,
+        5.689400683585916
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m018",
+      "file": "neon-genesis-evangelion-op-piano-m018.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 18,
+      "endMeasure": 21,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.492421708082951,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.26961451247165513,
+        1.4996145124716591,
+        1.8030210244970348,
+        2.189614512471657,
+        3.699487919025664,
+        4.309614512471661,
+        5.595954813554307,
+        5.909614512471656
+      ],
+      "measureChordCounts": [
+        3,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m026",
+      "file": "neon-genesis-evangelion-op-piano-m026.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 26,
+      "endMeasure": 29,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.585867578114545,
+      "chords": [
+        {
+          "rootPc": 11,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.651325226274146,
+        1.8964668945286292,
+        2.2513252262741474,
+        3.7929337890572725,
+        4.341325226274151,
+        5.689400683585916,
+        6.041325226274147
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m042",
+      "file": "neon-genesis-evangelion-op-piano-m042.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 42,
+      "endMeasure": 45,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.473296111010654,
+      "chords": [
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.895283446712014,
+        2.7552834467120135,
+        3.7252834467120266,
+        4.655283446712019,
+        5.585283446712026,
+        6.535283446712015
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m046",
+      "file": "neon-genesis-evangelion-op-piano-m046.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 46,
+      "endMeasure": 49,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.524288405678504,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.9104081632653163,
+        1.8348877220925885,
+        2.7604081632653106,
+        3.7404081632653146,
+        4.670408163265307,
+        5.640408163265306,
+        6.570408163265313
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m050",
+      "file": "neon-genesis-evangelion-op-piano-m050.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 50,
+      "endMeasure": 53,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.517230813725035,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.2274829931972846,
+        1.8278301301391195,
+        2.85748299319728,
+        3.807482993197283,
+        4.757482993197286,
+        5.687482993197278,
+        6.617482993197285
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m070",
+      "file": "neon-genesis-evangelion-op-piano-m070.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 70,
+      "endMeasure": 73,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.585867578114545,
+      "chords": [
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.9167818670140093,
+        1.8964668945286292,
+        2.776781867014023,
+        3.7929337890572583,
+        4.976781867014012,
+        5.689400683585916,
+        6.556781867014024
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m082",
+      "file": "neon-genesis-evangelion-op-piano-m082.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 82,
+      "endMeasure": 85,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.585867578114545,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 11,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8964668945286292,
+        3.7929337890572867,
+        4.649179132670355,
+        5.689400683585916
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        2,
+        1
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m126",
+      "file": "neon-genesis-evangelion-op-piano-m126.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 126,
+      "endMeasure": 129,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.585867578114545,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.854635773410223,
+        2.104635773410223,
+        2.894635773410215,
+        3.8046357734102116,
+        4.704635773410217,
+        5.689400683585916,
+        6.634635773410196
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "neon-genesis-evangelion-op-piano-m130",
+      "file": "neon-genesis-evangelion-op-piano-m130.mp3",
+      "title": "Neon Genesis Evangelion OP [Piano]",
+      "artist": "Animenz Piano Sheets",
+      "startMeasure": 130,
+      "endMeasure": 133,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 126.55111496668188,
+      "durationSec": 7.585867578114545,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.9087681952956643,
+        1.9487681952956564,
+        3.138768195295654,
+        3.7929337890572867,
+        5.689400683585916
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        1
+      ]
+    },
+    {
       "id": "i-think-they-call-this-love-m002",
       "file": "i-think-they-call-this-love-m002.mp3",
       "title": "I Think They Call This Love",
