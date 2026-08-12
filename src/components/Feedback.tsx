@@ -26,7 +26,7 @@ export function Feedback() {
           <> in {exercise.key} {exercise.mode}</>
         )}
       </p>
-      {exercise.song && exercise.media && (
+      {!perfect && exercise.song && exercise.media && (
         <a
           href={buildWrongAnswerIssueUrl(
             exercise,
