@@ -10,7 +10,6 @@ const settings: PracticeSettings = {
   includeDiminished: false,
   randomizeKey: false,
   songDifficulty: 'all',
-  showAbsoluteChordNames: true,
 };
 
 describe('session playback selection', () => {

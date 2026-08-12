@@ -1,10 +1,8 @@
 import { toAbsoluteChord, toRoman } from '../theory/chords';
 import { useSession } from '../store/session';
-import { useSettings } from '../store/settings';
 import { buildWrongAnswerIssueUrl } from '../reportIssue';
 
 export function Feedback() {
-  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const result = useSession((s) => s.result);
   const exercise = useSession((s) => s.exercise);
   const answers = useSession((s) => s.answers);
@@ -12,11 +10,7 @@ export function Feedback() {
 
   const perfect = result.correctCount === result.total;
   const solution = exercise.progression.chords
-    .map((c) => {
-      const roman = toRoman(c, exercise.mode);
-      if (!showAbsoluteChordNames) return roman;
-      return `${roman} (${toAbsoluteChord(c, exercise.key)})`;
-    })
+    .map((c) => `${toRoman(c, exercise.mode)} (${toAbsoluteChord(c, exercise.key)})`)
     .join(' – ');
 
   return (

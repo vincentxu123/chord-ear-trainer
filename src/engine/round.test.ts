@@ -11,7 +11,6 @@ const settings: PracticeSettings = {
   includeDiminished: false,
   randomizeKey: true,
   songDifficulty: 'all',
-  showAbsoluteChordNames: true,
 };
 
 describe('generateRound', () => {

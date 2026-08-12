@@ -27,7 +27,6 @@ export function SettingsPanel() {
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const songDifficulty = useSettings((s) => s.songDifficulty);
-  const showAbsoluteChordNames = useSettings((s) => s.showAbsoluteChordNames);
   const setSoundSource = useSettings((s) => s.setSoundSource);
   const setTempo = useSettings((s) => s.setTempo);
   const setLength = useSettings((s) => s.setLength);
@@ -35,7 +34,6 @@ export function SettingsPanel() {
   const setIncludeChromatic = useSettings((s) => s.setIncludeChromatic);
   const setIncludeDiminished = useSettings((s) => s.setIncludeDiminished);
   const setSongDifficulty = useSettings((s) => s.setSongDifficulty);
-  const setShowAbsoluteChordNames = useSettings((s) => s.setShowAbsoluteChordNames);
   const clipStatus = useClips((s) => s.status);
   const songStatus = useSongs((s) => s.status);
   const songEntries = useSongs((s) => s.entries);
@@ -108,18 +106,6 @@ export function SettingsPanel() {
           </div>
         </div>
       )}
-
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-          <input
-            type="checkbox"
-            checked={showAbsoluteChordNames}
-            onChange={(event) => setShowAbsoluteChordNames(event.target.checked)}
-            className="h-4 w-4"
-          />
-          Show absolute chord names
-        </label>
-      </div>
 
       <div className={mediaMode ? 'opacity-40' : ''}>
         <label className="flex justify-between text-sm font-medium text-slate-300">
