@@ -44,6 +44,7 @@ small library).
 - [x] Add skip, first-chord anchoring, and chord-position playback controls
 - [x] Improve key-change detection with sustained harmonic segmentation
 - [x] Detect sparse and partial pickup measures for phrase alignment
+- [x] Support verified per-song publication start boundaries
 - [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
 - [ ] Train a more accurate chord-detection model
 
@@ -172,10 +173,11 @@ For verified corrections to pickup numbering or modulation boundaries, add a
 tracked JSON sidecar under `scripts/recordings/song-metadata/` using the
 artist/title slug as its filename.
 The pipeline loads it automatically: `phraseStartMeasure` aligns the
-four-measure exercise grid after any pickup measures, and ordered `tonalities`
-entries set the key and mode from a given measure onward. Windows that cross a
-tonality change are excluded automatically. Sidecar values take precedence over
-automatic inference.
+four-measure exercise grid after any pickup measures, `publishStartMeasure`
+excludes windows that start before a verified reliable boundary, and ordered
+`tonalities` entries set the key and mode from a given measure onward. Windows
+that cross a tonality change are excluded automatically. Sidecar values take
+precedence over automatic inference.
 
 Finally, run `npm test` and `npm run build`, then commit the changed files under
 `public/song-clips/`. Never commit `.recordings/`, `.venv-recordings/`, or the

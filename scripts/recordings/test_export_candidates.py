@@ -95,6 +95,19 @@ class ExportCandidateTests(unittest.TestCase):
             candidate_exclusion_reasons(self.analysis, self.candidate),
         )
 
+    def test_excludes_windows_before_configured_publication_boundary(self):
+        self.analysis["songMetadata"] = {"publishStartMeasure": 42}
+        self.candidate["index"] = 41
+
+        self.assertFalse(candidate_is_included(self.analysis, self.candidate))
+        self.assertIn(
+            "window starts before configured publication boundary",
+            candidate_exclusion_reasons(self.analysis, self.candidate),
+        )
+
+        self.candidate["index"] = 42
+        self.assertTrue(candidate_is_included(self.analysis, self.candidate))
+
     def test_uses_automatic_tonality_regions(self):
         self.analysis["tonalities"] = [
             {"startMeasure": 1, "key": "Eb", "mode": "major"},
