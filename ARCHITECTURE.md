@@ -4,7 +4,6 @@ This document explains how practice audio works in Chord Ear Trainer, with the
 focus on the **Real music** clip pipeline: how progressions become labeled
 instrumental clips, and how we validate those labels before they enter the
 library.
-
 For app usage and project layout, see [README.md](./README.md).
 
 ---
