@@ -127,6 +127,11 @@ def candidate_exclusion_reasons(
         and start_measure < int(publish_start_measure)
     ):
         reasons.append("window starts before configured publication boundary")
+    excluded_start_measures = (analysis.get("songMetadata") or {}).get(
+        "excludedStartMeasures", []
+    )
+    if start_measure in {int(measure) for measure in excluded_start_measures}:
+        reasons.append("window excluded by verified song metadata")
     tonality_changes = analysis_tonalities(analysis)
     if any(
         start_measure < int(tonality["startMeasure"]) <= end_measure

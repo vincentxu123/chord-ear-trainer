@@ -108,6 +108,16 @@ class ExportCandidateTests(unittest.TestCase):
         self.candidate["index"] = 42
         self.assertTrue(candidate_is_included(self.analysis, self.candidate))
 
+    def test_excludes_a_verified_incorrect_window(self):
+        self.analysis["songMetadata"] = {"excludedStartMeasures": [30]}
+        self.candidate["index"] = 30
+
+        self.assertFalse(candidate_is_included(self.analysis, self.candidate))
+        self.assertIn(
+            "window excluded by verified song metadata",
+            candidate_exclusion_reasons(self.analysis, self.candidate),
+        )
+
     def test_uses_automatic_tonality_regions(self):
         self.analysis["tonalities"] = [
             {"startMeasure": 1, "key": "Eb", "mode": "major"},

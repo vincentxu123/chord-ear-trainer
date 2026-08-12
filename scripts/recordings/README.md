@@ -71,8 +71,9 @@ live in tracked JSON sidecars under `scripts/recordings/song-metadata/`. The
 pipeline automatically loads a sidecar whose filename matches the artist/title
 slug. `phraseStartMeasure` aligns the four-measure exercise grid after any
 pickup measures, `publishStartMeasure` excludes windows that begin before a
-verified reliable boundary, and ordered `tonalities` entries assign key and
-mode from each `startMeasure` onward.
+verified reliable boundary, `excludedStartMeasures` removes specific verified
+bad windows, and ordered `tonalities` entries assign key and mode from each
+`startMeasure` onward.
 Sidecar values override the corresponding automatic inference.
 
 ## Download and process one YouTube video
