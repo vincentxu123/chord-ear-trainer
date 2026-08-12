@@ -17,5 +17,7 @@ export interface SongClipManifestEntry {
 }
 
 export interface SongClipManifest {
+  version: string;
+  totalBytes?: number;
   clips: SongClipManifestEntry[];
 }

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import html
 import json
 import subprocess
@@ -351,6 +352,19 @@ def load_manifest(path: Path) -> list[dict[str, Any]]:
     return list(json.loads(path.read_text(encoding="utf-8")).get("clips", []))
 
 
+def library_metadata(output: Path, entries: list[dict[str, Any]]) -> dict[str, Any]:
+    """Build a revision that changes whenever any published audio changes."""
+    digest = hashlib.sha256()
+    total_bytes = 0
+    for entry in entries:
+        path = output / entry["file"]
+        audio = path.read_bytes()
+        digest.update(entry["file"].encode("utf-8"))
+        digest.update(audio)
+        total_bytes += len(audio)
+    return {"version": digest.hexdigest()[:12], "totalBytes": total_bytes}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--analysis-root", type=Path, default=DEFAULT_ANALYSIS_ROOT)
@@ -421,9 +435,10 @@ def main() -> int:
         )
 
     entries.sort(key=lambda entry: (entry["artist"], entry["title"], entry["startMeasure"]))
+    metadata = library_metadata(args.output, entries)
     temporary_manifest = manifest_path.with_suffix(".json.tmp")
     temporary_manifest.write_text(
-        json.dumps({"clips": entries}, indent=2, ensure_ascii=False) + "\n",
+        json.dumps({**metadata, "clips": entries}, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
     exported_files = {entry["file"] for entry in entries}

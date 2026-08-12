@@ -2,7 +2,14 @@ import type { Exercise } from '../theory/types';
 import type { SongClipManifestEntry } from './types';
 import { countUniqueChords, rateSongDifficulty } from './difficulty';
 
-export function songClipToExercise(entry: SongClipManifestEntry, baseUrl: string): Exercise {
+export function songClipToExercise(
+  entry: SongClipManifestEntry,
+  baseUrl: string,
+  libraryVersion?: string,
+): Exercise {
+  const revision = libraryVersion
+    ? `?library=${encodeURIComponent(libraryVersion)}`
+    : '';
   return {
     progression: {
       id: entry.id,
@@ -16,7 +23,7 @@ export function songClipToExercise(entry: SongClipManifestEntry, baseUrl: string
     mode: entry.mode,
     source: 'recording',
     media: {
-      url: `${baseUrl}${entry.file}`,
+      url: `${baseUrl}${entry.file}${revision}`,
       bpm: entry.bpm,
       durationSec: entry.durationSec,
       cueTimesSec: entry.cueTimesSec,

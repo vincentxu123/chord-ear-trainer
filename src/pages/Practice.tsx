@@ -35,12 +35,23 @@ export function Practice() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hintedExercise, setHintedExercise] = useState<typeof exercise>(null);
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
   const showChordHint = exercise !== null && hintedExercise === exercise;
 
   useEffect(() => {
     void loadClips();
     void loadSongs();
   }, [loadClips, loadSongs]);
+
+  useEffect(() => {
+    const update = () => setIsOnline(navigator.onLine);
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, []);
 
   // In clip mode, a round started before the library finished loading fell
   // back to synth; regenerate once clips become available.
@@ -59,6 +70,7 @@ export function Practice() {
     includeDiminished,
     soundSource,
     songDifficulty,
+    isOnline,
     mediaReadiness,
     newRound,
   ]);
@@ -111,6 +123,23 @@ export function Practice() {
   return (
     <div className="grid gap-8 md:grid-cols-[1fr_22rem]">
       <div className="flex flex-col items-center gap-8">
+        {!isOnline && (
+          <div className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-xs font-semibold text-sky-200">
+            Offline
+          </div>
+        )}
+        {!exercise && soundSource === 'songs' && (
+          <div className="rounded-xl border border-slate-700 bg-slate-800/60 p-5 text-center">
+            <p className="font-semibold text-slate-100">
+              {songStatus === 'loading' ? 'Loading Real Music…' : 'Real Music is not available offline yet'}
+            </p>
+            <p className="mt-1 text-sm text-slate-400">
+              {songStatus === 'loading'
+                ? 'The first exercise will appear in a moment.'
+                : 'Reconnect, then use Download in the Real Music settings.'}
+            </p>
+          </div>
+        )}
         {exercise?.song && (
           <div className="rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 text-center text-sm text-amber-100">
             <span className="font-semibold">{exercise.song.title}</span>

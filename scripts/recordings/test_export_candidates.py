@@ -1,4 +1,6 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from export_candidates import (
     candidate_chord_identities,
@@ -7,6 +9,7 @@ from export_candidates import (
     chord_to_relative,
     deduplicate_entries,
     derive_song_metadata,
+    library_metadata,
     tonality_for_measure,
 )
 
@@ -188,6 +191,19 @@ class ExportCandidateTests(unittest.TestCase):
             reasons["song-m018"],
             "duplicates the chord sequence from measures 2–5",
         )
+
+    def test_library_revision_changes_with_audio(self):
+        with TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "song.mp3").write_bytes(b"first audio")
+            entries = [{"file": "song.mp3"}]
+
+            first = library_metadata(output, entries)
+            (output / "song.mp3").write_bytes(b"changed audio")
+            changed = library_metadata(output, entries)
+
+        self.assertEqual(first["totalBytes"], 11)
+        self.assertNotEqual(first["version"], changed["version"])
 
 
 if __name__ == "__main__":

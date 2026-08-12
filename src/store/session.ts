@@ -43,8 +43,11 @@ export const useSession = create<SessionStore>((set, get) => ({
         : settings.soundSource === 'songs'
           ? pickSongExercise(settings.songDifficulty)
           : null;
-    const exercise = mediaExercise ?? generateRound(settings);
-    const chords = exercise.progression.chords;
+    const exercise =
+      settings.soundSource === 'songs'
+        ? mediaExercise
+        : mediaExercise ?? generateRound(settings);
+    const chords = exercise?.progression.chords ?? [];
     const answers: (Chord | null)[] = chords.map((chord, i) =>
       i < GIVEN_SLOT_COUNT ? chord : null,
     );
@@ -53,7 +56,7 @@ export const useSession = create<SessionStore>((set, get) => ({
       answers,
       activeSlot: 0,
       result: null,
-      phase: 'answering',
+      phase: exercise ? 'answering' : 'idle',
       playingIndex: null,
     });
   },

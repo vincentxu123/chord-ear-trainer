@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import type { SongDifficulty } from '../songs/difficulty';
 
 // Media modes play static assets; 'clips' are generated and 'songs' are
@@ -34,7 +35,7 @@ interface SettingsStore extends PracticeSettings {
   setShowAbsoluteChordNames: (value: boolean) => void;
 }
 
-export const useSettings = create<SettingsStore>((set) => ({
+export const useSettings = create<SettingsStore>()(persist((set) => ({
   soundSource: 'songs',
   tempoBpm: 280,
   progressionLength: 4,
@@ -51,4 +52,16 @@ export const useSettings = create<SettingsStore>((set) => ({
   setIncludeDiminished: (value) => set({ includeDiminished: value }),
   setSongDifficulty: (difficulty) => set({ songDifficulty: difficulty }),
   setShowAbsoluteChordNames: (value) => set({ showAbsoluteChordNames: value }),
+}), {
+  name: 'chord-ear-trainer-settings',
+  partialize: (state) => ({
+    soundSource: state.soundSource,
+    tempoBpm: state.tempoBpm,
+    progressionLength: state.progressionLength,
+    includeChromatic: state.includeChromatic,
+    includeDiminished: state.includeDiminished,
+    randomizeKey: state.randomizeKey,
+    songDifficulty: state.songDifficulty,
+    showAbsoluteChordNames: state.showAbsoluteChordNames,
+  }),
 }));

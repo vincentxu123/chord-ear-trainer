@@ -26,4 +26,11 @@ describe('session playback selection', () => {
     expect(state.answers[GIVEN_SLOT_COUNT]).toEqual(answer);
     expect(state.activeSlot).toBe(GIVEN_SLOT_COUNT + 1);
   });
+
+  it('does not silently replace unavailable Real Music with a piano round', () => {
+    useSession.getState().newRound({ ...settings, soundSource: 'songs' });
+
+    expect(useSession.getState().exercise).toBeNull();
+    expect(useSession.getState().phase).toBe('idle');
+  });
 });

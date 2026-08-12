@@ -12,6 +12,7 @@ import {
   matchesSongDifficulty,
   type SongDifficulty,
 } from '../songs/difficulty';
+import { OfflineLibrary } from './OfflineLibrary';
 
 const SONG_DIFFICULTIES: { id: SongDifficulty; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -78,6 +79,10 @@ export function SettingsPanel() {
           ))}
         </div>
       </div>
+
+      {songMode && (
+        <OfflineLibrary />
+      )}
 
       {songMode && (
         <div>

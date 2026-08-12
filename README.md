@@ -27,6 +27,7 @@ small library).
 - Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
 - Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
 - Real Music mode: exact chord-change cues, measure-grouped answers, optional absolute chord labels, and Beginner/Advanced filtering
+- Installable phone app with offline Real Music downloads and bundled offline piano samples
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
 
@@ -46,7 +47,7 @@ small library).
 - [x] Detect sparse and partial pickup measures for phrase alignment
 - [x] Support verified per-song publication start boundaries
 - [x] Let listeners report incorrect real-song answer keys
-- [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
+- [x] Add offline mobile support as an installable PWA with Real Music downloads and offline piano
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -71,8 +72,24 @@ npm run dev
 ```
 
 Open the local URL Vite prints. Click **Play**, fill the open slots from the
-answer pad, then **Submit**. Piano samples load from a CDN on first play (needs
-network once).
+answer pad, then **Submit**. Piano samples are bundled with the app and need no
+network connection.
+
+## Use offline on a phone
+
+The production app is an installable Progressive Web App. Serve it over HTTPS,
+then open it on the phone once while online:
+
+1. Add it to the Home Screen. On iPhone, use Safari's **Share → Add to Home Screen**.
+2. Open the newly installed icon so its storage belongs to the installed app.
+3. In **Real Music**, tap **Download** and wait for **Ready offline**.
+4. The app shell, piano engine, and piano samples are installed automatically;
+   the Real Music pack can be removed or downloaded again from its settings.
+
+Real Music URLs include a library revision. When recordings change, the app
+downloads the new revision completely before deleting obsolete cached files.
+Browsers may still remove web-app data under severe storage pressure, so the
+app verifies the downloaded library whenever it starts.
 
 ## Adding a real song
 
@@ -229,3 +246,7 @@ rights; the analysis code works independently of the bundled examples.
 Theory and engine layers are pure (no audio/DOM) and covered by unit tests.
 Deeper notes on how Real music clips are produced and validated live in
 [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+The bundled piano MP3s are derivatives of Alexander Holm's Salamander Grand
+Piano V3, licensed under CC BY 3.0. Full attribution is included in
+`public/piano-samples/ATTRIBUTION.txt`.
