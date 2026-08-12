@@ -1,5 +1,11 @@
 # Repository instructions
 
+## Maintaining project TODOs
+
+- Before finishing any project change, review the `Project TODOs` section in
+  `README.md` and update it when the work adds, completes, removes, or changes
+  the scope of a TODO.
+
 ## Adding real-song exercises
 
 - Use the automated recording pipeline; do not hand-edit

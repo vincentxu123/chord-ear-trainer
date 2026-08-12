@@ -30,6 +30,13 @@ small library).
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
 
+## Project TODOs
+
+- [ ] Improve key-change detection
+- [ ] Improve phrase detection, including songs that begin with a pickup measure
+- [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
+- [ ] Train a more accurate chord-detection model
+
 ## Tech stack
 
 - React + TypeScript + Vite
