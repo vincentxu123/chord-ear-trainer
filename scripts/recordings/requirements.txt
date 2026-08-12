@@ -1,3 +1,4 @@
 beat-this
 lv-chordia
 librosa>=0.10,<1
+yt-dlp[default]

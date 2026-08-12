@@ -63,7 +63,8 @@ four-measure excerpt, updates the web app manifest, and writes an audit report.
 There is no manual approval step. Only windows where both timing/chord
 pipelines pass the structural checks and both chord models agree on the full
 ordered chord sequence are added. Repeated windows with the same relative chord
-sequence are deduplicated within each song, keeping the earliest occurrence.
+sequence are deduplicated within each song, keeping the earliest occurrence,
+and windows containing only one unique chord are excluded.
 
 ### One-time setup
 
@@ -126,6 +127,23 @@ normalization, tonality, eligibility, exports, and the report. Reprocessing the
 same artist/title replaces that song's existing manifest entries without
 removing other songs.
 
+### Import a permitted YouTube recording
+
+For recordings you own or are authorized to download and use, `yt-dlp` can
+feed one YouTube video directly into the same analysis and publication pipeline:
+
+```bash
+npm run songs:youtube -- \
+  --url "https://www.youtube.com/watch?v=VIDEO_ID" \
+  --device mps
+```
+
+The command ignores playlist and radio parameters, downloads only the selected
+video's best audio into gitignored `.recordings/imports/`, derives artist/title
+from its metadata, and records a `.source.json` provenance file. Pass `--artist`
+and `--title` to override imperfect YouTube metadata. All `songs:process`
+tonality, model-agreement, export, and report behavior remains unchanged.
+
 For known pickup numbering or modulations, add a tracked JSON sidecar under
 `scripts/recordings/song-metadata/` using the artist/title slug as its filename.
 The pipeline loads it automatically: `phraseStartMeasure` aligns the
@@ -152,6 +170,7 @@ necessary distribution rights.
 | `npm run clips:generate` | Offline: generate + QC clips into `public/clips/` |
 | `npm run clips:qc` | Offline: re-validate the existing clip library |
 | `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report |
+| `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process` |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 
 ## Project structure

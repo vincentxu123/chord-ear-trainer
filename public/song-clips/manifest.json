@@ -259,6 +259,358 @@
       ]
     },
     {
+      "id": "daisies-m009",
+      "file": "daisies-m009.mp3",
+      "title": "DAISIES",
+      "artist": "Justin Bieber",
+      "startMeasure": 9,
+      "endMeasure": 12,
+      "key": "Ab",
+      "mode": "major",
+      "bpm": 110.21787993251776,
+      "durationSec": 8.699115564655191,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.0319047619047588,
+        2.166600146641084,
+        3.191904761904759,
+        4.344105285979122,
+        5.371904761904762,
+        6.521610425317153,
+        7.5819047619047595
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "racing-into-the-night-m038",
+      "file": "racing-into-the-night-m038.mp3",
+      "title": "Racing Into The Night",
+      "artist": "YOASOBI",
+      "startMeasure": 38,
+      "endMeasure": 41,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 130.03026057199665,
+      "durationSec": 7.378799935555179,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.8973242630385556,
+        1.9573242630385579,
+        2.707324263038558,
+        3.6873515150990244,
+        5.607324263038549
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "racing-into-the-night-m050",
+      "file": "racing-into-the-night-m050.mp3",
+      "title": "Racing Into The Night",
+      "artist": "YOASOBI",
+      "startMeasure": 50,
+      "endMeasure": 53,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 130.03026057199665,
+      "durationSec": 7.375653723598262,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.8954875283446739,
+        1.91548752834467,
+        2.7254875283446722,
+        3.7254875283446722,
+        4.605487528344668,
+        5.529929513370178,
+        6.585487528344672
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "racing-into-the-night-m074",
+      "file": "racing-into-the-night-m074.mp3",
+      "title": "Racing Into The Night",
+      "artist": "YOASOBI",
+      "startMeasure": 74,
+      "endMeasure": 77,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 130.03026057199665,
+      "durationSec": 7.369361299684442,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8718140589569146,
+        2.7718140589569202,
+        3.6779128792282734,
+        4.981814058956928,
+        5.5418140589569305,
+        6.421814058956926
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "racing-into-the-night-m090",
+      "file": "racing-into-the-night-m090.mp3",
+      "title": "Racing Into The Night",
+      "artist": "YOASOBI",
+      "startMeasure": 90,
+      "endMeasure": 93,
+      "key": "Eb",
+      "mode": "major",
+      "bpm": 130.03026057199665,
+      "durationSec": 7.382896840912309,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.8837622365354889,
+        1.8457242102280702,
+        3.2337622365354832,
+        3.693762236535491,
+        4.623762236535498,
+        5.693762236535491,
+        6.4337622365355
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "id": "racing-into-the-night-m130",
+      "file": "racing-into-the-night-m130.mp3",
+      "title": "Racing Into The Night",
+      "artist": "YOASOBI",
+      "startMeasure": 130,
+      "endMeasure": 133,
+      "key": "F",
+      "mode": "major",
+      "bpm": 130.03026057199665,
+      "durationSec": 7.343068999894598,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        0.8549659863945465,
+        1.8149659863945544,
+        3.6649659863945487,
+        4.454965986394541,
+        5.497344789666499,
+        6.454965986394541
+      ],
+      "measureChordCounts": [
+        2,
+        1,
+        2,
+        2
+      ]
+    },
+    {
       "id": "jie-kou-m037",
       "file": "jie-kou-m037.mp3",
       "title": "借口 / Jie Kou",

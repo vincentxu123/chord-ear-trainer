@@ -1,0 +1,18 @@
+{
+  "artist": "YOASOBI",
+  "title": "Racing Into The Night",
+  "notes": "Measure 1 is a pickup; complete four-measure phrases begin at measure 2. The main E-flat-major/C-minor region modulates to F major at measure 114.",
+  "phraseStartMeasure": 2,
+  "tonalities": [
+    {
+      "startMeasure": 1,
+      "key": "Eb",
+      "mode": "major"
+    },
+    {
+      "startMeasure": 114,
+      "key": "F",
+      "mode": "major"
+    }
+  ]
+}

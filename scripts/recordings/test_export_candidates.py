@@ -1,6 +1,7 @@
 import unittest
 
 from export_candidates import (
+    candidate_chord_identities,
     candidate_exclusion_reasons,
     candidate_is_included,
     chord_to_relative,
@@ -93,6 +94,27 @@ class ExportCandidateTests(unittest.TestCase):
             "window crosses a configured tonality change",
             candidate_exclusion_reasons(self.analysis, self.candidate),
         )
+
+    def test_excludes_a_window_with_only_one_unique_chord(self):
+        for index, bar in enumerate(self.candidate["bars"]):
+            # Enharmonic spelling changes do not make this a second chord.
+            label = "C#:maj" if index % 2 == 0 else "Db:maj"
+            bar["chord_sequence"] = [{"label": label}]
+
+        self.assertEqual(candidate_chord_identities(self.candidate), {(1, "maj")})
+        self.assertFalse(candidate_is_included(self.analysis, self.candidate))
+        self.assertIn(
+            "window contains only one unique chord",
+            candidate_exclusion_reasons(self.analysis, self.candidate),
+        )
+
+    def test_keeps_a_window_with_multiple_unique_chords(self):
+        for index, bar in enumerate(self.candidate["bars"]):
+            bar["chord_sequence"] = [
+                {"label": "C#:maj" if index < 2 else "Eb:maj"}
+            ]
+
+        self.assertTrue(candidate_is_included(self.analysis, self.candidate))
 
     def test_keeps_only_the_earliest_exact_chord_sequence(self):
         entries = [

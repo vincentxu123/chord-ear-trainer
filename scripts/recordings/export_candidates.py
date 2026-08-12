@@ -93,6 +93,18 @@ def tonality_for_measure(
     return {"key": key, "mode": mode}
 
 
+def candidate_chord_identities(candidate: dict[str, Any]) -> set[tuple[int, str]]:
+    """Return unique pitch-class/quality pairs, ignoring enharmonic spelling."""
+    identities: set[tuple[int, str]] = set()
+    for bar in candidate.get("bars", []):
+        for piece in bar.get("chord_sequence", []):
+            root, _, family = str(piece.get("label", "")).partition(":")
+            normalized_root = root.upper().replace("♯", "#").replace("♭", "B")
+            if normalized_root in NOTE_TO_PC and family in {"maj", "min", "dim"}:
+                identities.add((NOTE_TO_PC[normalized_root], family))
+    return identities
+
+
 def candidate_exclusion_reasons(
     analysis: dict[str, Any], candidate: dict[str, Any]
 ) -> list[str]:
@@ -105,6 +117,8 @@ def candidate_exclusion_reasons(
         for tonality in tonality_changes
     ):
         reasons.append("window crosses a configured tonality change")
+    if len(candidate_chord_identities(candidate)) == 1:
+        reasons.append("window contains only one unique chord")
     models = list(dict.fromkeys(analysis.get("chordModels", [])))
     if len(models) < 2:
         reasons.append("fewer than two chord models were run")

@@ -9,7 +9,8 @@ but approval is not part of the gate.
 
 Eligible windows are deduplicated within each song by their exact relative
 ordered chord sequence. The earliest occurrence is exported and later repeats
-remain visible in the audit report with their duplicate reason.
+remain visible in the audit report with their duplicate reason. A window with
+only one unique chord across all four measures is also excluded automatically.
 
 Exercise proposals stay on a non-overlapping four-measure phrase grid:
 measures 1-4, 5-8, 9-12, and so on. Confidence ranking can omit a weaker
@@ -65,6 +66,33 @@ measure numbering or modulations, live in tracked JSON sidecars under
 whose filename matches the artist/title slug. `phraseStartMeasure` aligns the
 four-measure exercise grid after any pickup measures, while ordered `tonalities`
 entries assign key and mode from each `startMeasure` onward.
+
+## Download and process one YouTube video
+
+For a recording you own or have permission to download and use, install the
+normal requirements above and run:
+
+```bash
+npm run songs:youtube -- \
+  --url "https://www.youtube.com/watch?v=VIDEO_ID" \
+  --device mps
+```
+
+`--no-playlist` behavior is always enabled, so playlist and radio parameters in
+the URL do not expand the import beyond that video. The best audio stream is
+kept under gitignored `.recordings/imports/`, alongside a `.source.json` file
+containing its URL and YouTube metadata. Artist and title are inferred using
+yt-dlp metadata; use explicit `--artist` and `--title` overrides if needed.
+`--key`/`--mode`, `--reuse-analysis`, `--metadata`, and device options are
+forwarded to the standard pipeline. Use `--download-only` to stop before
+analysis.
+
+YouTube extractors change frequently. If an otherwise valid video stops
+working, update yt-dlp before debugging the recording models:
+
+```bash
+.venv-recordings/bin/python -m pip install -U --pre "yt-dlp[default]"
+```
 
 ## Analyze without publishing
 

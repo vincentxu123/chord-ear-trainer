@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "clips:generate": "tsx scripts/generateClips.ts",
     "clips:qc": ".venv-qc/Scripts/python.exe scripts/qcClips.py",
+    "songs:youtube": ".venv-recordings/bin/python scripts/recordings/download_youtube.py",
     "songs:process": ".venv-recordings/bin/python scripts/recordings/process_song.py",
     "songs:export": ".venv-recordings/bin/python scripts/recordings/export_candidates.py"
   },
