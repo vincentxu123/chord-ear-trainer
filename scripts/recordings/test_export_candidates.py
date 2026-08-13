@@ -6,6 +6,7 @@ from export_candidates import (
     candidate_chord_identities,
     candidate_exclusion_reasons,
     candidate_is_included,
+    chord_label_for_export,
     chord_to_relative,
     deduplicate_entries,
     derive_song_metadata,
@@ -64,6 +65,22 @@ class ExportCandidateTests(unittest.TestCase):
         self.assertEqual(
             chord_to_relative("Bb:maj", "F"),
             {"rootPc": 5, "quality": "maj"},
+        )
+
+    def test_applies_a_verified_chord_slot_override(self):
+        self.analysis["songMetadata"] = {
+            "chordOverrides": [
+                {"measure": 11, "chordPosition": 1, "label": "Ab:maj"}
+            ]
+        }
+
+        self.assertEqual(
+            chord_label_for_export(self.analysis, 11, 1, "Eb:maj"),
+            "Ab:maj",
+        )
+        self.assertEqual(
+            chord_label_for_export(self.analysis, 11, 2, "F:min"),
+            "F:min",
         )
 
     def test_uses_measure_specific_tonality_metadata(self):
@@ -205,6 +222,21 @@ class ExportCandidateTests(unittest.TestCase):
         self.assertEqual(first["totalBytes"], 11)
         self.assertNotEqual(first["version"], changed["version"])
 
+    def test_library_revision_includes_instrumental_audio(self):
+        with TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "song.mp3").write_bytes(b"original")
+            (output / "song-instrumental.mp3").write_bytes(b"instrumental")
+            entries = [
+                {
+                    "file": "song.mp3",
+                    "instrumentalFile": "song-instrumental.mp3",
+                }
+            ]
+
+            metadata = library_metadata(output, entries)
+
+        self.assertEqual(metadata["totalBytes"], len(b"originalinstrumental"))
 
 if __name__ == "__main__":
     unittest.main()

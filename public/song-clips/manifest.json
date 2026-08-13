@@ -1,6 +1,6 @@
 {
-  "version": "5bcb903eb4e0",
-  "totalBytes": 4914751,
+  "version": "82ae57136f5c",
+  "totalBytes": 10028278,
   "clips": [
     {
       "id": "neon-genesis-evangelion-op-piano-m042",
@@ -57,7 +57,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m042-instrumental.mp3"
     },
     {
       "id": "neon-genesis-evangelion-op-piano-m046",
@@ -119,7 +120,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m046-instrumental.mp3"
     },
     {
       "id": "neon-genesis-evangelion-op-piano-m050",
@@ -181,7 +183,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m050-instrumental.mp3"
     },
     {
       "id": "neon-genesis-evangelion-op-piano-m070",
@@ -243,7 +246,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m070-instrumental.mp3"
     },
     {
       "id": "neon-genesis-evangelion-op-piano-m082",
@@ -290,7 +294,8 @@
         1,
         2,
         1
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m082-instrumental.mp3"
     },
     {
       "id": "neon-genesis-evangelion-op-piano-m126",
@@ -352,7 +357,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m126-instrumental.mp3"
     },
     {
       "id": "neon-genesis-evangelion-op-piano-m130",
@@ -404,7 +410,8 @@
         2,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "neon-genesis-evangelion-op-piano-m130-instrumental.mp3"
     },
     {
       "id": "i-think-they-call-this-love-m002",
@@ -466,7 +473,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "i-think-they-call-this-love-m002-instrumental.mp3"
     },
     {
       "id": "i-think-they-call-this-love-m006",
@@ -533,7 +541,8 @@
         2,
         2,
         3
-      ]
+      ],
+      "instrumentalFile": "i-think-they-call-this-love-m006-instrumental.mp3"
     },
     {
       "id": "i-think-they-call-this-love-m042",
@@ -595,7 +604,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "i-think-they-call-this-love-m042-instrumental.mp3"
     },
     {
       "id": "i-think-they-call-this-love-m046",
@@ -662,7 +672,8 @@
         2,
         3,
         2
-      ]
+      ],
+      "instrumentalFile": "i-think-they-call-this-love-m046-instrumental.mp3"
     },
     {
       "id": "v-m001",
@@ -714,7 +725,8 @@
         1,
         2,
         1
-      ]
+      ],
+      "instrumentalFile": "v-m001-instrumental.mp3"
     },
     {
       "id": "v-m009",
@@ -776,7 +788,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "v-m009-instrumental.mp3"
     },
     {
       "id": "v-m013",
@@ -838,7 +851,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "v-m013-instrumental.mp3"
     },
     {
       "id": "v-m045",
@@ -885,7 +899,8 @@
         2,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "v-m045-instrumental.mp3"
     },
     {
       "id": "v-m061",
@@ -947,7 +962,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "v-m061-instrumental.mp3"
     },
     {
       "id": "daisies-m009",
@@ -960,6 +976,69 @@
       "mode": "major",
       "bpm": 110.21787993251776,
       "durationSec": 8.699115564655191,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.0319047619047588,
+        2.166600146641084,
+        3.191904761904759,
+        4.344105285979122,
+        5.371904761904762,
+        6.521610425317153,
+        7.5819047619047595
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "instrumentalFile": "daisies-m009-instrumental.mp3"
+    },
+    {
+      "id": "daisies-m013",
+      "file": "daisies-m013.mp3",
+      "title": "DAISIES",
+      "artist": "Justin Bieber",
+      "startMeasure": 13,
+      "endMeasure": 16,
+      "key": "Ab",
+      "mode": "major",
+      "bpm": 110.21787993251776,
+      "durationSec": 8.701653128810058,
       "chords": [
         {
           "rootPc": 0,
@@ -996,20 +1075,21 @@
       ],
       "cueTimesSec": [
         0.0,
-        1.0319047619047588,
-        2.166600146641084,
-        3.191904761904759,
-        4.344105285979122,
-        5.371904761904762,
-        6.521610425317153,
-        7.5819047619047595
+        1.0144217687074821,
+        2.169137710795951,
+        3.194421768707482,
+        4.346642850133982,
+        5.374421768707482,
+        6.52414798947202,
+        7.79442176870748
       ],
       "measureChordCounts": [
         2,
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "daisies-m013-instrumental.mp3"
     },
     {
       "id": "racing-into-the-night-m038",
@@ -1061,7 +1141,8 @@
         2,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "racing-into-the-night-m038-instrumental.mp3"
     },
     {
       "id": "racing-into-the-night-m050",
@@ -1123,7 +1204,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "racing-into-the-night-m050-instrumental.mp3"
     },
     {
       "id": "racing-into-the-night-m074",
@@ -1180,7 +1262,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "racing-into-the-night-m074-instrumental.mp3"
     },
     {
       "id": "racing-into-the-night-m090",
@@ -1242,7 +1325,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "racing-into-the-night-m090-instrumental.mp3"
     },
     {
       "id": "racing-into-the-night-m130",
@@ -1299,7 +1383,8 @@
         1,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "racing-into-the-night-m130-instrumental.mp3"
     },
     {
       "id": "blue-m002",
@@ -1361,7 +1446,8 @@
         2,
         2,
         2
-      ]
+      ],
+      "instrumentalFile": "blue-m002-instrumental.mp3"
     },
     {
       "id": "あぶく-official-video-m045",
@@ -1403,7 +1489,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "あぶく-official-video-m045-instrumental.mp3"
     },
     {
       "id": "あぶく-official-video-m089",
@@ -1445,7 +1532,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "あぶく-official-video-m089-instrumental.mp3"
     },
     {
       "id": "あぶく-official-video-m141",
@@ -1487,7 +1575,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "あぶく-official-video-m141-instrumental.mp3"
     },
     {
       "id": "jie-kou-m037",
@@ -1549,7 +1638,8 @@
         2,
         3,
         2
-      ]
+      ],
+      "instrumentalFile": "jie-kou-m037-instrumental.mp3"
     },
     {
       "id": "cai-hong-m005",
@@ -1606,7 +1696,8 @@
         2,
         2,
         1
-      ]
+      ],
+      "instrumentalFile": "cai-hong-m005-instrumental.mp3"
     },
     {
       "id": "cai-hong-m041",
@@ -1658,7 +1749,8 @@
         2,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "cai-hong-m041-instrumental.mp3"
     },
     {
       "id": "cai-hong-m045",
@@ -1715,7 +1807,8 @@
         2,
         2,
         1
-      ]
+      ],
+      "instrumentalFile": "cai-hong-m045-instrumental.mp3"
     },
     {
       "id": "wo-bu-pei-m001",
@@ -1757,7 +1850,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "wo-bu-pei-m001-instrumental.mp3"
     },
     {
       "id": "wo-bu-pei-m025",
@@ -1799,7 +1893,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "wo-bu-pei-m025-instrumental.mp3"
     },
     {
       "id": "wo-bu-pei-m069",
@@ -1846,7 +1941,8 @@
         1,
         1,
         2
-      ]
+      ],
+      "instrumentalFile": "wo-bu-pei-m069-instrumental.mp3"
     },
     {
       "id": "wo-bu-pei-m085",
@@ -1888,7 +1984,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "wo-bu-pei-m085-instrumental.mp3"
     },
     {
       "id": "wo-bu-pei-m109",
@@ -1930,7 +2027,8 @@
         1,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "wo-bu-pei-m109-instrumental.mp3"
     },
     {
       "id": "ge-qian-m009",
@@ -1997,7 +2095,8 @@
         2,
         3,
         2
-      ]
+      ],
+      "instrumentalFile": "ge-qian-m009-instrumental.mp3"
     },
     {
       "id": "ge-qian-m025",
@@ -2049,7 +2148,8 @@
         2,
         2,
         1
-      ]
+      ],
+      "instrumentalFile": "ge-qian-m025-instrumental.mp3"
     },
     {
       "id": "ge-qian-m033",
@@ -2116,7 +2216,8 @@
         2,
         2,
         3
-      ]
+      ],
+      "instrumentalFile": "ge-qian-m033-instrumental.mp3"
     },
     {
       "id": "ge-qian-m037",
@@ -2168,7 +2269,8 @@
         2,
         1,
         1
-      ]
+      ],
+      "instrumentalFile": "ge-qian-m037-instrumental.mp3"
     }
   ]
 }

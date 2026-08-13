@@ -3,6 +3,7 @@ import type { Chord, Mode } from '../theory/types';
 export interface SongClipManifestEntry {
   id: string;
   file: string;
+  instrumentalFile?: string;
   title: string;
   artist: string;
   startMeasure: number;

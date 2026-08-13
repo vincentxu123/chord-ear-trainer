@@ -8,9 +8,6 @@ export default function App() {
       <div className="mx-auto w-full max-w-4xl flex-1 px-4 py-6 sm:px-6 sm:py-10">
         <header className="mb-7 text-center sm:mb-10">
           <h1 className="text-3xl font-bold">Chord Ear Trainer</h1>
-          <p className="mt-2 text-sm text-slate-400 sm:text-base">
-            Play the progression — the first chord is given; identify the rest by function.
-          </p>
           <div className="mt-3">
             <InstallApp />
           </div>

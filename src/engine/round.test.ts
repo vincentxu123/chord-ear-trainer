@@ -11,7 +11,10 @@ const settings: PracticeSettings = {
   includeDiminished: false,
   randomizeKey: true,
   songDifficulty: 'all',
-  showAbsoluteChordNames: true,
+  songProgressFilter: 'learning',
+  selectedArtists: null,
+  playChordOnSelection: false,
+  instrumentalSongs: false,
 };
 
 describe('generateRound', () => {

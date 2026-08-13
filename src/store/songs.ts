@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import type { Exercise } from '../theory/types';
 import { songClipToExercise } from '../songs/exercise';
-import { matchesSongDifficulty, type SongDifficulty } from '../songs/difficulty';
 import type { SongClipManifest, SongClipManifestEntry } from '../songs/types';
+import { filterSongEntries, type SongSelectionOptions } from '../songs/selection';
+import { useProgress } from './progress';
 
 export type SongLibraryStatus = 'idle' | 'loading' | 'ready' | 'unavailable';
 export type OfflineLibraryStatus =
@@ -39,6 +40,10 @@ function cacheSupported(): boolean {
   return typeof caches !== 'undefined';
 }
 
+function entryAudioFiles(entry: SongClipManifestEntry): string[] {
+  return entry.instrumentalFile ? [entry.file, entry.instrumentalFile] : [entry.file];
+}
+
 async function cachedSongIds(
   entries: SongClipManifestEntry[],
   version: string,
@@ -46,9 +51,12 @@ async function cachedSongIds(
   if (!cacheSupported()) return new Set();
   const cache = await caches.open(SONG_CACHE_NAME);
   const matches = await Promise.all(
-    entries.map(async (entry) =>
-      (await cache.match(songClipUrl(entry.file, version))) ? entry.id : null,
-    ),
+    entries.map(async (entry) => {
+      const cached = await Promise.all(
+        entryAudioFiles(entry).map((file) => cache.match(songClipUrl(file, version))),
+      );
+      return cached.every(Boolean) ? entry.id : null;
+    }),
   );
   return new Set(matches.filter((id): id is string => id !== null));
 }
@@ -134,10 +142,12 @@ export const useSongs = create<SongStore>((set, get) => ({
         while (cursor < entries.length) {
           const entry = entries[cursor++];
           if (!entry) return;
-          const url = songClipUrl(entry.file, version);
-          const response = await fetch(url, { cache: 'no-store' });
-          if (!response.ok) throw new Error(`download failed: ${response.status}`);
-          await cache.put(url, response.clone());
+          for (const file of entryAudioFiles(entry)) {
+            const url = songClipUrl(file, version);
+            const response = await fetch(url, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`download failed: ${response.status}`);
+            await cache.put(url, response.clone());
+          }
           downloadedIds.add(entry.id);
           completed += 1;
           set({ cachedIds: new Set(downloadedIds), cachedCount: completed });
@@ -146,7 +156,11 @@ export const useSongs = create<SongStore>((set, get) => ({
 
       await Promise.all(Array.from({ length: Math.min(4, entries.length) }, worker));
       const expectedUrls = new Set(
-        entries.map((entry) => new URL(songClipUrl(entry.file, version), window.location.href).href),
+        entries.flatMap((entry) =>
+          entryAudioFiles(entry).map(
+            (file) => new URL(songClipUrl(file, version), window.location.href).href,
+          ),
+        ),
       );
       const cachedRequests = await cache.keys();
       await Promise.all(
@@ -183,14 +197,16 @@ export const useSongs = create<SongStore>((set, get) => ({
 
 let lastSongClipId: string | null = null;
 
-export function pickSongExercise(difficulty: SongDifficulty = 'all'): Exercise | null {
+export function pickSongExercise(options: SongSelectionOptions): Exercise | null {
   const { entries, version, cachedIds } = useSongs.getState();
   const offline = typeof navigator !== 'undefined' && navigator.onLine === false;
   const availableEntries = offline
     ? entries.filter((entry) => cachedIds.has(entry.id))
     : entries;
-  const matchingEntries = availableEntries.filter((entry) =>
-    matchesSongDifficulty(entry.chords, difficulty),
+  const matchingEntries = filterSongEntries(
+    availableEntries,
+    options,
+    useProgress.getState().records,
   );
   if (!matchingEntries.length) return null;
   const pool =
@@ -199,5 +215,18 @@ export function pickSongExercise(difficulty: SongDifficulty = 'all'): Exercise |
       : matchingEntries;
   const entry = pool[Math.floor(Math.random() * pool.length)]!;
   lastSongClipId = entry.id;
-  return songClipToExercise(entry, SONGS_BASE, version);
+  return songClipToExercise(
+    entry,
+    SONGS_BASE,
+    Boolean(options.instrumentalOnly),
+    version || undefined,
+  );
+}
+
+export function getSongExerciseById(id: string, instrumental: boolean): Exercise | null {
+  const { entries, version } = useSongs.getState();
+  const found = entries.find((candidate) => candidate.id === id);
+  return found
+    ? songClipToExercise(found, SONGS_BASE, instrumental, version || undefined)
+    : null;
 }

@@ -5,8 +5,10 @@ import { countUniqueChords, rateSongDifficulty } from './difficulty';
 export function songClipToExercise(
   entry: SongClipManifestEntry,
   baseUrl: string,
+  instrumental = false,
   libraryVersion?: string,
 ): Exercise {
+  const file = instrumental && entry.instrumentalFile ? entry.instrumentalFile : entry.file;
   const revision = libraryVersion
     ? `?library=${encodeURIComponent(libraryVersion)}`
     : '';
@@ -23,7 +25,7 @@ export function songClipToExercise(
     mode: entry.mode,
     source: 'recording',
     media: {
-      url: `${baseUrl}${entry.file}${revision}`,
+      url: `${baseUrl}${file}${revision}`,
       bpm: entry.bpm,
       durationSec: entry.durationSec,
       cueTimesSec: entry.cueTimesSec,

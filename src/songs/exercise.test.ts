@@ -5,6 +5,7 @@ import type { SongClipManifestEntry } from './types';
 const entry: SongClipManifestEntry = {
   id: 'jie-kou-m009',
   file: 'jie-kou-m009.mp3',
+  instrumentalFile: 'jie-kou-m009-instrumental.mp3',
   title: '借口 / Jie Kou',
   artist: '周杰倫 / Jay Chou',
   startMeasure: 9,
@@ -32,5 +33,20 @@ describe('songClipToExercise', () => {
     expect(exercise.song?.difficulty).toBe('beginner');
     expect(exercise.song?.uniqueChordCount).toBe(3);
     expect(exercise.media?.url).toBe('/song-clips/jie-kou-m009.mp3');
+  });
+
+  it('uses the instrumental file without changing exercise timing', () => {
+    const exercise = songClipToExercise(entry, '/song-clips/', true);
+
+    expect(exercise.media?.url).toBe('/song-clips/jie-kou-m009-instrumental.mp3');
+    expect(exercise.media?.cueTimesSec).toEqual(entry.cueTimesSec);
+    expect(exercise.media?.durationSec).toBe(entry.durationSec);
+  });
+
+  it('appends the library revision to whichever audio file is selected', () => {
+    const exercise = songClipToExercise(entry, '/song-clips/', true, 'rev 1');
+    expect(exercise.media?.url).toBe(
+      '/song-clips/jie-kou-m009-instrumental.mp3?library=rev%201',
+    );
   });
 });
