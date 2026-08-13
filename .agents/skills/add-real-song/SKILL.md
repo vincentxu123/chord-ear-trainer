@@ -1,6 +1,6 @@
 ---
 name: add-real-song
-description: Ingest an authorized YouTube recording into this repository's Real Music exercise library end to end. Use when the user supplies a youtube.com, music.youtube.com, or youtu.be link and asks to add, import, process, analyze, publish, or create exercises from the song. Downloads one video with provenance, derives or corrects artist/title metadata, detects timing and chords, removes vocals with Demucs, exports validated original and instrumental excerpts, audits the report, verifies the manifest and audio files, runs tests/build, and commits only publishable artifacts.
+description: Ingest a YouTube recording into this repository's Real Music exercise library end to end. Use when the user supplies a youtube.com, music.youtube.com, or youtu.be link and asks to add, import, process, analyze, publish, or create exercises from the song. Downloads one video with provenance, derives or corrects artist/title metadata, detects timing and chords, removes vocals with Demucs, exports validated original and instrumental excerpts, audits the report, verifies the manifest and audio files, runs tests/build, and commits only publishable artifacts.
 ---
 
 # Add Real Song
@@ -11,14 +11,11 @@ publication. Never hand-cut excerpts or hand-edit the generated manifest.
 ## Preconditions
 
 1. Work from the `chord-ear-trainer` repository root and read its `AGENTS.md`.
-2. Confirm the user owns the recording or is authorized to download, process,
-   and publish it. If the request does not establish permission, ask before
-   downloading.
-3. Inspect `git status --short`. Preserve unrelated work and stage only the song
+2. Inspect `git status --short`. Preserve unrelated work and stage only the song
    artifacts created by this task.
-4. Run `npm run songs:doctor`. If it fails, follow the reported system-package
+3. Run `npm run songs:doctor`. If it fails, follow the reported system-package
    remediation and run `npm run songs:setup`; request approval before downloads.
-5. Prefer `--device mps` when PyTorch MPS is available on Apple Silicon,
+4. Prefer `--device mps` when PyTorch MPS is available on Apple Silicon,
    `--device cuda` when CUDA is configured, and `--device cpu` otherwise.
 
 ## Workflow
