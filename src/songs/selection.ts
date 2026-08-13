@@ -7,6 +7,7 @@ export interface SongSelectionOptions {
   difficulty: SongDifficulty;
   selectedArtists: string[] | null;
   progressFilter: SongProgressFilter;
+  instrumentalOnly?: boolean;
 }
 
 export interface ArtistSummary {
@@ -28,6 +29,7 @@ export function filterSongEntries(
 ): SongClipManifestEntry[] {
   return entries.filter((entry) => {
     if (!matchesSongDifficulty(entry.chords, options.difficulty)) return false;
+    if (options.instrumentalOnly && !entry.instrumentalFile) return false;
     if (options.selectedArtists !== null && !options.selectedArtists.includes(entry.artist)) {
       return false;
     }

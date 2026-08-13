@@ -51,5 +51,5 @@ export function pickSongExercise(options: SongSelectionOptions): Exercise | null
       : matchingEntries;
   const entry = pool[Math.floor(Math.random() * pool.length)]!;
   lastSongClipId = entry.id;
-  return songClipToExercise(entry, SONGS_BASE);
+  return songClipToExercise(entry, SONGS_BASE, Boolean(options.instrumentalOnly));
 }

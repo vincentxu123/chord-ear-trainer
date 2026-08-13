@@ -222,6 +222,22 @@ class ExportCandidateTests(unittest.TestCase):
         self.assertEqual(first["totalBytes"], 11)
         self.assertNotEqual(first["version"], changed["version"])
 
+    def test_library_revision_includes_instrumental_audio(self):
+        with TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "song.mp3").write_bytes(b"original")
+            (output / "song-instrumental.mp3").write_bytes(b"instrumental")
+            entries = [
+                {
+                    "file": "song.mp3",
+                    "instrumentalFile": "song-instrumental.mp3",
+                }
+            ]
+
+            metadata = library_metadata(output, entries)
+
+        self.assertEqual(metadata["totalBytes"], len(b"originalinstrumental"))
+
 
 if __name__ == "__main__":
     unittest.main()

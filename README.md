@@ -14,7 +14,7 @@ feedback.
 |------|----------------|
 | **Piano** | Progressions synthesized on the fly with a sampled piano (Tone.js). Unlimited variety; tempo, length, key, and chromatic options are adjustable. |
 | **Generated** | Short instrumental clips generated offline with AI (full-band texture over a known 4-chord loop). Tempo/length come from the recording. |
-| **Real Music** | Four-measure excerpts from real songs. Only rows where both timing/chord pipelines agree are exported. |
+| **Real Music** | Four-measure excerpts from real songs. Only rows where both timing/chord pipelines agree are exported; a preprocessed instrumental version can be selected when available. |
 
 Switch between them in the settings panel. Real music unlocks once
 `public/song-clips/manifest.json` has entries (this repo may already include a
@@ -26,7 +26,7 @@ small library).
 - First chord pre-filled and locked as a listening anchor
 - Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
 - Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
-- Real Music mode: exact chord-change cues, measure-grouped answers, optional absolute chord labels, and Beginner/Advanced filtering
+- Real Music mode: exact chord-change cues, measure-grouped answers, optional vocal removal, optional absolute chord labels, and Beginner/Advanced filtering
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
 
@@ -49,7 +49,7 @@ small library).
 - [x] Add a song/artist selector for Real Music practice
 - [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
 - [x] Add an option for tapping chords to play them aloud with piano
-- [ ] Add instrumental mode for song clips, including a vocal-removal processing pipeline
+- [x] Add instrumental mode for song clips, including a vocal-removal processing pipeline
 - [x] Track each user's excerpts as unseen, answered correctly, or answered incorrectly
 - [ ] Train a more accurate chord-detection model
 
@@ -123,14 +123,18 @@ npm run songs:process -- \
 1. runs Beat This and madmom to establish one fixed 4/4 measure grid;
 2. runs lv-chordia and BTC for chord recognition;
 3. estimates the key and mode;
-4. exports agreed four-measure windows to `public/song-clips/`;
-5. updates `public/song-clips/manifest.json`; and
-6. writes `.recordings/<song-slug>/publish-report.html` with every included and
+4. separates a cached whole-song instrumental stem with Demucs;
+5. exports original and instrumental versions of agreed four-measure windows
+   to `public/song-clips/`;
+6. updates `public/song-clips/manifest.json`; and
+7. writes `.recordings/<song-slug>/publish-report.html` with every included and
    excluded window and the reason for each exclusion.
 
 Open the report after processing for a human sanity check, but it does not
 control publication. The app automatically derives Beginner (up to 3 unique
 chords) or Advanced (4+) difficulty, so no difficulty metadata is needed.
+The first vocal-separation pass can be slow; its full-song instrumental WAV is
+cached under `.recordings/<song-slug>/` and reused on later exports.
 
 If the automatically estimated tonality is clearly wrong, rerun with both an
 explicit key and mode:

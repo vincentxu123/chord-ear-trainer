@@ -12,6 +12,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from separate_vocals import separate_vocals
+
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_ANALYSIS_ROOT = REPO_ROOT / ".recordings"
@@ -382,11 +384,14 @@ def library_metadata(output: Path, entries: list[dict[str, Any]]) -> dict[str, A
     digest = hashlib.sha256()
     total_bytes = 0
     for entry in entries:
-        path = output / entry["file"]
-        audio = path.read_bytes()
-        digest.update(entry["file"].encode("utf-8"))
-        digest.update(audio)
-        total_bytes += len(audio)
+        for field in ("file", "instrumentalFile"):
+            filename = entry.get(field)
+            if not filename:
+                continue
+            audio = (output / filename).read_bytes()
+            digest.update(filename.encode("utf-8"))
+            digest.update(audio)
+            total_bytes += len(audio)
     return {"version": digest.hexdigest()[:12], "totalBytes": total_bytes}
 
 
@@ -395,6 +400,12 @@ def main() -> int:
     parser.add_argument("--analysis-root", type=Path, default=DEFAULT_ANALYSIS_ROOT)
     parser.add_argument("--analysis", type=Path, action="append")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--device", default="cpu", choices=("cpu", "mps", "cuda"))
+    parser.add_argument(
+        "--skip-instrumental",
+        action="store_true",
+        help="Export original excerpts only (useful for pipeline diagnostics)",
+    )
     args = parser.parse_args()
 
     analysis_paths = (
@@ -451,9 +462,25 @@ def main() -> int:
         ]
         unique_entries, duplicate_reasons = deduplicate_entries(eligible_entries)
         included_ids = {entry["id"] for entry in unique_entries}
+        instrumental = work_dir / "audio-instrumental.wav"
+        if unique_entries and not args.skip_instrumental:
+            print(f"Separating vocals for {metadata['title']}...", flush=True)
+            separate_vocals(
+                work_dir / analysis["audio"]["normalized"],
+                instrumental,
+                args.device,
+            )
         for entry in unique_entries:
             start = entry.pop("_clipStartSec")
             export_audio(preview, args.output / entry["file"], start, entry["durationSec"])
+            if not args.skip_instrumental:
+                entry["instrumentalFile"] = f"{entry['id']}-instrumental.mp3"
+                export_audio(
+                    instrumental,
+                    args.output / entry["instrumentalFile"],
+                    start,
+                    entry["durationSec"],
+                )
             entries.append(entry)
         reports.append(
             (analysis, work_dir, metadata, included_ids, duplicate_reasons)
@@ -466,13 +493,19 @@ def main() -> int:
         json.dumps({**metadata, "clips": entries}, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    exported_files = {entry["file"] for entry in entries}
+    exported_files = {
+        filename
+        for entry in entries
+        for filename in (entry.get("file"), entry.get("instrumentalFile"))
+        if filename
+    }
     for replaced_entry in replaced_entries:
-        stale_file = replaced_entry.get("file")
-        if stale_file and stale_file not in exported_files:
-            stale_path = args.output / stale_file
-            if stale_path.is_file():
-                stale_path.unlink()
+        for field in ("file", "instrumentalFile"):
+            stale_file = replaced_entry.get(field)
+            if stale_file and stale_file not in exported_files:
+                stale_path = args.output / stale_file
+                if stale_path.is_file():
+                    stale_path.unlink()
     temporary_manifest.replace(manifest_path)
 
     for analysis, work_dir, metadata, included_ids, duplicate_reasons in reports:
@@ -497,6 +530,8 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except FileNotFoundError as exc:
-        raise SystemExit("ffmpeg is required to export candidate clips") from exc
+        raise SystemExit(f"Recording pipeline file or executable not found: {exc}") from exc
+    except RuntimeError as exc:
+        raise SystemExit(str(exc)) from exc
     except subprocess.CalledProcessError as exc:
-        raise SystemExit(f"ffmpeg failed with exit code {exc.returncode}") from exc
+        raise SystemExit(f"Audio processing failed with exit code {exc.returncode}") from exc

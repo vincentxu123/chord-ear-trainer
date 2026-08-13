@@ -7,6 +7,12 @@ automatically publishes every eligible four-measure exercise. A static audit
 report is written after publication so a human can double-check the result,
 but approval is not part of the gate.
 
+Before excerpt export, Demucs separates the normalized full recording into
+vocals and accompaniment. The cached `audio-instrumental.wav` is cut at the
+same boundaries as the original, and each manifest entry points to both MP3s.
+The web app can therefore switch versions without processing audio at runtime
+or changing chord cue times.
+
 Eligible windows are deduplicated within each song by their exact relative
 ordered chord sequence. The earliest occurrence is exported and later repeats
 remain visible in the audit report with their duplicate reason. A window with
@@ -59,6 +65,14 @@ rebuilding timing normalization, automatic tonality, candidate gates, exports,
 and the audit report. Key estimation uses an audio chromagram and standard key
 profiles. `--key F --mode major` remains available as an optional correction,
 not a required approval step.
+
+Demucs runs once per song and caches `audio-instrumental.wav`. Reprocessing the
+same song reuses that stem. For a pipeline diagnostic that intentionally skips
+separation and exports only the original files, run:
+
+```bash
+npm run songs:export -- --skip-instrumental
+```
 
 The pipeline conservatively detects a sparse one-measure pickup, including a
 first bar that contains a retained no-chord region, and segments sustained
@@ -143,8 +157,8 @@ and update that hash deliberately when testing a new release.
 npm run songs:export
 ```
 
-This rebuilds short MP3s and the exact-cue manifest under
-`public/song-clips/` from every cached analysis. There is no hard-coded song
+This rebuilds original and instrumental short MP3s plus the exact-cue manifest
+under `public/song-clips/` from every cached analysis. There is no hard-coded song
 catalog: artist/title come from the analysis and key/mode come from automatic
 estimation or an optional override. The generated `publish-report.html` in
 each song's `.recordings` directory lists every included and excluded window,

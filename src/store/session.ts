@@ -47,6 +47,7 @@ export const useSession = create<SessionStore>((set, get) => ({
               difficulty: settings.songDifficulty,
               selectedArtists: settings.selectedArtists,
               progressFilter: settings.songProgressFilter,
+              instrumentalOnly: settings.instrumentalSongs,
             })
           : generateRound(settings);
 

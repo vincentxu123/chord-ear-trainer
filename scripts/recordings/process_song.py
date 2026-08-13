@@ -95,6 +95,8 @@ def main() -> int:
             str(analysis_path),
             "--output",
             str(output),
+            "--device",
+            args.device,
         ]
     )
     print(f"Done. Audit report: {work_dir / 'publish-report.html'}")

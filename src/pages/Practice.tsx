@@ -27,6 +27,7 @@ export function Practice() {
   const songDifficulty = useSettings((s) => s.songDifficulty);
   const songProgressFilter = useSettings((s) => s.songProgressFilter);
   const selectedArtists = useSettings((s) => s.selectedArtists);
+  const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
   const clipStatus = useClips((s) => s.status);
   const loadClips = useClips((s) => s.load);
   const songStatus = useSongs((s) => s.status);
@@ -46,6 +47,7 @@ export function Practice() {
     difficulty: songDifficulty,
     selectedArtists,
     progressFilter: songProgressFilter,
+    instrumentalOnly: instrumentalSongs,
   } as const;
   const eligibleSongCount = filterSongEntries(
     songEntries,
@@ -82,6 +84,7 @@ export function Practice() {
     songDifficulty,
     songProgressFilter,
     selectedArtists,
+    instrumentalSongs,
     mediaReadiness,
     newRound,
   ]);

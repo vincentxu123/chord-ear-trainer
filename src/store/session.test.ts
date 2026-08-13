@@ -15,6 +15,7 @@ const settings: PracticeSettings = {
   songProgressFilter: 'learning',
   selectedArtists: null,
   playChordOnSelection: false,
+  instrumentalSongs: false,
 };
 
 describe('session playback selection', () => {

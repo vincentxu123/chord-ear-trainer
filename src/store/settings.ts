@@ -18,6 +18,7 @@ export interface PracticeSettings {
   songProgressFilter: SongProgressFilter;
   selectedArtists: string[] | null;
   playChordOnSelection: boolean;
+  instrumentalSongs: boolean;
 }
 
 export const TEMPO_MIN = 100;
@@ -38,6 +39,7 @@ interface SettingsStore extends PracticeSettings {
   setSongProgressFilter: (filter: SongProgressFilter) => void;
   setSelectedArtists: (artists: string[] | null) => void;
   setPlayChordOnSelection: (value: boolean) => void;
+  setInstrumentalSongs: (value: boolean) => void;
 }
 
 const SETTINGS_STORAGE_KEY = 'chord-ear-trainer:settings:v1';
@@ -53,6 +55,7 @@ const DEFAULT_SETTINGS: PracticeSettings = {
   songProgressFilter: 'learning',
   selectedArtists: null,
   playChordOnSelection: false,
+  instrumentalSongs: false,
 };
 
 const STORED_SETTINGS = readStored<Partial<PracticeSettings>>(SETTINGS_STORAGE_KEY, {});
@@ -80,6 +83,7 @@ export const useSettings = create<SettingsStore>((set) => {
         songProgressFilter: next.songProgressFilter,
         selectedArtists: next.selectedArtists,
         playChordOnSelection: next.playChordOnSelection,
+        instrumentalSongs: next.instrumentalSongs,
       });
       return patch;
     });
@@ -97,5 +101,6 @@ export const useSettings = create<SettingsStore>((set) => {
     setSongProgressFilter: (filter) => update({ songProgressFilter: filter }),
     setSelectedArtists: (artists) => update({ selectedArtists: artists }),
     setPlayChordOnSelection: (value) => update({ playChordOnSelection: value }),
+    setInstrumentalSongs: (value) => update({ instrumentalSongs: value }),
   };
 });

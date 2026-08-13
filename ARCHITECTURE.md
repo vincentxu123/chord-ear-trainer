@@ -163,11 +163,15 @@ tonal center and automatically exports every four-measure row where:
 - every detected chord is supported and explains enough of its measure; and
 - both chord models return the same enharmonic root/quality sequence in every measure.
 
-The exporter writes short 96 kbps MP3 excerpts plus exact chord cues to
-`public/song-clips/`, updates the manifest incrementally, and then generates a
-local `publish-report.html` showing included and excluded windows. The report
-is an audit artifact, not an approval gate. These assets are for private
-research/review; public deployment requires the appropriate recording rights.
+Demucs first creates one cached, time-aligned accompaniment stem for the full
+recording. The exporter writes original and instrumental 96 kbps MP3 excerpts
+plus exact chord cues to `public/song-clips/`, updates the manifest
+incrementally, and then generates a local `publish-report.html` showing
+included and excluded windows. At runtime, the Real Music setting selects the
+manifest's `file` or optional `instrumentalFile`; no separation runs in the
+browser. The report is an audit artifact, not an approval gate. These assets
+are for private research/review; public deployment requires the appropriate
+recording rights.
 
 ---
 

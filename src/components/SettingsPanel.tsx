@@ -42,6 +42,7 @@ export function SettingsPanel() {
   const songProgressFilter = useSettings((s) => s.songProgressFilter);
   const selectedArtists = useSettings((s) => s.selectedArtists);
   const playChordOnSelection = useSettings((s) => s.playChordOnSelection);
+  const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
   const setSoundSource = useSettings((s) => s.setSoundSource);
   const setTempo = useSettings((s) => s.setTempo);
   const setLength = useSettings((s) => s.setLength);
@@ -52,6 +53,7 @@ export function SettingsPanel() {
   const setSongProgressFilter = useSettings((s) => s.setSongProgressFilter);
   const setSelectedArtists = useSettings((s) => s.setSelectedArtists);
   const setPlayChordOnSelection = useSettings((s) => s.setPlayChordOnSelection);
+  const setInstrumentalSongs = useSettings((s) => s.setInstrumentalSongs);
   const clipStatus = useClips((s) => s.status);
   const songStatus = useSongs((s) => s.status);
   const songEntries = useSongs((s) => s.entries);
@@ -63,6 +65,16 @@ export function SettingsPanel() {
   const mediaMode = clipMode || songMode;
   const clipsAvailable = clipStatus === 'ready';
   const songsAvailable = songStatus === 'ready';
+  const matchingInstrumentalCount = filterSongEntries(
+    songEntries,
+    {
+      difficulty: songDifficulty,
+      selectedArtists,
+      progressFilter: 'all',
+      instrumentalOnly: true,
+    },
+    progressRecords,
+  ).length;
 
   const artistSummaries = summarizeArtists(songEntries);
   const normalizedArtistQuery = artistQuery.trim().toLocaleLowerCase();
@@ -143,8 +155,10 @@ export function SettingsPanel() {
           <span className="text-sm font-medium text-slate-300">Difficulty</span>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {SONG_DIFFICULTIES.map(({ id, label }) => {
-              const count = songEntries.filter((entry) =>
-                matchesSongDifficulty(entry.chords, id),
+              const count = songEntries.filter(
+                (entry) =>
+                  matchesSongDifficulty(entry.chords, id) &&
+                  (!instrumentalSongs || Boolean(entry.instrumentalFile)),
               ).length;
               return (
                 <button
@@ -165,6 +179,26 @@ export function SettingsPanel() {
               );
             })}
           </div>
+        </div>
+      )}
+
+      {songMode && (
+        <div>
+          <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+            <input
+              type="checkbox"
+              checked={instrumentalSongs}
+              disabled={matchingInstrumentalCount === 0}
+              onChange={(event) => setInstrumentalSongs(event.target.checked)}
+              className="h-4 w-4"
+            />
+            Instrumental only
+          </label>
+          <p className="mt-1 pl-6 text-xs text-slate-400">
+            {matchingInstrumentalCount > 0
+              ? `${matchingInstrumentalCount} vocal-free excerpts available for this selection.`
+              : 'No vocal-free excerpts are available for this selection.'}
+          </p>
         </div>
       )}
 
