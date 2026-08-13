@@ -12,6 +12,7 @@ import { Slots } from '../components/Slots';
 import { Controls } from '../components/Controls';
 import { Feedback } from '../components/Feedback';
 import { SettingsPanel } from '../components/SettingsPanel';
+import { ModeSelector } from '../components/ModeSelector';
 
 function stopAll() {
   synth.stop();
@@ -135,8 +136,11 @@ export function Practice() {
   };
 
   return (
-    <div className="grid gap-8 md:grid-cols-[1fr_22rem]">
-      <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col gap-6">
+      <ModeSelector />
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
+        <SettingsPanel />
+        <main className="flex min-w-0 flex-col items-center gap-8 lg:col-start-1 lg:row-start-1">
         {!exercise && soundSource === 'songs' && (
           <div className="w-full rounded-xl border border-amber-400/30 bg-amber-400/10 px-5 py-4 text-center text-sm text-amber-100">
             {songStatus === 'loading'
@@ -192,8 +196,8 @@ export function Practice() {
             <AnswerPad />
           </>
         )}
+        </main>
       </div>
-      <SettingsPanel />
     </div>
   );
 }

@@ -6,9 +6,7 @@ import {
   LENGTH_MIN,
   LENGTH_MAX,
   type SongProgressFilter,
-  type SoundSource,
 } from '../store/settings';
-import { useClips } from '../store/clips';
 import { useSongs } from '../store/songs';
 import { matchesSongDifficulty, type SongDifficulty } from '../songs/difficulty';
 import {
@@ -30,6 +28,7 @@ const SONG_PROGRESS_FILTERS: { id: SongProgressFilter; label: string }[] = [
 ];
 
 export function SettingsPanel() {
+  const [panelExpanded, setPanelExpanded] = useState(false);
   const [artistsExpanded, setArtistsExpanded] = useState(false);
   const [artistQuery, setArtistQuery] = useState('');
   const soundSource = useSettings((s) => s.soundSource);
@@ -43,7 +42,6 @@ export function SettingsPanel() {
   const selectedArtists = useSettings((s) => s.selectedArtists);
   const playChordOnSelection = useSettings((s) => s.playChordOnSelection);
   const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
-  const setSoundSource = useSettings((s) => s.setSoundSource);
   const setTempo = useSettings((s) => s.setTempo);
   const setLength = useSettings((s) => s.setLength);
   const setRandomizeKey = useSettings((s) => s.setRandomizeKey);
@@ -54,17 +52,12 @@ export function SettingsPanel() {
   const setSelectedArtists = useSettings((s) => s.setSelectedArtists);
   const setPlayChordOnSelection = useSettings((s) => s.setPlayChordOnSelection);
   const setInstrumentalSongs = useSettings((s) => s.setInstrumentalSongs);
-  const clipStatus = useClips((s) => s.status);
-  const songStatus = useSongs((s) => s.status);
   const songEntries = useSongs((s) => s.entries);
   const progressRecords = useProgress((s) => s.records);
   const resetProgress = useProgress((s) => s.reset);
 
-  const clipMode = soundSource === 'clips';
+  const synthMode = soundSource === 'synth';
   const songMode = soundSource === 'songs';
-  const mediaMode = clipMode || songMode;
-  const clipsAvailable = clipStatus === 'ready';
-  const songsAvailable = songStatus === 'ready';
   const matchingInstrumentalCount = filterSongEntries(
     songEntries,
     {
@@ -122,33 +115,39 @@ export function SettingsPanel() {
     (_, i) => LENGTH_MIN + i,
   );
 
-  const sources: { id: SoundSource; label: string; disabled?: boolean }[] = [
-    { id: 'synth', label: 'Piano' },
-    { id: 'clips', label: 'Generated', disabled: !clipsAvailable },
-    { id: 'songs', label: 'Real Music', disabled: !songsAvailable },
-  ];
-
   return (
-    <div className="flex flex-col gap-5 rounded-xl border border-slate-700 bg-slate-800/50 p-5">
-      <div>
-        <span className="text-sm font-medium text-slate-300">Sound source</span>
-        <div className="mt-2 flex gap-2">
-          {sources.map(({ id, label, disabled }) => (
-            <button
-              key={id}
-              onClick={() => setSoundSource(id)}
-              disabled={disabled}
-              className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40 ${
-                id === soundSource
-                  ? 'bg-sky-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      </div>
+    <aside className="flex flex-col gap-4">
+      <button
+        type="button"
+        aria-expanded={panelExpanded}
+        onClick={() => setPanelExpanded((expanded) => !expanded)}
+        className="flex min-h-11 w-full items-center justify-between rounded-xl border border-slate-700 bg-slate-800/70 px-4 py-3 text-left text-sm font-semibold text-white lg:hidden"
+      >
+        Settings
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          className={`h-5 w-5 shrink-0 text-slate-400 transition-transform ${panelExpanded ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="m5 7.5 5 5 5-5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <div className={`${panelExpanded ? 'flex' : 'hidden'} flex-col gap-4 lg:flex`}>
+        <section
+          aria-labelledby="settings-heading"
+          className="rounded-xl border border-slate-700 bg-slate-800/50 p-5"
+        >
+          <h2
+            id="settings-heading"
+            className="sr-only text-base font-semibold text-white lg:not-sr-only"
+          >
+            Settings
+          </h2>
+        <div className="mt-5 flex flex-col gap-5">
 
       {songMode && (
         <div>
@@ -184,65 +183,33 @@ export function SettingsPanel() {
 
       {songMode && (
         <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-            <input
-              type="checkbox"
-              checked={instrumentalSongs}
-              disabled={matchingInstrumentalCount === 0}
-              onChange={(event) => setInstrumentalSongs(event.target.checked)}
-              className="h-4 w-4"
-            />
-            Instrumental only
-          </label>
-        </div>
-      )}
-
-      {songMode && (
-        <div>
-          <div className="flex items-center justify-between gap-3">
-            <span className="text-sm font-medium text-slate-300">Practice queue</span>
+          <span className="text-sm font-medium text-slate-300">Audio</span>
+          <div className="mt-2 grid grid-cols-2 gap-1 rounded-lg bg-slate-900/50 p-1">
             <button
               type="button"
-              onClick={handleResetProgress}
-              disabled={!Object.keys(progressRecords).length}
-              className="text-xs font-medium text-slate-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              aria-pressed={!instrumentalSongs}
+              onClick={() => setInstrumentalSongs(false)}
+              className={`rounded-md px-2 py-2 text-sm font-semibold transition ${
+                !instrumentalSongs
+                  ? 'bg-amber-500 text-slate-950'
+                  : 'text-slate-300 hover:bg-slate-700'
+              }`}
             >
-              Reset
+              Original
             </button>
-          </div>
-          <div className="mt-2 grid grid-cols-2 gap-1 rounded-lg bg-slate-900/50 p-1">
-            {SONG_PROGRESS_FILTERS.map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={id === songProgressFilter}
-                onClick={() => setSongProgressFilter(id)}
-                className={`rounded-md px-2 py-2 text-sm font-semibold transition ${
-                  id === songProgressFilter
-                    ? 'bg-amber-500 text-slate-950'
-                    : 'text-slate-300 hover:bg-slate-700'
-                }`}
-              >
-                {label}
-                <span className="ml-1 text-xs opacity-70">
-                  {id === 'learning' ? learningCount : currentSongEntries.length}
-                </span>
-              </button>
-            ))}
-          </div>
-          <div className="mt-2 grid grid-cols-3 gap-2 text-center text-xs">
-            <div className="rounded-md bg-slate-900/40 px-2 py-1.5 text-slate-400">
-              <span className="block font-semibold text-slate-200">{progressSummary.unseen}</span>
-              New
-            </div>
-            <div className="rounded-md bg-red-950/25 px-2 py-1.5 text-red-300/80">
-              <span className="block font-semibold text-red-200">{progressSummary.needsPractice}</span>
-              Retry
-            </div>
-            <div className="rounded-md bg-green-950/25 px-2 py-1.5 text-green-300/80">
-              <span className="block font-semibold text-green-200">{progressSummary.mastered}</span>
-              Mastered
-            </div>
+            <button
+              type="button"
+              aria-pressed={instrumentalSongs}
+              onClick={() => setInstrumentalSongs(true)}
+              disabled={matchingInstrumentalCount === 0}
+              className={`rounded-md px-2 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40 ${
+                instrumentalSongs
+                  ? 'bg-amber-500 text-slate-950'
+                  : 'text-slate-300 hover:bg-slate-700'
+              }`}
+            >
+              Instrumental
+            </button>
           </div>
         </div>
       )}
@@ -347,92 +314,149 @@ export function SettingsPanel() {
         </div>
       )}
 
-      <div>
-        <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-          <input
-            type="checkbox"
-            checked={playChordOnSelection}
-            onChange={(event) => setPlayChordOnSelection(event.target.checked)}
-            className="h-4 w-4"
-          />
-          Play piano sound when selecting a chord
-        </label>
-      </div>
+          {synthMode && (
+            <>
+              <div>
+                <label className="flex justify-between text-sm font-medium text-slate-300">
+                  <span>Tempo</span>
+                  <span className="text-slate-400">{tempoBpm} BPM</span>
+                </label>
+                <input
+                  type="range"
+                  min={TEMPO_MIN}
+                  max={TEMPO_MAX}
+                  value={tempoBpm}
+                  onChange={(event) => setTempo(Number(event.target.value))}
+                  className="mt-2 w-full"
+                />
+              </div>
 
-      <div className={mediaMode ? 'opacity-40' : ''}>
-        <label className="flex justify-between text-sm font-medium text-slate-300">
-          <span>Tempo</span>
-          <span className="text-slate-400">
-            {mediaMode ? 'set by the recording' : `${tempoBpm} BPM`}
-          </span>
-        </label>
-        <input
-          type="range"
-          min={TEMPO_MIN}
-          max={TEMPO_MAX}
-          value={tempoBpm}
-          disabled={mediaMode}
-          onChange={(e) => setTempo(Number(e.target.value))}
-          className="mt-2 w-full"
-        />
-      </div>
+              <div>
+                <span className="text-sm font-medium text-slate-300">Progression length</span>
+                <div className="mt-2 grid grid-cols-5 gap-2">
+                  {lengths.map((length) => (
+                    <button
+                      key={length}
+                      type="button"
+                      aria-pressed={length === progressionLength}
+                      onClick={() => setLength(length)}
+                      className={`min-h-10 rounded-lg text-sm font-semibold transition ${
+                        length === progressionLength
+                          ? 'bg-sky-600 text-white'
+                          : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      }`}
+                    >
+                      {length}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-      <div className={mediaMode ? 'opacity-40' : ''}>
-        <span className="text-sm font-medium text-slate-300">Chords</span>
-        <div className="mt-2 flex gap-2">
-          {lengths.map((n) => (
-            <button
-              key={n}
-              onClick={() => setLength(n)}
-              disabled={mediaMode}
-              className={`h-9 w-9 rounded-lg text-sm font-semibold transition disabled:cursor-not-allowed ${
-                n === progressionLength && !mediaMode
-                  ? 'bg-sky-600 text-white'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              {n}
-            </button>
-          ))}
+              <div className="flex flex-col gap-3">
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={randomizeKey}
+                    onChange={(event) => setRandomizeKey(event.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  Randomize key each round
+                </label>
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={includeChromatic}
+                    onChange={(event) => setIncludeChromatic(event.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  Include chromatic chords
+                </label>
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+                  <input
+                    type="checkbox"
+                    checked={includeDiminished}
+                    onChange={(event) => setIncludeDiminished(event.target.checked)}
+                    className="h-4 w-4"
+                  />
+                  Include diminished chords
+                </label>
+              </div>
+            </>
+          )}
+
+          <div className="border-t border-slate-700 pt-5">
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
+              <input
+                type="checkbox"
+                checked={playChordOnSelection}
+                onChange={(event) => setPlayChordOnSelection(event.target.checked)}
+                className="h-4 w-4"
+              />
+              Preview chords when selected
+            </label>
+          </div>
         </div>
-      </div>
+        </section>
 
-      <div className={mediaMode ? 'opacity-40' : ''}>
-        <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-          <input
-            type="checkbox"
-            checked={randomizeKey}
-            disabled={mediaMode}
-            onChange={(e) => setRandomizeKey(e.target.checked)}
-            className="h-4 w-4"
-          />
-          Randomize key each round
-        </label>
+        {songMode && (
+          <section
+            aria-labelledby="queue-heading"
+            className="rounded-xl border border-slate-700 bg-slate-800/50 p-5"
+          >
+          <div className="flex items-center justify-between gap-3">
+            <h2 id="queue-heading" className="text-base font-semibold text-white">
+              Practice queue
+            </h2>
+            <button
+              type="button"
+              onClick={handleResetProgress}
+              disabled={!Object.keys(progressRecords).length}
+              className="text-xs font-medium text-slate-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Reset
+            </button>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-1 rounded-lg bg-slate-900/50 p-1">
+            {SONG_PROGRESS_FILTERS.map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                aria-pressed={id === songProgressFilter}
+                onClick={() => setSongProgressFilter(id)}
+                className={`rounded-md px-2 py-2 text-sm font-semibold transition ${
+                  id === songProgressFilter
+                    ? 'bg-amber-500 text-slate-950'
+                    : 'text-slate-300 hover:bg-slate-700'
+                }`}
+              >
+                {label}
+                <span className="ml-1 text-xs opacity-70">
+                  {id === 'learning' ? learningCount : currentSongEntries.length}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-2 grid grid-cols-3 gap-2 text-center text-xs">
+            <div className="rounded-md bg-slate-900/40 px-2 py-1.5 text-slate-400">
+              <span className="block font-semibold text-slate-200">{progressSummary.unseen}</span>
+              New
+            </div>
+            <div className="rounded-md bg-red-950/25 px-2 py-1.5 text-red-300/80">
+              <span className="block font-semibold text-red-200">
+                {progressSummary.needsPractice}
+              </span>
+              Retry
+            </div>
+            <div className="rounded-md bg-green-950/25 px-2 py-1.5 text-green-300/80">
+              <span className="block font-semibold text-green-200">
+                {progressSummary.mastered}
+              </span>
+              Mastered
+            </div>
+          </div>
+          </section>
+        )}
       </div>
-
-      <div className={mediaMode ? 'opacity-40' : ''}>
-        <label className="flex items-center gap-2 text-sm font-medium text-slate-300">
-          <input
-            type="checkbox"
-            checked={mediaMode ? false : includeChromatic}
-            disabled={mediaMode}
-            onChange={(e) => setIncludeChromatic(e.target.checked)}
-            className="h-4 w-4"
-          />
-          Include chromatic chords
-        </label>
-
-        <label className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-300">
-          <input
-            type="checkbox"
-            checked={mediaMode ? false : includeDiminished}
-            disabled={mediaMode}
-            onChange={(e) => setIncludeDiminished(e.target.checked)}
-            className="h-4 w-4"
-          />
-          Include diminished chords (vii° / ii°)
-        </label>
-      </div>
-    </div>
+    </aside>
   );
 }
