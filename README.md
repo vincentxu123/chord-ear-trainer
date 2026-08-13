@@ -210,6 +210,7 @@ necessary distribution rights.
 | `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report |
 | `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process` |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
+| `npm run songs:instrumentals` | Offline: add vocal-free variants to already-published song excerpts |
 
 ## Project structure
 

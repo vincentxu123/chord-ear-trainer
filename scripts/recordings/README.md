@@ -163,3 +163,17 @@ catalog: artist/title come from the analysis and key/mode come from automatic
 estimation or an optional override. The generated `publish-report.html` in
 each song's `.recordings` directory lists every included and excluded window,
 its model predictions, and exclusion reasons.
+
+## Backfill existing published excerpts
+
+When a checkout contains published song excerpts but not their original
+full-song analysis cache, add instrumental variants directly from those short
+MP3s:
+
+```bash
+npm run songs:instrumentals -- --device mps
+```
+
+The command skips entries that already have `instrumentalFile`, caches Demucs
+WAV output under `.recordings/instrumental-backfill/`, writes matching
+`-instrumental.mp3` files, and atomically rebuilds the manifest metadata.
