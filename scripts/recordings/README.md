@@ -11,7 +11,9 @@ Before excerpt export, Demucs separates the normalized full recording into
 vocals and accompaniment. The cached `audio-instrumental.wav` is cut at the
 same boundaries as the original, and each manifest entry points to both MP3s.
 The web app can therefore switch versions without processing audio at runtime
-or changing chord cue times.
+or changing chord cue times. Chord recognition still defaults to the mixed
+recording; `--chord-audio instrumental` is an optional alternative described
+below.
 
 Eligible windows are deduplicated within each song by their exact relative
 ordered chord sequence. The earliest occurrence is exported and later repeats
@@ -73,15 +75,43 @@ npm run songs:process -- \
 ```
 
 Use `--device mps` on a compatible Mac if CPU inference is too slow. Model
-outputs are cached under `.recordings/`; `--reuse-analysis` reuses them while
-rebuilding timing normalization, automatic tonality, candidate gates, exports,
-and the audit report. Key estimation uses an audio chromagram and standard key
-profiles. `--key F --mode major` remains available as an optional correction,
-not a required approval step.
+outputs are cached under `.recordings/`; `--reuse-analysis` reuses timing and
+the selected `--chord-audio` chord JSON while rebuilding timing normalization,
+automatic tonality, candidate gates, exports, and the audit report. Key
+estimation uses an audio chromagram and standard key profiles.
+`--key F --mode major` remains available as an optional correction, not a
+required approval step.
 
-Demucs runs once per song and caches `audio-instrumental.wav`. Reprocessing the
-same song reuses that stem. For a pipeline diagnostic that intentionally skips
-separation and exports only the original files, run:
+### Chord-audio strategy
+
+Timing models always run on the mixed recording. Chord recognition defaults to
+the same mix (`--chord-audio mix`). Pass `--chord-audio instrumental` to run
+lv-chordia and BTC on the Demucs accompaniment stem instead:
+
+```bash
+npm run songs:process -- \
+  --audio "/absolute/path/to/song.mp3" \
+  --artist "Jay Chou" \
+  --title "Song title" \
+  --chord-audio instrumental
+```
+
+The two strategies keep separate chord caches, so they can be compared without
+overwriting each other:
+
+| `--chord-audio` | Chord JSON |
+| --- | --- |
+| `mix` (default) | `chords.json`, `chords.btc.json` |
+| `instrumental` | `chords.instrumental.json`, `chords.btc.instrumental.json` |
+
+`analysis.json`, `publish-report.html`, and published excerpts always reflect
+the last analyze/export run. To compare acceptance, run the default mix path,
+inspect the report, then rerun with `--chord-audio instrumental --reuse-analysis`.
+
+Demucs still runs once per song and caches `audio-instrumental.wav` for excerpt
+export (and for instrumental chord recognition when that strategy is selected).
+Reprocessing the same song reuses that stem. For a pipeline diagnostic that
+intentionally skips writing instrumental MP3s, run:
 
 ```bash
 npm run songs:export -- --skip-instrumental
@@ -121,9 +151,9 @@ the URL do not expand the import beyond that video. The best audio stream is
 kept under gitignored `.recordings/imports/`, alongside a `.source.json` file
 containing its URL and YouTube metadata. Artist and title are inferred using
 yt-dlp metadata; use explicit `--artist` and `--title` overrides if needed.
-`--key`/`--mode`, `--reuse-analysis`, `--metadata`, and device options are
-forwarded to the standard pipeline. Use `--download-only` to stop before
-analysis.
+`--key`/`--mode`, `--reuse-analysis`, `--chord-audio`, `--metadata`, and device
+options are forwarded to the standard pipeline. Use `--download-only` to stop
+before analysis.
 
 YouTube extractors change frequently. If an otherwise valid video stops
 working, update yt-dlp before debugging the recording models:
@@ -144,7 +174,11 @@ working, update yt-dlp before debugging the recording models:
 The command prints the location of `review.html`. This standalone diagnostic
 does not update the app. The first run downloads model weights.
 
-The automatic default runs `lv-chordia` and the independent BTC transformer.
+The automatic default runs `lv-chordia` and the independent BTC transformer on
+the mixed recording. Pass `--chord-audio instrumental` to run them on the
+Demucs stem instead; that writes `chords.instrumental.json` rather than
+overwriting the mix caches.
+
 To run a deliberately reduced diagnostic, select a model explicitly:
 
 ```bash
@@ -171,11 +205,12 @@ npm run songs:export
 ```
 
 This rebuilds original and instrumental short MP3s plus the exact-cue manifest
-under `public/song-clips/` from every cached analysis. There is no hard-coded song
-catalog: artist/title come from the analysis and key/mode come from automatic
-estimation or an optional override. The generated `publish-report.html` in
-each song's `.recordings` directory lists every included and excluded window,
-its model predictions, and exclusion reasons.
+under `public/song-clips/` from every cached `analysis.json`. That file records
+the last `--chord-audio` strategy in `audio.chordAudio`. There is no hard-coded
+song catalog: artist/title come from the analysis and key/mode come from
+automatic estimation or an optional override. The generated
+`publish-report.html` in each song's `.recordings` directory lists every
+included and excluded window, its model predictions, and exclusion reasons.
 
 ## Backfill existing published excerpts
 

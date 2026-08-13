@@ -58,6 +58,9 @@ separate PWA codebase. Any product change must keep **online browser use** and
 - Use the repository-local `$add-real-song` skill in
   `.agents/skills/add-real-song/` for YouTube ingestion, analysis, vocal
   removal, excerpt publication, audit, verification, and commit rules.
+  Chord recognition defaults to the mixed recording. Pass
+  `--chord-audio instrumental` only when the user explicitly asks for that
+  experimental strategy.
 - Prepare a fresh clone with `npm run songs:setup`, then verify it with
   `npm run songs:doctor`. Setup requires Python 3.11+ and FFmpeg and creates the
   gitignored `.venv-recordings` environment.

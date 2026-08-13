@@ -142,7 +142,7 @@ npm run songs:process -- \
 `--device` is optional and defaults to `cpu`. The command:
 
 1. runs Beat This and madmom to establish one fixed 4/4 measure grid;
-2. runs lv-chordia and BTC for chord recognition;
+2. runs lv-chordia and BTC for chord recognition on the mixed recording;
 3. estimates the key and mode;
 4. separates a cached whole-song instrumental stem with Demucs;
 5. exports original and instrumental versions of agreed four-measure windows
@@ -157,6 +157,12 @@ chords) or Advanced (4+) difficulty, so no difficulty metadata is needed.
 The first vocal-separation pass can be slow; its full-song instrumental WAV is
 cached under `.recordings/<song-slug>/` and reused on later exports.
 
+Pass `--chord-audio instrumental` to run lv-chordia and BTC on that Demucs
+stem instead of the mixed recording. Mix (`--chord-audio mix`) remains the
+default, so existing ingestion is unchanged. Instrumental chord JSON is cached
+separately (`chords.instrumental.json`); `--reuse-analysis` reuses only the
+selected strategy's chord cache while still sharing timing.
+
 If the automatically estimated tonality is clearly wrong, rerun with both an
 explicit key and mode:
 
@@ -170,10 +176,10 @@ npm run songs:process -- \
   --reuse-analysis
 ```
 
-`--reuse-analysis` reuses cached model output while rebuilding timing
-normalization, tonality, eligibility, exports, and the report. Reprocessing the
-same artist/title replaces that song's existing manifest entries without
-removing other songs.
+`--reuse-analysis` reuses cached model output for the selected `--chord-audio`
+strategy while rebuilding timing normalization, tonality, eligibility, exports,
+and the report. Reprocessing the same artist/title replaces that song's
+existing manifest entries without removing other songs.
 
 ### Import a permitted YouTube recording
 
@@ -189,8 +195,9 @@ npm run songs:youtube -- \
 The command ignores playlist and radio parameters, downloads only the selected
 video's best audio into gitignored `.recordings/imports/`, derives artist/title
 from its metadata, and records a `.source.json` provenance file. Pass `--artist`
-and `--title` to override imperfect YouTube metadata. All `songs:process`
-tonality, model-agreement, export, and report behavior remains unchanged.
+and `--title` to override imperfect YouTube metadata. `--chord-audio`,
+`--key`/`--mode`, and `--reuse-analysis` are forwarded to `songs:process`, so
+tonality, model-agreement, export, and report behavior remain the same.
 
 Pickup measures and sustained modulations are inferred automatically from the
 agreed chord analysis. The pickup detector is deliberately conservative: it
@@ -228,8 +235,8 @@ necessary distribution rights.
 | `npm run typecheck` | Type-check only |
 | `npm run clips:generate` | Offline: generate + QC clips into `public/clips/` |
 | `npm run clips:qc` | Offline: re-validate the existing clip library |
-| `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report |
-| `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process` |
+| `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report. Optional `--chord-audio instrumental` |
+| `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process`. Same `--chord-audio` flag |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 | `npm run songs:instrumentals` | Offline: add vocal-free variants to already-published song excerpts |
 | `npm run songs:setup` | Create or update the complete recording-analysis Python environment |
@@ -250,6 +257,7 @@ scripts/
   generateClips.ts   Replicate generation + QC gate
   qcClips.py         lv-chordia label validation
   renumberClips.ts   Sequential clip IDs after curation
+  recordings/        Real Music analysis + optional `--chord-audio instrumental`
 public/clips/        MP3 library + manifest.json (curated, ~60 clips)
 public/song-clips/   Eligible real-song excerpts + exact cue manifest
 ```

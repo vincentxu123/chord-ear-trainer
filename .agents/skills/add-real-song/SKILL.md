@@ -64,15 +64,20 @@ npm run songs:youtube -- \
 Let key and mode be estimated. Override them only when there is concrete
 evidence they are wrong, and always provide both `--key` and `--mode`. Add
 `--reuse-analysis` when rerunning cached inference after a tonality override,
-verified musical correction, or pipeline-code change.
+verified musical correction, or pipeline-code change. Leave chord recognition
+on the mixed recording unless the user explicitly asks for
+`--chord-audio instrumental`. If that flag was used, include it again on every
+reuse rerun so mix caches are not published by mistake.
 
 Allow the command to complete. It must:
 
 - analyze the fixed 4/4 grid with Beat This and madmom;
-- recognize chords independently with lv-chordia and BTC;
+- recognize chords independently with lv-chordia and BTC on the mixed
+  recording, unless `--chord-audio instrumental` was requested, in which case
+  Demucs runs first and both models read `audio-instrumental.wav`;
 - estimate tonality and sustained modulations;
 - separate and cache `.recordings/<song-slug>/audio-instrumental.wav` with
-  Demucs;
+  Demucs (for export, and earlier when using the instrumental chord strategy);
 - automatically select only structurally valid four-measure windows where both
   chord models agree on every ordered chord sequence;
 - exclude one-chord windows and deduplicate repeated ordered progressions;
@@ -97,8 +102,9 @@ Put verified structural facts in
 - ordered `tonalities` for measure-specific key/mode changes; and
 - `chordOverrides` for a verified chord position.
 
-Rerun the same `songs:youtube` command with `--reuse-analysis`. Never use a
-sidecar as guesswork or manually edit `analysis.json`.
+Rerun the same `songs:youtube` command with `--reuse-analysis`, keeping the
+same `--chord-audio` value. Never use a sidecar as guesswork or manually edit
+`analysis.json`.
 
 If no excerpt passes, retain the report, summarize the dominant exclusion
 reasons, and stop. Do not hand-edit the manifest or bypass model agreement.
@@ -150,7 +156,7 @@ before committing.
 
 ## Handoff
 
-Report the resolved artist/title, device, number and measure ranges of published
-excerpts, whether instrumental counterparts were verified, audit-report path,
-tests/build results, and commit. Remind the user that distributing derived
-commercial audio requires the necessary rights.
+Report the resolved artist/title, `--chord-audio` strategy, device, number and
+measure ranges of published excerpts, whether instrumental counterparts were
+verified, audit-report path, tests/build results, and commit. Remind the user
+that distributing derived commercial audio requires the necessary rights.

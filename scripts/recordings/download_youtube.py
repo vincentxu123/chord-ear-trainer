@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Download one permitted YouTube recording, then run the song pipeline."""
+"""Download one permitted YouTube recording, then run the song pipeline.
+
+Forwards --chord-audio to process_song.py. Mix remains the default.
+"""
 
 from __future__ import annotations
 
@@ -13,7 +16,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from analyze_song import DEFAULT_WORK_ROOT, KEY_NAMES
+from analyze_song import CHORD_AUDIO_CHOICES, DEFAULT_WORK_ROOT, KEY_NAMES
 from export_candidates import DEFAULT_OUTPUT
 
 
@@ -139,6 +142,8 @@ def build_process_command(args: argparse.Namespace, downloaded: Path, artist: st
         args.device,
         "--timing-checkpoint",
         args.timing_checkpoint,
+        "--chord-audio",
+        args.chord_audio,
     ]
     if args.key and args.mode:
         command.extend(["--key", args.key, "--mode", args.mode])
@@ -161,6 +166,12 @@ def main() -> int:
     parser.add_argument("--device", default="cpu", choices=("cpu", "mps", "cuda"))
     parser.add_argument("--timing-checkpoint", default="final0")
     parser.add_argument("--reuse-analysis", action="store_true")
+    parser.add_argument(
+        "--chord-audio",
+        choices=CHORD_AUDIO_CHOICES,
+        default="mix",
+        help="Audio fed to chord recognizers: mixed recording (default) or Demucs instrumental",
+    )
     parser.add_argument("--metadata", type=Path)
     parser.add_argument("--download-only", action="store_true")
     args = parser.parse_args()

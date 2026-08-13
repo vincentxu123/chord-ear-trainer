@@ -59,6 +59,7 @@ class DownloadYoutubeTests(unittest.TestCase):
                 mode="major",
                 reuse_analysis=True,
                 metadata=root / "song.json",
+                chord_audio="mix",
             )
             command = build_process_command(
                 args, root / "source.webm", "An Artist", "A Title"
@@ -69,6 +70,27 @@ class DownloadYoutubeTests(unittest.TestCase):
         self.assertIn("--reuse-analysis", command)
         self.assertEqual(command[command.index("--device") + 1], "mps")
         self.assertEqual(command[command.index("--key") + 1], "F")
+        self.assertEqual(command[command.index("--chord-audio") + 1], "mix")
+
+    def test_process_command_forwards_instrumental_chord_audio(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            args = argparse.Namespace(
+                work_root=root / "work",
+                output=root / "output",
+                device="cpu",
+                timing_checkpoint="final0",
+                key=None,
+                mode=None,
+                reuse_analysis=False,
+                metadata=None,
+                chord_audio="instrumental",
+            )
+            command = build_process_command(
+                args, root / "source.webm", "An Artist", "A Title"
+            )
+
+        self.assertEqual(command[command.index("--chord-audio") + 1], "instrumental")
 
 
 if __name__ == "__main__":

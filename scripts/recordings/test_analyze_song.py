@@ -1,12 +1,18 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from analyze_song import (
+    INSTRUMENTAL_AUDIO_NAME,
     MAJOR_KEY_PROFILE,
     MINOR_KEY_PROFILE,
+    NORMALIZED_AUDIO_NAME,
     analyze_bar,
     build_bars,
     build_candidates,
     build_ensemble_bars,
+    chord_audio_path,
+    chord_cache_path,
     chord_family,
     chord_root,
     estimate_key_from_chroma,
@@ -263,6 +269,25 @@ class AnalyzeSongTests(unittest.TestCase):
             [round(value, 1) for value in timing.downbeats],
             [2.3, 6.3, 10.3, 14.3, 18.3],
         )
+
+    def test_chord_caches_are_separate_per_audio_strategy(self):
+        with TemporaryDirectory() as directory:
+            work_dir = Path(directory)
+            mix_lv = chord_cache_path(work_dir, "lv-chordia", "mix")
+            mix_btc = chord_cache_path(work_dir, "btc", "mix")
+            instrumental_lv = chord_cache_path(work_dir, "lv-chordia", "instrumental")
+            instrumental_btc = chord_cache_path(work_dir, "btc", "instrumental")
+
+            self.assertEqual(mix_lv.name, "chords.json")
+            self.assertEqual(mix_btc.name, "chords.btc.json")
+            self.assertEqual(instrumental_lv.name, "chords.instrumental.json")
+            self.assertEqual(instrumental_btc.name, "chords.btc.instrumental.json")
+            self.assertNotEqual(mix_lv, instrumental_lv)
+            self.assertEqual(chord_audio_path(work_dir, "mix").name, NORMALIZED_AUDIO_NAME)
+            self.assertEqual(
+                chord_audio_path(work_dir, "instrumental").name,
+                INSTRUMENTAL_AUDIO_NAME,
+            )
 
 
 if __name__ == "__main__":

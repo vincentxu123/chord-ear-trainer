@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Analyze one local recording and generate a static four-bar review report."""
+"""Analyze one local recording and generate a static four-bar review report.
+
+Chord recognizers default to the mixed recording. Pass --chord-audio
+instrumental to run them on a Demucs accompaniment stem instead.
+"""
 
 from __future__ import annotations
 
@@ -19,10 +23,14 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from chord_models import ChordModelUnavailable, analyze_chords, available_models
+from separate_vocals import separate_vocals
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_WORK_ROOT = REPO_ROOT / ".recordings"
+NORMALIZED_AUDIO_NAME = "audio.wav"
+INSTRUMENTAL_AUDIO_NAME = "audio-instrumental.wav"
+CHORD_AUDIO_CHOICES = ("mix", "instrumental")
 SUPPORTED_FAMILIES = {"maj", "min", "dim"}
 BEATS_PER_BAR = 4
 MAX_CHORDS_PER_BAR = BEATS_PER_BAR
@@ -208,6 +216,22 @@ def sha256_file(path: Path) -> str:
 def slug(value: str) -> str:
     safe = "".join(c.lower() if c.isalnum() else "-" for c in value)
     return "-".join(part for part in safe.split("-") if part)[:80] or "song"
+
+
+def chord_cache_path(work_dir: Path, model: str, chord_audio: str = "mix") -> Path:
+    """Keep mix and instrumental chord JSON separate so both strategies can coexist."""
+    if chord_audio == "instrumental":
+        return work_dir / (
+            "chords.instrumental.json"
+            if model == "lv-chordia"
+            else f"chords.{model}.instrumental.json"
+        )
+    return work_dir / ("chords.json" if model == "lv-chordia" else f"chords.{model}.json")
+
+
+def chord_audio_path(work_dir: Path, chord_audio: str) -> Path:
+    name = INSTRUMENTAL_AUDIO_NAME if chord_audio == "instrumental" else NORMALIZED_AUDIO_NAME
+    return work_dir / name
 
 
 def normalize_audio(source: Path, destination: Path) -> None:
@@ -1173,6 +1197,12 @@ def main() -> int:
         default="lv-chordia,btc",
         help=f"Comma-separated chord detectors ({', '.join(available_models())})",
     )
+    parser.add_argument(
+        "--chord-audio",
+        choices=CHORD_AUDIO_CHOICES,
+        default="mix",
+        help="Audio fed to chord recognizers: mixed recording (default) or Demucs instrumental",
+    )
     parser.add_argument("--key", choices=KEY_NAMES)
     parser.add_argument("--mode", choices=("major", "minor"))
     parser.add_argument("--reuse-analysis", action="store_true")
@@ -1207,8 +1237,9 @@ def main() -> int:
     title = args.title or source.stem
     work_dir = args.work_root.resolve() / slug(f"{args.artist}-{title}")
     work_dir.mkdir(parents=True, exist_ok=True)
-    normalized = work_dir / "audio.wav"
+    normalized = work_dir / NORMALIZED_AUDIO_NAME
     preview = work_dir / "audio-preview.mp3"
+    chord_source = chord_audio_path(work_dir, args.chord_audio)
 
     if not normalized.exists():
         print("Normalizing audio...", flush=True)
@@ -1216,6 +1247,13 @@ def main() -> int:
     if not preview.exists():
         print("Creating report preview...", flush=True)
         make_preview_audio(normalized, preview)
+
+    if args.chord_audio == "instrumental" and not chord_source.exists():
+        print("Separating vocals for chord recognition...", flush=True)
+        try:
+            separate_vocals(normalized, chord_source, args.device)
+        except RuntimeError as exc:
+            raise SystemExit(str(exc)) from exc
 
     timing_outputs: dict[str, tuple[list[float], list[float]]] = {}
     for model in timing_models:
@@ -1241,15 +1279,18 @@ def main() -> int:
 
     model_chords: dict[str, list[dict[str, Any]]] = {}
     for model in chord_models:
-        chords_path = work_dir / (
-            "chords.json" if model == "lv-chordia" else f"chords.{model}.json"
-        )
+        chords_path = chord_cache_path(work_dir, model, args.chord_audio)
         if args.reuse_analysis and chords_path.exists():
             model_chords[model] = json.loads(chords_path.read_text(encoding="utf-8"))
             continue
-        print(f"Recognizing chords with {model}...", flush=True)
+        source_label = (
+            "the instrumental stem"
+            if args.chord_audio == "instrumental"
+            else "the mixed recording"
+        )
+        print(f"Recognizing chords with {model} on {source_label}...", flush=True)
         try:
-            model_chords[model] = analyze_chords(model, normalized, args.device)
+            model_chords[model] = analyze_chords(model, chord_source, args.device)
         except ChordModelUnavailable as exc:
             raise SystemExit(str(exc)) from exc
         chords_path.write_text(
@@ -1322,6 +1363,8 @@ def main() -> int:
         "audio": {
             "normalized": normalized.name,
             "preview": preview.name,
+            "chords": chord_source.name,
+            "chordAudio": args.chord_audio,
             "durationSec": duration,
         },
         "timing": {

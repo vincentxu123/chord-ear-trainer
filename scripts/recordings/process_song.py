@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Analyze one song, publish every eligible window, then write an audit report."""
+"""Analyze one song, publish every eligible window, then write an audit report.
+
+Pass --chord-audio instrumental to run chord recognition on the Demucs stem
+instead of the mixed recording.
+"""
 
 from __future__ import annotations
 
@@ -8,7 +12,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from analyze_song import DEFAULT_WORK_ROOT, KEY_NAMES, slug
+from analyze_song import CHORD_AUDIO_CHOICES, DEFAULT_WORK_ROOT, KEY_NAMES, slug
 from export_candidates import DEFAULT_OUTPUT
 
 
@@ -31,6 +35,12 @@ def main() -> int:
     parser.add_argument("--device", default="cpu", choices=("cpu", "mps", "cuda"))
     parser.add_argument("--timing-checkpoint", default="final0")
     parser.add_argument("--reuse-analysis", action="store_true")
+    parser.add_argument(
+        "--chord-audio",
+        choices=CHORD_AUDIO_CHOICES,
+        default="mix",
+        help="Audio fed to chord recognizers: mixed recording (default) or Demucs instrumental",
+    )
     parser.add_argument("--metadata", type=Path)
     args = parser.parse_args()
 
@@ -74,6 +84,8 @@ def main() -> int:
         "--candidate-limit",
         "0",
         "--skip-report",
+        "--chord-audio",
+        args.chord_audio,
     ]
     if args.key and args.mode:
         analyze_command.extend(["--key", args.key, "--mode", args.mode])
@@ -82,7 +94,13 @@ def main() -> int:
     if args.reuse_analysis:
         analyze_command.append("--reuse-analysis")
 
-    print("Analyzing with two timing models and two chord models...", flush=True)
+    chord_source = (
+        "instrumental stems" if args.chord_audio == "instrumental" else "mixed recordings"
+    )
+    print(
+        f"Analyzing with two timing models and two chord models on {chord_source}...",
+        flush=True,
+    )
     run(analyze_command)
     analysis_path = work_dir / "analysis.json"
 
