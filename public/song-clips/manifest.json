@@ -1,6 +1,6 @@
 {
-  "version": "ac0d6c75483f",
-  "totalBytes": 16995937,
+  "version": "09d79ea76bac",
+  "totalBytes": 19023142,
   "clips": [
     {
       "id": "neon-genesis-evangelion-op-piano-m042",
@@ -964,6 +964,357 @@
         2
       ],
       "instrumentalFile": "v-m061-instrumental.mp3"
+    },
+    {
+      "id": "believer-m033",
+      "file": "believer-m033.mp3",
+      "title": "Believer",
+      "artist": "Imagine Dragons",
+      "startMeasure": 33,
+      "endMeasure": 36,
+      "key": "Bb",
+      "mode": "minor",
+      "bpm": 124.99488279833577,
+      "durationSec": 7.657640991771359,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8974051814651602,
+        3.8345804988662167,
+        5.737562388335959
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "believer-m033-instrumental.mp3"
+    },
+    {
+      "id": "radioactive-m017",
+      "file": "radioactive-m017.mp3",
+      "title": "Radioactive",
+      "artist": "Imagine Dragons",
+      "startMeasure": 17,
+      "endMeasure": 20,
+      "key": "A",
+      "mode": "major",
+      "bpm": 68.29245658081237,
+      "durationSec": 14.025296569522823,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8529705215419483,
+        3.572970521541947,
+        5.482970521541951,
+        7.222970521541953,
+        8.802970521541951,
+        10.51099920761726,
+        12.512970521541945
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "instrumentalFile": "radioactive-m017-instrumental.mp3"
+    },
+    {
+      "id": "radioactive-m021",
+      "file": "radioactive-m021.mp3",
+      "title": "Radioactive",
+      "artist": "Imagine Dragons",
+      "startMeasure": 21,
+      "endMeasure": 24,
+      "key": "A",
+      "mode": "major",
+      "bpm": 68.29245658081237,
+      "durationSec": 14.011193500138333,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.9016780045351567,
+        3.4683014144216173,
+        5.291678004535157,
+        6.98259877632718,
+        8.85167800453516,
+        10.496896138232756,
+        11.72167800453515
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "instrumentalFile": "radioactive-m021-instrumental.mp3"
+    },
+    {
+      "id": "radioactive-m041",
+      "file": "radioactive-m041.mp3",
+      "title": "Radioactive",
+      "artist": "Imagine Dragons",
+      "startMeasure": 41,
+      "endMeasure": 44,
+      "key": "A",
+      "mode": "major",
+      "bpm": 68.29245658081237,
+      "durationSec": 13.940678153215828,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.8352154195011394,
+        3.397786067499112,
+        6.0352154195011565,
+        6.912083429404703,
+        10.705215419501144
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "instrumentalFile": "radioactive-m041-instrumental.mp3"
+    },
+    {
+      "id": "thunder-m033",
+      "file": "thunder-m033.mp3",
+      "title": "Thunder",
+      "artist": "Imagine Dragons",
+      "startMeasure": 33,
+      "endMeasure": 36,
+      "key": "C",
+      "mode": "major",
+      "bpm": 83.99378300908066,
+      "durationSec": 11.42941734028355,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.0128558585782343,
+        5.722855858578228,
+        8.582855858578228
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "thunder-m033-instrumental.mp3"
+    },
+    {
+      "id": "thunder-m037",
+      "file": "thunder-m037.mp3",
+      "title": "Thunder",
+      "artist": "Imagine Dragons",
+      "startMeasure": 37,
+      "endMeasure": 40,
+      "key": "C",
+      "mode": "major",
+      "bpm": 83.99378300908066,
+      "durationSec": 11.429417340283536,
+      "chords": [
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.8573543350708803,
+        5.723438518294685,
+        8.572063005212655
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "thunder-m037-instrumental.mp3"
+    },
+    {
+      "id": "thunder-m045",
+      "file": "thunder-m045.mp3",
+      "title": "Thunder",
+      "artist": "Imagine Dragons",
+      "startMeasure": 45,
+      "endMeasure": 48,
+      "key": "C",
+      "mode": "major",
+      "bpm": 83.99378300908066,
+      "durationSec": 11.409099216841668,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.837036211628998,
+        5.824285714285708,
+        8.594285714285718
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "thunder-m045-instrumental.mp3"
     },
     {
       "id": "daisies-m009",
