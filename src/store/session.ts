@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { Chord, Exercise } from '../theory/types';
 import { generateRound, scoreAttempt, type AttemptResult } from '../engine/round';
 import { pickClipExercise } from './clips';
-import { pickSongExercise } from './songs';
+import { getSongExerciseById, pickSongExercise } from './songs';
 import { useProgress } from './progress';
 import type { PracticeSettings } from './settings';
 
@@ -20,6 +20,7 @@ interface SessionStore {
   playingIndex: number | null;
 
   newRound: (settings: PracticeSettings) => void;
+  setSongAudioVariant: (instrumental: boolean) => void;
   setActiveSlot: (slot: number) => void;
   selectChord: (chord: Chord) => void;
   clearSlot: (slot: number) => void;
@@ -73,6 +74,17 @@ export const useSession = create<SessionStore>((set, get) => ({
       activeSlot: 0,
       result: null,
       phase: 'answering',
+      playingIndex: null,
+    });
+  },
+
+  setSongAudioVariant: (instrumental) => {
+    const { exercise } = get();
+    if (exercise?.source !== 'recording') return;
+    const variant = getSongExerciseById(exercise.progression.id, instrumental);
+    if (!variant?.media) return;
+    set({
+      exercise: { ...exercise, media: variant.media },
       playingIndex: null,
     });
   },

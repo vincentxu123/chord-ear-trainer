@@ -53,3 +53,8 @@ export function pickSongExercise(options: SongSelectionOptions): Exercise | null
   lastSongClipId = entry.id;
   return songClipToExercise(entry, SONGS_BASE, Boolean(options.instrumentalOnly));
 }
+
+export function getSongExerciseById(id: string, instrumental: boolean): Exercise | null {
+  const entry = useSongs.getState().entries.find((candidate) => candidate.id === id);
+  return entry ? songClipToExercise(entry, SONGS_BASE, instrumental) : null;
+}

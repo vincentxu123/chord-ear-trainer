@@ -36,6 +36,7 @@ export function Practice() {
   const loadSongs = useSongs((s) => s.load);
   const progressRecords = useProgress((s) => s.records);
   const newRound = useSession((s) => s.newRound);
+  const setSongAudioVariant = useSession((s) => s.setSongAudioVariant);
   const setPlayingIndex = useSession((s) => s.setPlayingIndex);
   const exercise = useSession((s) => s.exercise);
   const activeSlot = useSession((s) => s.activeSlot);
@@ -85,10 +86,19 @@ export function Practice() {
     songDifficulty,
     songProgressFilter,
     selectedArtists,
-    instrumentalSongs,
     mediaReadiness,
     newRound,
   ]);
+
+  // Switching between the original and instrumental mix should not replace
+  // the exercise or clear any answers. Only swap the current recording URL.
+  useEffect(() => {
+    if (soundSource !== 'songs') return;
+    stopAll();
+    setPlayingIndex(null);
+    setIsPlaying(false);
+    setSongAudioVariant(instrumentalSongs);
+  }, [instrumentalSongs, setPlayingIndex, setSongAudioVariant, soundSource]);
 
   // Buffer the clip while the user is still looking at the fresh round.
   useEffect(() => {
