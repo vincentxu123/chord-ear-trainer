@@ -20,7 +20,7 @@ export function ModeSelector() {
 
   return (
     <section aria-labelledby="mode-heading">
-      <h2 id="mode-heading" className="mb-2 text-sm font-semibold text-slate-300">
+      <h2 id="mode-heading" className="sr-only">
         Mode
       </h2>
       <div className="grid grid-cols-3 gap-1 rounded-xl border border-slate-700 bg-slate-800/70 p-1.5">
