@@ -1,4 +1,4 @@
 interface:
   display_name: "Add Real Song"
   short_description: "Ingest and publish a YouTube song safely"
-  default_prompt: "Use $add-real-song to add this permitted YouTube song to the Real Music library."
+  default_prompt: "Use $add-real-song to add this YouTube song to the Real Music library."
