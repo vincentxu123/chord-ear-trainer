@@ -1,5 +1,7 @@
 import { toAbsoluteChord, toRoman } from '../theory/chords';
+import { synth } from '../audio/synth';
 import { GIVEN_SLOT_COUNT, useSession } from '../store/session';
+import { useSettings } from '../store/settings';
 
 function AnswerStatusIcon({ correct }: { correct: boolean }) {
   return (
@@ -21,6 +23,7 @@ function AnswerStatusIcon({ correct }: { correct: boolean }) {
 }
 
 export function Slots() {
+  const playChordOnSelection = useSettings((s) => s.playChordOnSelection);
   const exercise = useSession((s) => s.exercise);
   const answers = useSession((s) => s.answers);
   const activeSlot = useSession((s) => s.activeSlot);
@@ -61,7 +64,12 @@ export function Slots() {
       <button
         key={i}
         type="button"
-        onClick={() => setActiveSlot(i)}
+        onClick={() => {
+          setActiveSlot(i);
+          if (playChordOnSelection && answer) {
+            void synth.playChord(answer, exercise.key);
+          }
+        }}
         aria-label={
           incorrectSlot && answer
             ? `Your answer: ${toRoman(answer, mode)}, ${toAbsoluteChord(answer, exercise.key)}. Correct answer: ${toRoman(incorrectSlot.expected, mode)}, ${toAbsoluteChord(incorrectSlot.expected, exercise.key)}.`

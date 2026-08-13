@@ -5,6 +5,8 @@ import { useSettings } from '../store/settings';
 import { useSession } from '../store/session';
 import { useClips } from '../store/clips';
 import { useSongs } from '../store/songs';
+import { filterSongEntries } from '../songs/selection';
+import { useProgress } from '../store/progress';
 import { AnswerPad } from '../components/AnswerPad';
 import { Slots } from '../components/Slots';
 import { Controls } from '../components/Controls';
@@ -23,10 +25,14 @@ export function Practice() {
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const soundSource = useSettings((s) => s.soundSource);
   const songDifficulty = useSettings((s) => s.songDifficulty);
+  const songProgressFilter = useSettings((s) => s.songProgressFilter);
+  const selectedArtists = useSettings((s) => s.selectedArtists);
   const clipStatus = useClips((s) => s.status);
   const loadClips = useClips((s) => s.load);
   const songStatus = useSongs((s) => s.status);
+  const songEntries = useSongs((s) => s.entries);
   const loadSongs = useSongs((s) => s.load);
+  const progressRecords = useProgress((s) => s.records);
   const newRound = useSession((s) => s.newRound);
   const setPlayingIndex = useSession((s) => s.setPlayingIndex);
   const exercise = useSession((s) => s.exercise);
@@ -36,6 +42,21 @@ export function Practice() {
   const [isLoading, setIsLoading] = useState(false);
   const [hintedExercise, setHintedExercise] = useState<typeof exercise>(null);
   const showChordHint = exercise !== null && hintedExercise === exercise;
+  const currentSongOptions = {
+    difficulty: songDifficulty,
+    selectedArtists,
+    progressFilter: songProgressFilter,
+  } as const;
+  const eligibleSongCount = filterSongEntries(
+    songEntries,
+    { ...currentSongOptions, progressFilter: 'all' },
+    progressRecords,
+  ).length;
+  const learningSongCount = filterSongEntries(
+    songEntries,
+    currentSongOptions,
+    progressRecords,
+  ).length;
 
   useEffect(() => {
     void loadClips();
@@ -59,6 +80,8 @@ export function Practice() {
     includeDiminished,
     soundSource,
     songDifficulty,
+    songProgressFilter,
+    selectedArtists,
     mediaReadiness,
     newRound,
   ]);
@@ -111,6 +134,19 @@ export function Practice() {
   return (
     <div className="grid gap-8 md:grid-cols-[1fr_22rem]">
       <div className="flex flex-col items-center gap-8">
+        {!exercise && soundSource === 'songs' && (
+          <div className="w-full rounded-xl border border-amber-400/30 bg-amber-400/10 px-5 py-4 text-center text-sm text-amber-100">
+            {songStatus === 'loading'
+              ? 'Loading the song library…'
+              : songStatus === 'ready'
+                ? eligibleSongCount === 0
+                  ? 'No excerpts match the current artist and difficulty filters.'
+                  : songProgressFilter === 'learning' && learningSongCount === 0
+                  ? 'You have finished every excerpt in this learning queue. Choose All excerpts, another artist, or reset your progress to review them again.'
+                  : 'No excerpt is ready yet. Choose another artist or difficulty filter.'
+                : 'The song library is unavailable right now.'}
+          </div>
+        )}
         {exercise?.song && (
           <div className="rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 text-center text-sm text-amber-100">
             <span className="font-semibold">{exercise.song.title}</span>
@@ -138,17 +174,21 @@ export function Practice() {
             </button>
           </div>
         )}
-        <Slots />
-        <Controls
-          onPlay={() => handlePlay(activeSlot)}
-          onReplay={() => handlePlay(0)}
-          onStop={handleStop}
-          onSkip={handleNext}
-          isPlaying={isPlaying}
-          isLoading={isLoading}
-        />
-        <Feedback />
-        <AnswerPad />
+        {exercise && (
+          <>
+            <Slots />
+            <Controls
+              onPlay={() => handlePlay(activeSlot)}
+              onReplay={() => handlePlay(0)}
+              onStop={handleStop}
+              onSkip={handleNext}
+              isPlaying={isPlaying}
+              isLoading={isLoading}
+            />
+            <Feedback />
+            <AnswerPad />
+          </>
+        )}
       </div>
       <SettingsPanel />
     </div>

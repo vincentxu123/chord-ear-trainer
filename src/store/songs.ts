@@ -1,8 +1,9 @@
 import { create } from 'zustand';
 import type { Exercise } from '../theory/types';
 import { songClipToExercise } from '../songs/exercise';
-import { matchesSongDifficulty, type SongDifficulty } from '../songs/difficulty';
 import type { SongClipManifest, SongClipManifestEntry } from '../songs/types';
+import { filterSongEntries, type SongSelectionOptions } from '../songs/selection';
+import { useProgress } from './progress';
 
 export type SongLibraryStatus = 'idle' | 'loading' | 'ready' | 'unavailable';
 
@@ -36,10 +37,12 @@ export const useSongs = create<SongStore>((set, get) => ({
 
 let lastSongClipId: string | null = null;
 
-export function pickSongExercise(difficulty: SongDifficulty = 'all'): Exercise | null {
+export function pickSongExercise(options: SongSelectionOptions): Exercise | null {
   const { entries } = useSongs.getState();
-  const matchingEntries = entries.filter((entry) =>
-    matchesSongDifficulty(entry.chords, difficulty),
+  const matchingEntries = filterSongEntries(
+    entries,
+    options,
+    useProgress.getState().records,
   );
   if (!matchingEntries.length) return null;
   const pool =

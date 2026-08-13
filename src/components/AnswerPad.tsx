@@ -15,6 +15,7 @@ export function AnswerPad() {
   const soundSource = useSettings((s) => s.soundSource);
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
+  const playChordOnSelection = useSettings((s) => s.playChordOnSelection);
   const exercise = useSession((s) => s.exercise);
   const selectChord = useSession((s) => s.selectChord);
   const phase = useSession((s) => s.phase);
@@ -40,7 +41,10 @@ export function AnswerPad() {
     : baseChords;
 
   const handleClick = (chord: Chord) => {
-    if (phase === 'answering') selectChord(chord);
+    if (phase === 'answering') {
+      selectChord(chord);
+      if (playChordOnSelection) void synth.playChord(chord, exercise.key);
+    }
     else if (phase === 'revealed') void synth.playChord(chord, exercise.key);
   };
 

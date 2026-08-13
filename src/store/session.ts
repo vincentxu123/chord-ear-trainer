@@ -3,6 +3,7 @@ import type { Chord, Exercise } from '../theory/types';
 import { generateRound, scoreAttempt, type AttemptResult } from '../engine/round';
 import { pickClipExercise } from './clips';
 import { pickSongExercise } from './songs';
+import { useProgress } from './progress';
 import type { PracticeSettings } from './settings';
 
 export type Phase = 'idle' | 'answering' | 'revealed';
@@ -35,15 +36,32 @@ export const useSession = create<SessionStore>((set, get) => ({
   playingIndex: null,
 
   newRound: (settings) => {
-    // Clip mode falls back to synth generation while the library is missing
-    // or still loading.
-    const mediaExercise =
+    // Generated clips still fall back to synth while their library is loading.
+    // Real Music keeps an explicit empty state when filters exclude everything
+    // so a learner never receives an unrelated synthesized exercise.
+    const exercise =
       settings.soundSource === 'clips'
-        ? pickClipExercise()
+        ? pickClipExercise() ?? generateRound(settings)
         : settings.soundSource === 'songs'
-          ? pickSongExercise(settings.songDifficulty)
-          : null;
-    const exercise = mediaExercise ?? generateRound(settings);
+          ? pickSongExercise({
+              difficulty: settings.songDifficulty,
+              selectedArtists: settings.selectedArtists,
+              progressFilter: settings.songProgressFilter,
+            })
+          : generateRound(settings);
+
+    if (!exercise) {
+      set({
+        exercise: null,
+        answers: [],
+        activeSlot: 0,
+        result: null,
+        phase: 'idle',
+        playingIndex: null,
+      });
+      return;
+    }
+
     const chords = exercise.progression.chords;
     const answers: (Chord | null)[] = chords.map((chord, i) =>
       i < GIVEN_SLOT_COUNT ? chord : null,
@@ -90,8 +108,15 @@ export const useSession = create<SessionStore>((set, get) => ({
     const { exercise, answers, phase } = get();
     if (!exercise || phase !== 'answering') return;
     if (answers.some((a) => a === null)) return;
+    const result = scoreAttempt(answers, exercise.progression, GIVEN_SLOT_COUNT);
+    if (exercise.source === 'recording') {
+      useProgress.getState().recordAttempt(
+        exercise.progression.id,
+        result.total > 0 && result.correctCount === result.total,
+      );
+    }
     set({
-      result: scoreAttempt(answers, exercise.progression, GIVEN_SLOT_COUNT),
+      result,
       phase: 'revealed',
     });
   },
