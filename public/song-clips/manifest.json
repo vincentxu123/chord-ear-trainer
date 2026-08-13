@@ -1,6 +1,6 @@
 {
-  "version": "82ae57136f5c",
-  "totalBytes": 10028278,
+  "version": "ac0d6c75483f",
+  "totalBytes": 16995937,
   "clips": [
     {
       "id": "neon-genesis-evangelion-op-piano-m042",
@@ -1577,6 +1577,1001 @@
         1
       ],
       "instrumentalFile": "あぶく-official-video-m141-instrumental.mp3"
+    },
+    {
+      "id": "一路向北-m002",
+      "file": "一路向北-m002.mp3",
+      "title": "一路向北",
+      "artist": "周杰伦",
+      "startMeasure": 2,
+      "endMeasure": 5,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 67.0073747615497,
+      "durationSec": 14.326781244843957,
+      "chords": [
+        {
+          "rootPc": 3,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.608094777945798,
+        7.168094777945797,
+        10.745085933632964
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "一路向北-m002-instrumental.mp3"
+    },
+    {
+      "id": "一路向北-m014",
+      "file": "一路向北-m014.mp3",
+      "title": "一路向北",
+      "artist": "周杰伦",
+      "startMeasure": 14,
+      "endMeasure": 17,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 67.0073747615497,
+      "durationSec": 14.30213677739372,
+      "chords": [
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.5631065759637153,
+        5.423106575963715,
+        7.138746154971749,
+        10.743106575963715
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "instrumentalFile": "一路向北-m014-instrumental.mp3"
+    },
+    {
+      "id": "一路向北-m018",
+      "file": "一路向北-m018.mp3",
+      "title": "一路向北",
+      "artist": "周杰伦",
+      "startMeasure": 18,
+      "endMeasure": 21,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 67.0073747615497,
+      "durationSec": 14.326781244843943,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.6309697985699927,
+        7.163390622421971,
+        10.760969798570002
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "一路向北-m018-instrumental.mp3"
+    },
+    {
+      "id": "一路向北-m046",
+      "file": "一路向北-m046.mp3",
+      "title": "一路向北",
+      "artist": "周杰伦",
+      "startMeasure": 46,
+      "endMeasure": 49,
+      "key": "D",
+      "mode": "minor",
+      "bpm": 67.0073747615497,
+      "durationSec": 14.291080613696352,
+      "chords": [
+        {
+          "rootPc": 10,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.545994680063359,
+        7.217800453514741,
+        10.709385302485344
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "一路向北-m046-instrumental.mp3"
+    },
+    {
+      "id": "不能说的秘密-m009",
+      "file": "不能说的秘密-m009.mp3",
+      "title": "不能说的秘密",
+      "artist": "周杰伦",
+      "startMeasure": 9,
+      "endMeasure": 12,
+      "key": "G",
+      "mode": "major",
+      "bpm": 71.98980221246535,
+      "durationSec": 13.286862679775531,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.2854461197599107,
+        6.6192516397651175,
+        9.953057159770324
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "不能说的秘密-m009-instrumental.mp3"
+    },
+    {
+      "id": "不能说的秘密-m021",
+      "file": "不能说的秘密-m021.mp3",
+      "title": "不能说的秘密",
+      "artist": "周杰伦",
+      "startMeasure": 21,
+      "endMeasure": 24,
+      "key": "G",
+      "mode": "major",
+      "bpm": 71.98980221246535,
+      "durationSec": 13.33098696972462,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.3295704097090066,
+        6.6633759297142205,
+        9.99718144971942
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "不能说的秘密-m021-instrumental.mp3"
+    },
+    {
+      "id": "不能说的秘密-m025",
+      "file": "不能说的秘密-m025.mp3",
+      "title": "不能说的秘密",
+      "artist": "周杰伦",
+      "startMeasure": 25,
+      "endMeasure": 28,
+      "key": "G",
+      "mode": "major",
+      "bpm": 71.98980221246535,
+      "durationSec": 13.335222080020827,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.333805520005214,
+        4.947244322792386,
+        6.667611040010414,
+        10.001416560015628
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "instrumentalFile": "不能说的秘密-m025-instrumental.mp3"
+    },
+    {
+      "id": "晴天-m005",
+      "file": "晴天-m005.mp3",
+      "title": "晴天",
+      "artist": "周杰伦",
+      "startMeasure": 5,
+      "endMeasure": 8,
+      "key": "G",
+      "mode": "major",
+      "bpm": 68.53229083864316,
+      "durationSec": 14.007995183763597,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.5538885903569977,
+        3.5019987959409065,
+        6.173888590356995,
+        7.003997591881799,
+        8.563888590356996,
+        10.505996387822705,
+        13.183888590356997
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "instrumentalFile": "晴天-m005-instrumental.mp3"
+    },
+    {
+      "id": "晴天-m021",
+      "file": "晴天-m021.mp3",
+      "title": "晴天",
+      "artist": "周杰伦",
+      "startMeasure": 21,
+      "endMeasure": 24,
+      "key": "G",
+      "mode": "major",
+      "bpm": 68.53229083864316,
+      "durationSec": 13.992005695807961,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.5059183673469363,
+        3.486009307985256,
+        6.225918367346935,
+        6.988008103926148,
+        8.545918367346943,
+        10.490006899867069
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "instrumentalFile": "晴天-m021-instrumental.mp3"
+    },
+    {
+      "id": "晴天-m025",
+      "file": "晴天-m025.mp3",
+      "title": "晴天",
+      "artist": "周杰伦",
+      "startMeasure": 25,
+      "endMeasure": 28,
+      "key": "G",
+      "mode": "major",
+      "bpm": 68.53229083864316,
+      "durationSec": 14.007995183763597,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.5019987959408923,
+        7.003997591881799,
+        8.643912671538985,
+        10.505996387822705
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        2,
+        1
+      ],
+      "instrumentalFile": "晴天-m025-instrumental.mp3"
+    },
+    {
+      "id": "晴天-m041",
+      "file": "晴天-m041.mp3",
+      "title": "晴天",
+      "artist": "周杰伦",
+      "startMeasure": 41,
+      "endMeasure": 44,
+      "key": "G",
+      "mode": "major",
+      "bpm": 68.53229083864316,
+      "durationSec": 14.007995183763597,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.5019987959408923,
+        7.021931936484549,
+        10.505996387822705,
+        12.241931936484576
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        2
+      ],
+      "instrumentalFile": "晴天-m041-instrumental.mp3"
+    },
+    {
+      "id": "最长的电影-m001",
+      "file": "最长的电影-m001.mp3",
+      "title": "最长的电影",
+      "artist": "周杰伦",
+      "startMeasure": 1,
+      "endMeasure": 4,
+      "key": "E",
+      "mode": "major",
+      "bpm": 60.488222446209114,
+      "durationSec": 15.870858179932597,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 8,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.9824984875983125,
+        5.952498487598312,
+        7.935429089966291,
+        11.922498487598313,
+        13.872498487598312
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        1,
+        2
+      ],
+      "instrumentalFile": "最长的电影-m001-instrumental.mp3"
+    },
+    {
+      "id": "最长的电影-m005",
+      "file": "最长的电影-m005.mp3",
+      "title": "最长的电影",
+      "artist": "周杰伦",
+      "startMeasure": 5,
+      "endMeasure": 8,
+      "key": "E",
+      "mode": "major",
+      "bpm": 60.488222446209114,
+      "durationSec": 15.849149845055983,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        4.319931972789117,
+        5.939931972789115,
+        7.913720755089692,
+        9.939931972789115,
+        11.881435300072845,
+        13.859931972789116
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        2,
+        2
+      ],
+      "instrumentalFile": "最长的电影-m005-instrumental.mp3"
+    },
+    {
+      "id": "最长的电影-m017",
+      "file": "最长的电影-m017.mp3",
+      "title": "最长的电影",
+      "artist": "周杰伦",
+      "startMeasure": 17,
+      "endMeasure": 20,
+      "key": "E",
+      "mode": "major",
+      "bpm": 60.488222446209114,
+      "durationSec": 15.837597400726779,
+      "chords": [
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        4.13580498866213,
+        6.085804988662133,
+        7.915804988662131,
+        11.869882855743626
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "instrumentalFile": "最长的电影-m017-instrumental.mp3"
+    },
+    {
+      "id": "最长的电影-m025",
+      "file": "最长的电影-m025.mp3",
+      "title": "最长的电影",
+      "artist": "周杰伦",
+      "startMeasure": 25,
+      "endMeasure": 28,
+      "key": "E",
+      "mode": "major",
+      "bpm": 60.488222446209114,
+      "durationSec": 15.837635756056812,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "dim"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        2.04412698412699,
+        3.9344921211073682,
+        5.894126984126984,
+        7.902206666090507,
+        9.914126984126995,
+        11.86992121107366
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "instrumentalFile": "最长的电影-m025-instrumental.mp3"
+    },
+    {
+      "id": "最长的电影-m041",
+      "file": "最长的电影-m041.mp3",
+      "title": "最长的电影",
+      "artist": "周杰伦",
+      "startMeasure": 41,
+      "endMeasure": 44,
+      "key": "E",
+      "mode": "major",
+      "bpm": 60.488222446209114,
+      "durationSec": 15.870858179932583,
+      "chords": [
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 5,
+          "quality": "dim"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        1.9339166882724044,
+        3.967714544983153,
+        5.953916688272386,
+        7.935429089966277,
+        11.90314363494943,
+        13.913916688272394
+      ],
+      "measureChordCounts": [
+        2,
+        2,
+        1,
+        2
+      ],
+      "instrumentalFile": "最长的电影-m041-instrumental.mp3"
+    },
+    {
+      "id": "枫-m037",
+      "file": "枫-m037.mp3",
+      "title": "枫",
+      "artist": "周杰伦",
+      "startMeasure": 37,
+      "endMeasure": 40,
+      "key": "C",
+      "mode": "major",
+      "bpm": 67.38918514291727,
+      "durationSec": 14.245609261546292,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.5741825323881358,
+        7.134182532388138,
+        10.68420694615969
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "instrumentalFile": "枫-m037-instrumental.mp3"
+    },
+    {
+      "id": "枫-m045",
+      "file": "枫-m045.mp3",
+      "title": "枫",
+      "artist": "周杰伦",
+      "startMeasure": 45,
+      "endMeasure": 48,
+      "key": "C",
+      "mode": "major",
+      "bpm": 67.38918514291727,
+      "durationSec": 14.232486522091989,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 2,
+          "quality": "min"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.54827957593227,
+        5.329841269841268,
+        7.119841269841288,
+        10.671084206705416
+      ],
+      "measureChordCounts": [
+        1,
+        2,
+        1,
+        1
+      ],
+      "instrumentalFile": "枫-m045-instrumental.mp3"
+    },
+    {
+      "id": "退后-m009",
+      "file": "退后-m009.mp3",
+      "title": "退后",
+      "artist": "周杰伦",
+      "startMeasure": 9,
+      "endMeasure": 12,
+      "key": "C",
+      "mode": "major",
+      "bpm": 66.00029132422353,
+      "durationSec": 14.545390342052315,
+      "chords": [
+        {
+          "rootPc": 9,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 9,
+          "quality": "min"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.6363475855130787,
+        7.311314386317925,
+        9.231314386317926,
+        10.909042756539236,
+        12.691314386317927
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        2,
+        2
+      ],
+      "instrumentalFile": "退后-m009-instrumental.mp3"
+    },
+    {
+      "id": "珊瑚海-m053",
+      "file": "珊瑚海-m053.mp3",
+      "title": "珊瑚海",
+      "artist": "周杰伦 & 梁心颐",
+      "startMeasure": 53,
+      "endMeasure": 56,
+      "key": "Ab",
+      "mode": "major",
+      "bpm": 73.01702776755364,
+      "durationSec": 13.14761815635822,
+      "chords": [
+        {
+          "rootPc": 5,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 7,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 0,
+          "quality": "maj"
+        },
+        {
+          "rootPc": 4,
+          "quality": "min"
+        },
+        {
+          "rootPc": 4,
+          "quality": "maj"
+        }
+      ],
+      "cueTimesSec": [
+        0.0,
+        3.287285031696797,
+        6.573809078179096,
+        9.8772850316968,
+        12.417285031696792
+      ],
+      "measureChordCounts": [
+        1,
+        1,
+        1,
+        2
+      ],
+      "instrumentalFile": "珊瑚海-m053-instrumental.mp3"
     },
     {
       "id": "jie-kou-m037",
