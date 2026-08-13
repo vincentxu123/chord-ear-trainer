@@ -46,7 +46,11 @@ small library).
 - [x] Detect sparse and partial pickup measures for phrase alignment
 - [x] Support verified per-song publication start boundaries
 - [x] Let listeners report incorrect real-song answer keys
+- [ ] Add a song/artist selector for Real Music practice
 - [ ] Add offline mobile support, potentially as a Progressive Web App (PWA)
+- [ ] Add an option for tapping chords to play them aloud with piano
+- [ ] Add instrumental mode for song clips, including a vocal-removal processing pipeline
+- [ ] Track each user's excerpts as unseen, answered correctly, or answered incorrectly
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
