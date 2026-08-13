@@ -11,6 +11,8 @@ import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+SCRIPT_DIR = Path(__file__).resolve().parent
+
 
 def separate_vocals(source: Path, destination: Path, device: str = "cpu") -> None:
     """Write Demucs' no-vocals stem, reusing an existing cached result."""
@@ -32,8 +34,7 @@ def separate_vocals(source: Path, destination: Path, device: str = "cpu") -> Non
         subprocess.run(
             [
                 sys.executable,
-                "-m",
-                "demucs.separate",
+                str(SCRIPT_DIR / "run_demucs.py"),
                 "--two-stems",
                 "vocals",
                 "--device",

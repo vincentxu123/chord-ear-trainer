@@ -31,15 +31,28 @@ without the necessary rights.
 
 ## Setup
 
-Requires FFmpeg and Python 3.11+.
+Requires FFmpeg and Python 3.11+. From the repository root, run:
 
 ```bash
-python3.11 -m venv .venv-recordings
-.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements.txt
-.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements-btc.txt
-.venv-recordings/bin/python -m pip install "setuptools<81" Cython
-.venv-recordings/bin/python -m pip install --no-build-isolation madmom==0.16.1
+npm run songs:setup
+npm run songs:doctor
 ```
+
+The setup script finds Python 3.11+, creates or reuses `.venv-recordings`, and
+installs the full pipeline. It works with Unix and Windows virtualenv layouts;
+the `songs:*` commands select the interpreter automatically. For an interactive
+shell, activate with `source .venv-recordings/bin/activate` on macOS/Linux or
+`.venv-recordings\Scripts\activate` on Windows, then run `deactivate` when done.
+
+FFmpeg remains a system prerequisite because its installation is
+platform-specific. Examples: `brew install ffmpeg python@3.11` on macOS,
+`sudo apt install ffmpeg python3.11-venv` on compatible Debian/Ubuntu releases,
+or the official FFmpeg and Python installers on Windows.
+
+PyTorch is shared by the timing/chord and separation stages. Demucs itself is
+listed separately in `requirements-separation.txt` to make its incremental
+dependency explicit. Model weights are downloaded lazily on first use and live
+in user caches, not in the repository.
 
 The timing ensemble compares Beat This with madmom constrained to 4/4. If one
 model produces a well-supported 2:1 half-bar grid, the slower full-bar grid

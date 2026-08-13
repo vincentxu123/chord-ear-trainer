@@ -91,16 +91,20 @@ and windows containing only one unique chord are excluded.
 
 ### One-time setup
 
-Install **FFmpeg** and **Python 3.11+**, then create the local analysis
-environment from the repository root:
+Install **FFmpeg** and **Python 3.11+**, then create and verify the complete
+local analysis environment from the repository root:
 
 ```bash
-python3.11 -m venv .venv-recordings
-.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements.txt
-.venv-recordings/bin/python -m pip install -r scripts/recordings/requirements-btc.txt
-.venv-recordings/bin/python -m pip install "setuptools<81" Cython
-.venv-recordings/bin/python -m pip install --no-build-isolation madmom==0.16.1
+npm run songs:setup
+npm run songs:doctor
 ```
+
+The setup command finds Python 3.11+, creates the gitignored
+`.venv-recordings`, and installs every timing, chord, YouTube, and source
+separation dependency. Song commands use this environment automatically. To
+run Python commands directly, activate it with
+`source .venv-recordings/bin/activate` on macOS/Linux or
+`.venv-recordings\Scripts\activate` on Windows.
 
 The first analysis downloads model weights and can take a while. On a
 compatible Apple Silicon Mac, `--device mps` can speed up inference.
@@ -211,6 +215,8 @@ necessary distribution rights.
 | `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process` |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 | `npm run songs:instrumentals` | Offline: add vocal-free variants to already-published song excerpts |
+| `npm run songs:setup` | Create or update the complete recording-analysis Python environment |
+| `npm run songs:doctor` | Check FFmpeg, Python packages, and the recommended inference device |
 
 ## Project structure
 

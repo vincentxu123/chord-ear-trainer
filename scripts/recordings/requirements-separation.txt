@@ -1,0 +1,3 @@
+# Source separation is split out so contributors can see its incremental cost.
+# The full analysis environment also needs PyTorch through Beat This and BTC.
+demucs==4.0.1

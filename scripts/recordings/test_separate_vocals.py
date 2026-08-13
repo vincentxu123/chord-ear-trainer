@@ -30,6 +30,7 @@ class SeparateVocalsTests(unittest.TestCase):
 
             def fake_run(command, check):
                 self.assertTrue(check)
+                self.assertEqual(Path(command[1]).name, "run_demucs.py")
                 self.assertIn("--two-stems", command)
                 self.assertEqual(command[command.index("--two-stems") + 1], "vocals")
                 self.assertEqual(command[command.index("--device") + 1], "mps")

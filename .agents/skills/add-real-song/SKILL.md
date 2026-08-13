@@ -16,9 +16,8 @@ publication. Never hand-cut excerpts or hand-edit the generated manifest.
    downloading.
 3. Inspect `git status --short`. Preserve unrelated work and stage only the song
    artifacts created by this task.
-4. Check the setup in `README.md` and `scripts/recordings/README.md`. Require
-   FFmpeg and `.venv-recordings`; install or repair dependencies only with the
-   user's approval when downloads are needed.
+4. Run `npm run songs:doctor`. If it fails, follow the reported system-package
+   remediation and run `npm run songs:setup`; request approval before downloads.
 5. Prefer `--device mps` when PyTorch MPS is available on Apple Silicon,
    `--device cuda` when CUDA is configured, and `--device cpu` otherwise.
 

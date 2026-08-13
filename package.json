@@ -11,10 +11,12 @@
     "typecheck": "tsc --noEmit",
     "clips:generate": "tsx scripts/generateClips.ts",
     "clips:qc": ".venv-qc/Scripts/python.exe scripts/qcClips.py",
-    "songs:youtube": ".venv-recordings/bin/python scripts/recordings/download_youtube.py",
-    "songs:process": ".venv-recordings/bin/python scripts/recordings/process_song.py",
-    "songs:export": ".venv-recordings/bin/python scripts/recordings/export_candidates.py",
-    "songs:instrumentals": ".venv-recordings/bin/python scripts/recordings/backfill_instrumentals.py"
+    "songs:setup": "node scripts/recordings/setup_recordings.mjs",
+    "songs:doctor": "node scripts/recordings/doctor_recordings.mjs",
+    "songs:youtube": "node scripts/recordings/run_python.mjs download_youtube.py",
+    "songs:process": "node scripts/recordings/run_python.mjs process_song.py",
+    "songs:export": "node scripts/recordings/run_python.mjs export_candidates.py",
+    "songs:instrumentals": "node scripts/recordings/run_python.mjs backfill_instrumentals.py"
   },
   "dependencies": {
     "react": "^19.2.7",

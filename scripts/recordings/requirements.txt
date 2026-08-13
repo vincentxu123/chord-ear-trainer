@@ -1,5 +1,5 @@
 beat-this
-demucs==4.0.1
+-r requirements-separation.txt
 lv-chordia
 librosa>=0.10,<1
 yt-dlp[default]

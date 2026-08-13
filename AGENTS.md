@@ -23,5 +23,15 @@
 - Use the repository-local `$add-real-song` skill in
   `.agents/skills/add-real-song/` for YouTube ingestion, analysis, vocal
   removal, excerpt publication, audit, verification, and commit rules.
+- Prepare a fresh clone with `npm run songs:setup`, then verify it with
+  `npm run songs:doctor`. Setup requires Python 3.11+ and FFmpeg and creates the
+  gitignored `.venv-recordings` environment.
+- Repository song commands select the virtualenv automatically. For direct
+  Python work, activate it with `source .venv-recordings/bin/activate` on macOS
+  or Linux, or `.venv-recordings\Scripts\activate` on Windows. Run `deactivate`
+  when finished.
+- Model weights are intentionally not committed. Beat This, BTC, and Demucs
+  download them into local user caches on first use; keep those caches outside
+  Git.
 - Never hand-edit `public/song-clips/manifest.json`, manually cut excerpts, or
   commit `.recordings/`, source recordings, model caches, or reports.
