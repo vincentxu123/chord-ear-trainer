@@ -194,11 +194,6 @@ export function SettingsPanel() {
             />
             Instrumental only
           </label>
-          <p className="mt-1 pl-6 text-xs text-slate-400">
-            {matchingInstrumentalCount > 0
-              ? `${matchingInstrumentalCount} vocal-free excerpts available for this selection.`
-              : 'No vocal-free excerpts are available for this selection.'}
-          </p>
         </div>
       )}
 

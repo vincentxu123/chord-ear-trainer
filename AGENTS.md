@@ -17,6 +17,9 @@
   the next action clear without explanatory help text. Use familiar icons for
   compact actions when their meaning remains clear, and always provide an
   accessible label.
+- Default to concise labels instead of subtitles, descriptions, or help text.
+  First make the control and surrounding layout self-explanatory; add supporting
+  copy only when the interaction would otherwise remain genuinely ambiguous.
 
 ## Adding real-song exercises
 
