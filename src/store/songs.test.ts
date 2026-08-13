@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { pickSongExercise, useSongs } from './songs';
+import { pickSongExercise, songClipUrl, useSongs } from './songs';
 import type { SongClipManifestEntry } from '../songs/types';
 
 const original: SongClipManifestEntry = {
@@ -27,6 +27,14 @@ const instrumental: SongClipManifestEntry = {
   file: 'with-instrumental.mp3',
   instrumentalFile: 'with-instrumental-instrumental.mp3',
 };
+
+describe('offline song URLs', () => {
+  it('includes the library revision so updated audio cannot reuse a stale response', () => {
+    expect(songClipUrl('example.mp3', 'revision 2')).toContain(
+      'song-clips/example.mp3?library=revision%202',
+    );
+  });
+});
 
 describe('pickSongExercise', () => {
   beforeEach(() => {

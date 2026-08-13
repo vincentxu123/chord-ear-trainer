@@ -44,6 +44,7 @@ export function Practice() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hintedExercise, setHintedExercise] = useState<typeof exercise>(null);
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine);
   const showChordHint = exercise !== null && hintedExercise === exercise;
   const currentSongOptions = {
     difficulty: songDifficulty,
@@ -67,6 +68,16 @@ export function Practice() {
     void loadSongs();
   }, [loadClips, loadSongs]);
 
+  useEffect(() => {
+    const update = () => setIsOnline(navigator.onLine);
+    window.addEventListener('online', update);
+    window.addEventListener('offline', update);
+    return () => {
+      window.removeEventListener('online', update);
+      window.removeEventListener('offline', update);
+    };
+  }, []);
+
   // In clip mode, a round started before the library finished loading fell
   // back to synth; regenerate once clips become available.
   const mediaReadiness =
@@ -86,6 +97,7 @@ export function Practice() {
     songDifficulty,
     songProgressFilter,
     selectedArtists,
+    isOnline,
     mediaReadiness,
     newRound,
   ]);
@@ -151,17 +163,26 @@ export function Practice() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <SettingsPanel />
         <main className="flex min-w-0 flex-col items-center gap-8 lg:col-start-1 lg:row-start-1">
+        {!isOnline && (
+          <div className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-xs font-semibold text-sky-200">
+            Offline
+          </div>
+        )}
         {!exercise && soundSource === 'songs' && (
           <div className="w-full rounded-xl border border-amber-400/30 bg-amber-400/10 px-5 py-4 text-center text-sm text-amber-100">
             {songStatus === 'loading'
               ? 'Loading the song library…'
-              : songStatus === 'ready'
-                ? eligibleSongCount === 0
-                  ? 'No excerpts match the current artist and difficulty filters.'
-                  : songProgressFilter === 'learning' && learningSongCount === 0
-                  ? 'You have finished every excerpt in this learning queue. Choose All excerpts, another artist, or reset your progress to review them again.'
-                  : 'No excerpt is ready yet. Choose another artist or difficulty filter.'
-                : 'The song library is unavailable right now.'}
+              : !isOnline && songStatus !== 'ready'
+                ? 'Real Music is not available offline yet. Reconnect, then use Download in Real Music settings.'
+                : songStatus === 'ready'
+                  ? eligibleSongCount === 0
+                    ? 'No excerpts match the current artist and difficulty filters.'
+                    : songProgressFilter === 'learning' && learningSongCount === 0
+                    ? 'You have finished every excerpt in this learning queue. Choose All excerpts, another artist, or reset your progress to review them again.'
+                    : !isOnline
+                      ? 'None of the matching excerpts are downloaded for offline use.'
+                      : 'No excerpt is ready yet. Choose another artist or difficulty filter.'
+                  : 'The song library is unavailable right now.'}
           </div>
         )}
         {exercise?.song && (

@@ -15,6 +15,7 @@ import {
   summarizeProgress,
 } from '../songs/selection';
 import { useProgress } from '../store/progress';
+import { OfflineLibrary } from './OfflineLibrary';
 
 const SONG_DIFFICULTIES: { id: SongDifficulty; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -148,6 +149,10 @@ export function SettingsPanel() {
             Settings
           </h2>
         <div className="mt-5 flex flex-col gap-5">
+
+      {songMode && (
+        <OfflineLibrary />
+      )}
 
       {songMode && (
         <div>

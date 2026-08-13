@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { synth } from '../audio/synth';
+import { useSettings } from '../store/settings';
 
 const WHITE_NOTES = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] as const;
 
@@ -34,8 +35,9 @@ function KeyboardToggleIcon({ expanded }: { expanded: boolean }) {
 }
 
 export function PianoKeyboard() {
+  const soundSource = useSettings((state) => state.soundSource);
   const [active, setActive] = useState<string | null>(null);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const press = (note: string) => {
     setActive(note);
@@ -65,13 +67,16 @@ export function PianoKeyboard() {
         <button
           type="button"
           aria-expanded="false"
-          aria-label="Show piano keyboard"
-          title="Show piano keyboard"
+          aria-label="Show offline piano keyboard"
+          title="Show offline piano keyboard"
           onClick={() => setVisible(true)}
           className="rounded-full border border-slate-600 bg-slate-700 p-2 text-slate-100 transition hover:bg-slate-600"
         >
           <KeyboardToggleIcon expanded={false} />
         </button>
+        {soundSource === 'synth' && (
+          <span className="ml-2 self-center text-xs text-slate-400">Offline piano</span>
+        )}
       </div>
     );
   }

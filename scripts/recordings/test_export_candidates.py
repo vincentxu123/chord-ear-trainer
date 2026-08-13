@@ -238,6 +238,5 @@ class ExportCandidateTests(unittest.TestCase):
 
         self.assertEqual(metadata["totalBytes"], len(b"originalinstrumental"))
 
-
 if __name__ == "__main__":
     unittest.main()

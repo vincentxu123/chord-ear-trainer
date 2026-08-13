@@ -42,4 +42,11 @@ describe('songClipToExercise', () => {
     expect(exercise.media?.cueTimesSec).toEqual(entry.cueTimesSec);
     expect(exercise.media?.durationSec).toBe(entry.durationSec);
   });
+
+  it('appends the library revision to whichever audio file is selected', () => {
+    const exercise = songClipToExercise(entry, '/song-clips/', true, 'rev 1');
+    expect(exercise.media?.url).toBe(
+      '/song-clips/jie-kou-m009-instrumental.mp3?library=rev%201',
+    );
+  });
 });

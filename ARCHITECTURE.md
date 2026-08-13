@@ -46,6 +46,20 @@ Recording excerpts use the same HTML audio player but supply exact per-chord
 cue times and stop at the end of one four-measure excerpt. Their answer slots
 are grouped by measure because a measure can contain one to four chords.
 
+### Offline runtime
+
+The Vite production build generates a PWA manifest and Workbox service worker.
+The service worker precaches the application shell, lazy piano engine, and the
+local Salamander piano samples. Real Music remains an explicit user download:
+the app writes every versioned song URL into `song-clips-offline-v1`, the same
+cache used by the service worker's audio route. The song manifest uses a
+network-first route so the last successful library remains available offline.
+
+The recording exporter hashes the published audio into a top-level manifest
+`version`. That version is appended to each playback URL, preventing a changed
+MP3 with a reused filename from resolving to stale audio. A completed download
+removes cache entries from previous library versions.
+
 If either media mode is selected while its library is missing or loading, the
 session falls back to synth generation.
 
