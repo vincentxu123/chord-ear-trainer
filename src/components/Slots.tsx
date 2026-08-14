@@ -2,6 +2,7 @@ import { toAbsoluteChord, toRoman } from '../theory/chords';
 import { synth } from '../audio/synth';
 import { GIVEN_SLOT_COUNT, useSession } from '../store/session';
 import { useSettings } from '../store/settings';
+import { getSlotAuditionChord } from './slotAudition';
 
 function AnswerStatusIcon({ correct }: { correct: boolean }) {
   return (
@@ -66,9 +67,13 @@ export function Slots() {
         type="button"
         onClick={() => {
           setActiveSlot(i);
-          const auditionChord =
-            phase === 'revealed' ? exercise.progression.chords[i] : answer;
-          if ((phase === 'revealed' || playChordOnSelection) && auditionChord) {
+          const auditionChord = getSlotAuditionChord(
+            phase,
+            playChordOnSelection,
+            answer,
+            exercise.progression.chords[i],
+          );
+          if (auditionChord) {
             void synth.playChord(auditionChord, exercise.key);
           }
         }}
