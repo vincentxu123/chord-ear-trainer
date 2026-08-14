@@ -66,8 +66,10 @@ export function Slots() {
         type="button"
         onClick={() => {
           setActiveSlot(i);
-          if (playChordOnSelection && answer) {
-            void synth.playChord(answer, exercise.key);
+          const auditionChord =
+            phase === 'revealed' ? exercise.progression.chords[i] : answer;
+          if ((phase === 'revealed' || playChordOnSelection) && auditionChord) {
+            void synth.playChord(auditionChord, exercise.key);
           }
         }}
         aria-label={
