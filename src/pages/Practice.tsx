@@ -13,6 +13,7 @@ import { Controls } from '../components/Controls';
 import { Feedback } from '../components/Feedback';
 import { SettingsPanel } from '../components/SettingsPanel';
 import { ModeSelector } from '../components/ModeSelector';
+import { PracticeQueue } from './PracticeQueue';
 
 function stopAll() {
   synth.stop();
@@ -163,6 +164,7 @@ export function Practice() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <SettingsPanel />
         <main className="flex min-w-0 flex-col items-center gap-8 lg:col-start-1 lg:row-start-1">
+        {soundSource === 'songs' && <PracticeQueue />}
         {!isOnline && (
           <div className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-xs font-semibold text-sky-200">
             Offline

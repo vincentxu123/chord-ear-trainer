@@ -5,14 +5,12 @@ import {
   TEMPO_MAX,
   LENGTH_MIN,
   LENGTH_MAX,
-  type SongProgressFilter,
 } from '../store/settings';
 import { useSongs } from '../store/songs';
 import { matchesSongDifficulty, type SongDifficulty } from '../songs/difficulty';
 import {
   filterSongEntries,
   summarizeArtists,
-  summarizeProgress,
 } from '../songs/selection';
 import { useProgress } from '../store/progress';
 import { OfflineLibrary } from './OfflineLibrary';
@@ -21,11 +19,6 @@ const SONG_DIFFICULTIES: { id: SongDifficulty; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'beginner', label: 'Beginner' },
   { id: 'advanced', label: 'Advanced' },
-];
-
-const SONG_PROGRESS_FILTERS: { id: SongProgressFilter; label: string }[] = [
-  { id: 'learning', label: 'Learn' },
-  { id: 'all', label: 'Review all' },
 ];
 
 export function SettingsPanel() {
@@ -39,7 +32,6 @@ export function SettingsPanel() {
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const songDifficulty = useSettings((s) => s.songDifficulty);
-  const songProgressFilter = useSettings((s) => s.songProgressFilter);
   const selectedArtists = useSettings((s) => s.selectedArtists);
   const playChordOnSelection = useSettings((s) => s.playChordOnSelection);
   const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
@@ -49,13 +41,11 @@ export function SettingsPanel() {
   const setIncludeChromatic = useSettings((s) => s.setIncludeChromatic);
   const setIncludeDiminished = useSettings((s) => s.setIncludeDiminished);
   const setSongDifficulty = useSettings((s) => s.setSongDifficulty);
-  const setSongProgressFilter = useSettings((s) => s.setSongProgressFilter);
   const setSelectedArtists = useSettings((s) => s.setSelectedArtists);
   const setPlayChordOnSelection = useSettings((s) => s.setPlayChordOnSelection);
   const setInstrumentalSongs = useSettings((s) => s.setInstrumentalSongs);
   const songEntries = useSongs((s) => s.entries);
   const progressRecords = useProgress((s) => s.records);
-  const resetProgress = useProgress((s) => s.reset);
 
   const synthMode = soundSource === 'synth';
   const songMode = soundSource === 'songs';
@@ -78,17 +68,6 @@ export function SettingsPanel() {
       )
     : artistSummaries;
   const allArtists = artistSummaries.map((summary) => summary.artist);
-  const currentSongEntries = filterSongEntries(
-    songEntries,
-    {
-      difficulty: songDifficulty,
-      selectedArtists,
-      progressFilter: 'all',
-    },
-    progressRecords,
-  );
-  const progressSummary = summarizeProgress(currentSongEntries, progressRecords);
-  const learningCount = progressSummary.unseen + progressSummary.needsPractice;
   const selectedArtistCount =
     selectedArtists === null
       ? allArtists.length
@@ -100,15 +79,6 @@ export function SettingsPanel() {
       ? current.filter((selected) => selected !== artist)
       : [...current, artist];
     setSelectedArtists(next.length === allArtists.length ? null : next);
-  };
-
-  const handleResetProgress = () => {
-    if (
-      typeof window !== 'undefined' &&
-      window.confirm('Reset all excerpt progress? This cannot be undone.')
-    ) {
-      resetProgress();
-    }
   };
 
   const lengths = Array.from(
@@ -402,65 +372,6 @@ export function SettingsPanel() {
           </div>
         </div>
         </section>
-
-        {songMode && (
-          <section
-            aria-labelledby="queue-heading"
-            className="rounded-xl border border-slate-700 bg-slate-800/50 p-5"
-          >
-          <div className="flex items-center justify-between gap-3">
-            <h2 id="queue-heading" className="text-base font-semibold text-white">
-              Practice queue
-            </h2>
-            <button
-              type="button"
-              onClick={handleResetProgress}
-              disabled={!Object.keys(progressRecords).length}
-              className="text-xs font-medium text-slate-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Reset
-            </button>
-          </div>
-          <div className="mt-4 grid grid-cols-2 gap-1 rounded-lg bg-slate-900/50 p-1">
-            {SONG_PROGRESS_FILTERS.map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                aria-pressed={id === songProgressFilter}
-                onClick={() => setSongProgressFilter(id)}
-                className={`rounded-md px-2 py-2 text-sm font-semibold transition ${
-                  id === songProgressFilter
-                    ? 'bg-amber-500 text-slate-950'
-                    : 'text-slate-300 hover:bg-slate-700'
-                }`}
-              >
-                {label}
-                <span className="ml-1 text-xs opacity-70">
-                  {id === 'learning' ? learningCount : currentSongEntries.length}
-                </span>
-              </button>
-            ))}
-          </div>
-          <div className="mt-2 grid grid-cols-3 gap-2 text-center text-xs">
-            <div className="rounded-md bg-slate-900/40 px-2 py-1.5 text-slate-400">
-              <span className="block font-semibold text-slate-200">{progressSummary.unseen}</span>
-              New
-            </div>
-            <div className="rounded-md bg-red-950/25 px-2 py-1.5 text-red-300/80">
-              <span className="block font-semibold text-red-200">
-                {progressSummary.needsPractice}
-              </span>
-              Retry
-            </div>
-            <div className="rounded-md bg-green-950/25 px-2 py-1.5 text-green-300/80">
-              <span className="block font-semibold text-green-200">
-                {progressSummary.mastered}
-              </span>
-              Mastered
-            </div>
-          </div>
-          </section>
-        )}
       </div>
     </aside>
   );

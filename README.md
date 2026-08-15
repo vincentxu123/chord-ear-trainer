@@ -52,6 +52,7 @@ small library).
 - [x] Add an option for tapping chords to play them aloud with piano
 - [x] Add instrumental mode for song clips, including a vocal-removal processing pipeline
 - [x] Track each user's excerpts as unseen, answered correctly, or answered incorrectly
+- [x] Move the Real Music practice queue into a separate progress pane
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
