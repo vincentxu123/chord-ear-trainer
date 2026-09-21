@@ -60,8 +60,9 @@ The recording exporter hashes the published audio into a top-level manifest
 MP3 with a reused filename from resolving to stale audio. A completed download
 removes cache entries from previous library versions.
 
-If either media mode is selected while its library is missing or loading, the
-session falls back to synth generation.
+Generated mode falls back to synth while its library is missing or loading.
+Real Music keeps an explicit empty state when no matching excerpt is available;
+offline practice selects only downloaded entries.
 
 ---
 
@@ -160,9 +161,11 @@ inference), wrapped by `scripts/qcClips.py`.
    otherwise **discard**. (Same bar for `npm run clips:generate` and
    `npm run clips:qc`.)
 
-**Caveat:** ACR itself is roughly ~80% accurate on real music. QC is a useful
+**Caveat:** The repository has no human-labeled acoustic benchmark establishing
+accuracy on this library. Detector agreement with requested labels is a useful
 filter (false rejects are fine — we drop the clip), not a mathematical proof.
-Spot-listen occasionally when growing the library.
+See [Model training plan](./MODEL_TRAINING_PLAN.md) for the proposed benchmark,
+training experiment, and complete-exercise evaluation.
 
 Standalone re-check of the whole library: `npm run clips:qc`.
 After deletions or curation, close ID gaps with `npx tsx scripts/renumberClips.ts`.
