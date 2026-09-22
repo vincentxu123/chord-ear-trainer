@@ -54,6 +54,7 @@ small library).
 - [x] Track each user's excerpts as unseen, answered correctly, or answered incorrectly
 - [x] Move the Real Music practice queue into a separate progress pane
 - [x] Document the architecture, datasets, and low-cost chord-model training strategy
+- [x] Run a local GPU fine-tuning pilot with a held-out GuitarSet comparison — see [training results](./scripts/training/README.md)
 - [ ] Build a human-verified, song-grouped benchmark for chord and complete-exercise accuracy
 - [ ] Fine-tune and evaluate a chord model before replacing the existing detectors — see [Model training plan](./MODEL_TRAINING_PLAN.md)
 

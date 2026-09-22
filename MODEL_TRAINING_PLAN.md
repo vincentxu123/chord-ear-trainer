@@ -4,6 +4,13 @@ Research and repository review: **September 20, 2026**. Code reviewed at
 `21c99f0`. This is an implementation plan with copyable Python notebook code,
 not a trained model or a measured accuracy improvement.
 
+**September 21 update:** the [local training pilot](scripts/training/README.md)
+has now run on an RTX 3060 Ti. It improved held-out GuitarSet 38-group agreement
+from 53.71% to 58.26%, but supported-triad agreement increased only from 74.22%
+to 74.87%, with a minor-chord regression. The checkpoint is experimental and is
+not used by the app. The runnable local scripts and tested Windows environment
+are in `scripts/training/`; the notebook below remains the original proposal.
+
 ## 1. Recommendation
 
 **Fine-tune the existing BTC model on a small, carefully corrected collection
