@@ -55,7 +55,7 @@ small library).
 - [x] Move the Real Music practice queue into a separate progress pane
 - [x] Separate the hand-picked songbook from a biweekly RELEASED rotation
 - [x] Add a local Sunday task that refreshes the rotating library without touching the songbook
-- [ ] Deploy the rotation runner on an always-available host and publish refreshed packs automatically
+- [ ] Complete a full hosted rotation trial, then enable biweekly protected deployment from the private GitHub runner
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -258,6 +258,16 @@ log to `.recordings/rotation/scheduler.log`, and does not commit or push. The
 computer must be on and the user signed in to run it. The online app receives a new rotation
 only after the generated `public/rotation-clips/` artifacts are deployed;
 installed offline packs update when the listener downloads the new pack.
+
+The separate private repository can run `.github/workflows/rotate-released.yml`
+on GitHub-hosted Linux every Sunday, with the same alternating-Sunday gate.
+Its manual dispatch defaults to an environment/playlist smoke check. A full
+run requires a `VERCEL_TOKEN` repository secret; after all songs have been
+attempted, the workflow verifies the pack, runs tests/build, and deploys it
+directly to the Vercel project `ear-trainer-private-rotation`. It never pushes
+generated audio back to GitHub. A failed run does not deploy, leaving the
+previous pack at the stable, Vercel-authenticated URL. The hosted workflow
+still needs a full trial before the schedule can be considered operational.
 
 ## Scripts
 

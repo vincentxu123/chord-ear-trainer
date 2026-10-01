@@ -5,6 +5,7 @@ from datetime import date
 from pathlib import Path
 
 from rotate_released import due_today, enough_sources_processed, publish, should_process_song
+from verify_rotation_pack import verify_pack
 
 
 class RotationTests(unittest.TestCase):
@@ -49,6 +50,10 @@ class RotationTests(unittest.TestCase):
             self.assertTrue((output / manifest["clips"][0]["file"]).is_file())
             self.assertTrue((output / manifest["clips"][0]["instrumentalFile"]).is_file())
             self.assertFalse((output / "old.mp3").exists())
+            self.assertEqual(verify_pack(output), (1, len(b"original") + len(b"instrumental")))
+            (output / manifest["clips"][0]["file"]).write_bytes(b"tampered")
+            with self.assertRaisesRegex(ValueError, "version or totalBytes"):
+                verify_pack(output)
 
     def test_empty_staging_keeps_current_rotation(self):
         with tempfile.TemporaryDirectory() as directory:
