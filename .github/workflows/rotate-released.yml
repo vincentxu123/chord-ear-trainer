@@ -66,6 +66,14 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Verify protected deployment access
+        if: steps.gate.outputs.run == 'true' && steps.gate.outputs.smoke != 'true'
+        run: |
+          curl --fail --silent --show-error \
+            --header "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID?teamId=$VERCEL_ORG_ID" \
+            > /dev/null
+
       - name: Install FFmpeg and dependencies
         if: steps.gate.outputs.run == 'true'
         run: |
