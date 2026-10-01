@@ -50,7 +50,7 @@ export function MusicCollections() {
             <span className="text-xl text-amber-300" aria-hidden="true">↻</span>
           </span>
           <span className="mt-2 block text-xs text-slate-300">
-            {rotating.length ? `${rotating.length} excerpts · biweekly${refreshDate ? ` · ${refreshDate}` : ''}` : 'Coming soon'}
+            {rotating.length ? `${rotating.length} excerpts · fresh rotation${refreshDate ? ` · ${refreshDate}` : ''}` : 'Coming soon'}
           </span>
         </button>
         <button

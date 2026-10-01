@@ -1,21 +1,15 @@
 import json
 import tempfile
 import unittest
-from datetime import date
 from pathlib import Path
 from unittest.mock import Mock, patch
 
 from download_youtube import YOUTUBE_ACCESS_BLOCKED_EXIT_CODE
-from rotate_released import due_today, enough_sources_processed, main, publish, should_process_song
+from rotate_released import enough_sources_processed, main, publish, should_process_song
 from verify_rotation_pack import verify_pack
 
 
 class RotationTests(unittest.TestCase):
-    def test_alternating_sundays(self):
-        self.assertTrue(due_today(date(2026, 10, 4)))
-        self.assertFalse(due_today(date(2026, 10, 11)))
-        self.assertTrue(due_today(date(2026, 10, 18)))
-
     def test_partial_source_failure_does_not_replace_rotation(self):
         report = {"songs": {str(index): {"status": "completed" if index < 59 else "failed"} for index in range(75)}}
         self.assertFalse(enough_sources_processed(report, 75))

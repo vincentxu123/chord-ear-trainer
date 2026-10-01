@@ -15,7 +15,7 @@ import math
 import shutil
 import subprocess
 import sys
-from datetime import date, datetime, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -28,13 +28,6 @@ ROOT = Path(__file__).resolve().parents[2]
 PLAYLIST_ID = "RDCLAK5uy_k5n4srrEB1wgvIjPNTXS9G1ufE9WQxhnA"
 PLAYLIST_URL = f"https://music.youtube.com/playlist?list={PLAYLIST_ID}"
 OUTPUT = ROOT / "public" / "rotation-clips"
-ANCHOR_SUNDAY = date(2026, 10, 4)
-
-
-def due_today(today: date) -> bool:
-    return today.weekday() == 6 and (today - ANCHOR_SUNDAY).days % 14 == 0
-
-
 def enough_sources_processed(report: dict[str, Any], source_count: int) -> bool:
     completed = sum(song.get("status") == "completed" for song in report["songs"].values())
     return completed >= math.ceil(source_count * 0.8)
@@ -134,7 +127,6 @@ def main() -> int:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--device", choices=("cpu", "cuda", "mps"), default="cpu")
-    parser.add_argument("--scheduled", action="store_true", help="Run only on the alternating Sunday schedule")
     parser.add_argument("--list-only", action="store_true", help="List candidates without downloading audio")
     parser.add_argument("--max-songs", type=int, help="Limit a local trial to the first N songs")
     parser.add_argument("--work-root", type=Path, default=DEFAULT_WORK_ROOT / "rotation")
@@ -142,10 +134,6 @@ def main() -> int:
     args = parser.parse_args()
 
     today = datetime.now().astimezone().date()
-    if args.scheduled and not due_today(today):
-        print(f"Not a rotation Sunday: {today}")
-        return 0
-
     work_root = args.work_root.expanduser().resolve()
     videos = playlist_videos()
     print(f"RELEASED contains {len(videos)} distinct videos", flush=True)

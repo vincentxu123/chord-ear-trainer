@@ -53,9 +53,8 @@ small library).
 - [x] Add instrumental mode for song clips, including a vocal-removal processing pipeline
 - [x] Track each user's excerpts as unseen, answered correctly, or answered incorrectly
 - [x] Move the Real Music practice queue into a separate progress pane
-- [x] Separate the hand-picked songbook from a biweekly RELEASED rotation
-- [x] Add a local Sunday task that refreshes the rotating library without touching the songbook
-- [x] Add a local command for refreshing the biweekly RELEASED rotation
+- [x] Separate the hand-picked songbook from a manual RELEASED rotation
+- [x] Add a local command for refreshing the RELEASED rotation
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -231,7 +230,7 @@ source recording. For deeper diagnostics and cache/export commands, see
 pipeline is suitable for private research, but publishing audio requires the
 necessary distribution rights.
 
-### Biweekly RELEASED rotation
+### Manual RELEASED rotation
 
 Real Music has two independent collections: the permanent Songbook in
 `public/song-clips/` and Fresh rotation in `public/rotation-clips/`. The
@@ -249,15 +248,7 @@ attempt them again.
 ```powershell
 npm run songs:rotate -- --list-only
 npm run songs:rotate -- --device cpu
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/recordings/register_rotation_task.ps1
 ```
-
-The Windows task starts at 4:00 a.m. local time on alternating Sundays,
-beginning October 4, 2026. It uses the local recording environment, writes a
-log to `.recordings/rotation/scheduler.log`, and does not commit or push. The
-computer must be on and the user signed in to run it. The online app receives a new rotation
-only after the generated `public/rotation-clips/` artifacts are deployed;
-installed offline packs update when the listener downloads the new pack.
 
 To refresh locally, run `npm run songs:rotate -- --device cpu`. The command
 reads the current playlist, processes each video once, and replaces only
