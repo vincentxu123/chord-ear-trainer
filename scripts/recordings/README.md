@@ -135,6 +135,18 @@ one-based `chordPosition` within a specific `measure` while preserving its
 detected timing.
 Sidecar values override the corresponding automatic inference.
 
+When a verified correction affects an already-published clip and the original
+full-song analysis is unavailable, update the song's sidecar and apply it to
+the existing library without re-cutting audio:
+
+```bash
+python scripts/recordings/apply_verified_chord_overrides.py \
+  --metadata scripts/recordings/song-metadata/justin-bieber-daisies.json
+```
+
+The command checks the published measure and chord position, keeps cue times
+and audio unchanged, and verifies the manifest's audio version and byte count.
+
 ## Download and process one YouTube video
 
 For a recording you own or have permission to download and use, install the

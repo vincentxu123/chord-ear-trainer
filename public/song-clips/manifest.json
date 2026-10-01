@@ -1163,8 +1163,8 @@
           "quality": "maj"
         },
         {
-          "rootPc": 7,
-          "quality": "maj"
+          "rootPc": 2,
+          "quality": "min"
         },
         {
           "rootPc": 0,
@@ -1408,7 +1408,7 @@
           "quality": "maj"
         },
         {
-          "rootPc": 7,
+          "rootPc": 0,
           "quality": "maj"
         },
         {
@@ -2490,8 +2490,8 @@
           "quality": "maj"
         },
         {
-          "rootPc": 8,
-          "quality": "maj"
+          "rootPc": 5,
+          "quality": "min"
         }
       ],
       "cueTimesSec": [

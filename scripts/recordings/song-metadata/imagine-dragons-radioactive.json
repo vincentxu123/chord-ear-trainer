@@ -1,0 +1,12 @@
+{
+  "artist": "Imagine Dragons",
+  "title": "Radioactive",
+  "notes": "GitHub issues #8 and #9 identify the chord in measure 43 as B minor rather than E major.",
+  "chordOverrides": [
+    {
+      "measure": 43,
+      "chordPosition": 1,
+      "label": "B:min"
+    }
+  ]
+}
