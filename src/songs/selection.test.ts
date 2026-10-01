@@ -101,4 +101,11 @@ describe('song selection', () => {
       mastered: 1,
     });
   });
+
+  it('keeps the rotating queue separate from the songbook', () => {
+    const rotating = { ...entry('rotation-1', 'Artist C', 'Fresh Song'), collection: 'rotation' as const };
+    expect(filterSongEntries([...entries, rotating], {
+      difficulty: 'all', selectedArtists: null, progressFilter: 'all', collection: 'rotation',
+    }, {}).map((item) => item.id)).toEqual(['rotation-1']);
+  });
 });

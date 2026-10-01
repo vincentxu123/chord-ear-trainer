@@ -50,6 +50,8 @@ FFmpeg remains a system prerequisite because its installation is
 platform-specific. Examples: `brew install ffmpeg python@3.11` on macOS,
 `sudo apt install ffmpeg python3.11-venv` on compatible Debian/Ubuntu releases,
 or the official FFmpeg and Python installers on Windows.
+YouTube ingestion also needs a supported JavaScript runtime. Deno 2.3+ is
+recommended; yt-dlp's Node support requires Node 22+.
 
 PyTorch is shared by the timing/chord and separation stages. Demucs itself is
 listed separately in `requirements-separation.txt` to make its incremental

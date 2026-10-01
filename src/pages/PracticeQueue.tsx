@@ -38,17 +38,22 @@ const STATUSES: {
 export function PracticeQueue() {
   const entries = useSongs((state) => state.entries);
   const records = useProgress((state) => state.records);
-  const resetProgress = useProgress((state) => state.reset);
+  const resetEntries = useProgress((state) => state.resetEntries);
   const songDifficulty = useSettings((state) => state.songDifficulty);
+  const songCollection = useSettings((state) => state.songCollection);
   const selectedArtists = useSettings((state) => state.selectedArtists);
   const instrumentalSongs = useSettings((state) => state.instrumentalSongs);
   const songProgressFilter = useSettings((state) => state.songProgressFilter);
   const setSongProgressFilter = useSettings((state) => state.setSongProgressFilter);
+  const collectionEntries = entries.filter((entry) => (entry.collection ?? 'manual') === songCollection);
+  const collectionIds = new Set(collectionEntries.map((entry) => entry.id));
+  const hasCollectionProgress = [...collectionIds].some((id) => records[id]);
 
   const matchingEntries = filterSongEntries(
     entries,
     {
       difficulty: songDifficulty,
+      collection: songCollection,
       selectedArtists,
       progressFilter: 'all',
       instrumentalOnly: instrumentalSongs,
@@ -66,9 +71,9 @@ export function PracticeQueue() {
   const handleResetProgress = () => {
     if (
       typeof window !== 'undefined' &&
-      window.confirm('Reset all excerpt progress? This cannot be undone.')
+      window.confirm(`Reset progress for ${songCollection === 'rotation' ? 'Fresh rotation' : 'Songbook'}? This cannot be undone.`)
     ) {
-      resetProgress();
+      resetEntries(collectionIds);
     }
   };
 
@@ -84,7 +89,7 @@ export function PracticeQueue() {
         <button
           type="button"
           onClick={handleResetProgress}
-          disabled={!Object.keys(records).length}
+          disabled={!hasCollectionProgress}
           className="text-xs font-medium text-slate-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           Reset

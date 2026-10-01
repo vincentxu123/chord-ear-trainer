@@ -14,6 +14,7 @@ import { Feedback } from '../components/Feedback';
 import { SettingsPanel } from '../components/SettingsPanel';
 import { ModeSelector } from '../components/ModeSelector';
 import { PracticeQueue } from './PracticeQueue';
+import { MusicCollections } from '../components/MusicCollections';
 
 function stopAll() {
   synth.stop();
@@ -28,6 +29,8 @@ export function Practice() {
   const soundSource = useSettings((s) => s.soundSource);
   const songDifficulty = useSettings((s) => s.songDifficulty);
   const songProgressFilter = useSettings((s) => s.songProgressFilter);
+  const songCollection = useSettings((s) => s.songCollection);
+  const setSongCollection = useSettings((s) => s.setSongCollection);
   const selectedArtists = useSettings((s) => s.selectedArtists);
   const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
   const clipStatus = useClips((s) => s.status);
@@ -51,6 +54,7 @@ export function Practice() {
     difficulty: songDifficulty,
     selectedArtists,
     progressFilter: songProgressFilter,
+    collection: songCollection,
     instrumentalOnly: instrumentalSongs,
   } as const;
   const eligibleSongCount = filterSongEntries(
@@ -68,6 +72,12 @@ export function Practice() {
     void loadClips();
     void loadSongs();
   }, [loadClips, loadSongs]);
+
+  useEffect(() => {
+    if (songStatus === 'ready' && songCollection === 'rotation' && !songEntries.some((entry) => entry.collection === 'rotation')) {
+      setSongCollection('manual');
+    }
+  }, [songStatus, songCollection, songEntries, setSongCollection]);
 
   useEffect(() => {
     const update = () => setIsOnline(navigator.onLine);
@@ -97,6 +107,7 @@ export function Practice() {
     soundSource,
     songDifficulty,
     songProgressFilter,
+    songCollection,
     selectedArtists,
     isOnline,
     mediaReadiness,
@@ -164,6 +175,7 @@ export function Practice() {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <SettingsPanel />
         <main className="flex min-w-0 flex-col items-center gap-8 lg:col-start-1 lg:row-start-1">
+        {soundSource === 'songs' && <MusicCollections />}
         {soundSource === 'songs' && <PracticeQueue />}
         {!isOnline && (
           <div className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-xs font-semibold text-sky-200">

@@ -53,6 +53,9 @@ small library).
 - [x] Add instrumental mode for song clips, including a vocal-removal processing pipeline
 - [x] Track each user's excerpts as unseen, answered correctly, or answered incorrectly
 - [x] Move the Real Music practice queue into a separate progress pane
+- [x] Separate the hand-picked songbook from a biweekly RELEASED rotation
+- [x] Add a local Sunday task that refreshes the rotating library without touching the songbook
+- [ ] Deploy the rotation runner on an always-available host and publish refreshed packs automatically
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -126,6 +129,9 @@ run Python commands directly, activate it with
 
 The first analysis downloads model weights and can take a while. On a
 compatible Apple Silicon Mac, `--device mps` can speed up inference.
+For YouTube ingestion, install Deno 2.3+ so yt-dlp can resolve current
+YouTube audio streams reliably; the app's Node 20 runtime is too old for
+yt-dlp's JavaScript challenge support.
 
 ### Process and publish
 
@@ -224,6 +230,34 @@ source recording. For deeper diagnostics and cache/export commands, see
 [scripts/recordings/README.md](./scripts/recordings/README.md). The analysis
 pipeline is suitable for private research, but publishing audio requires the
 necessary distribution rights.
+
+### Biweekly RELEASED rotation
+
+Real Music has two independent collections: the permanent Songbook in
+`public/song-clips/` and Fresh rotation in `public/rotation-clips/`. The
+rotation reads YouTube Music's [RELEASED playlist](https://music.youtube.com/playlist?list=RDCLAK5uy_k5n4srrEB1wgvIjPNTXS9G1ufE9WQxhnA),
+attempts every listed video with the same two-timing/two-chord-model pipeline,
+and publishes only eligible excerpts. The current rotation remains available
+until a new batch has finished, at least 80% of its sources have processed, and
+it has produced at least one valid excerpt; then
+its manifest and audio replace the previous rotation. The Songbook is never
+cleared by this command. Failed videos and audit reports remain in gitignored
+`.recordings/rotation/` for inspection.
+Videos that fail in a batch are recorded and skipped; a resumed batch does not
+attempt them again.
+
+```powershell
+npm run songs:rotate -- --list-only
+npm run songs:rotate -- --device cpu
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/recordings/register_rotation_task.ps1
+```
+
+The Windows task starts at 4:00 a.m. local time on alternating Sundays,
+beginning October 4, 2026. It uses the local recording environment, writes a
+log to `.recordings/rotation/scheduler.log`, and does not commit or push. The
+computer must be on and the user signed in to run it. The online app receives a new rotation
+only after the generated `public/rotation-clips/` artifacts are deployed;
+installed offline packs update when the listener downloads the new pack.
 
 ## Scripts
 

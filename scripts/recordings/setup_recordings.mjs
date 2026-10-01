@@ -57,6 +57,9 @@ try {
     path.join(RECORDINGS_DIR, 'requirements-btc.txt'),
   ]);
   run(python, ['-m', 'pip', 'install', '--no-build-isolation', 'madmom==0.16.1']);
+  // A transitive package can upgrade setuptools after the initial pin;
+  // madmom still imports pkg_resources at inference time.
+  run(python, ['-m', 'pip', 'install', 'setuptools<81']);
   console.log('\nRecording environment installed. Running diagnostics...');
   run(process.execPath, [path.join(RECORDINGS_DIR, 'doctor_recordings.mjs')]);
 } catch (error) {

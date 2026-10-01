@@ -70,6 +70,7 @@ def derive_song_metadata(info: dict[str, Any], artist: str | None, title: str | 
 def download_audio(url: str, imports_dir: Path) -> tuple[Path, dict[str, Any]]:
     try:
         from yt_dlp import YoutubeDL
+        from yt_dlp.utils import DownloadError
     except ImportError as exc:
         raise SystemExit(
             "yt-dlp is not installed. Reinstall scripts/recordings/requirements.txt "
@@ -83,13 +84,28 @@ def download_audio(url: str, imports_dir: Path) -> tuple[Path, dict[str, Any]]:
         "outtmpl": str(imports_dir / "%(id)s.%(ext)s"),
         "continuedl": True,
         "overwrites": False,
-        "js_runtimes": {"node": {}},
+        "js_runtimes": {"deno": {}, "node": {}},
     }
-    with YoutubeDL(options) as downloader:
-        info = downloader.extract_info(url, download=True)
-        if not isinstance(info, dict) or info.get("_type") == "playlist":
-            raise SystemExit("Expected one YouTube video, but received a playlist")
-        downloaded = Path(downloader.prepare_filename(info)).resolve()
+    for index, format_selector in enumerate((
+        "bestaudio/best",
+        "bestaudio[ext=m4a]",
+        "bestaudio[protocol*=m3u8]",
+    )):
+        options["format"] = format_selector
+        try:
+            with YoutubeDL(options) as downloader:
+                info = downloader.extract_info(url, download=True)
+                downloaded = Path(downloader.prepare_filename(info)).resolve()
+            break
+        except DownloadError as exc:
+            if "HTTP Error 403" not in str(exc) or index == 2:
+                raise
+            # YouTube occasionally rejects direct Opus and AAC media URLs even
+            # when extraction succeeds. Its audio-only HLS stream can still work.
+            next_format = "AAC" if index == 0 else "HLS"
+            print(f"Audio returned 403; retrying the {next_format} stream...", flush=True)
+    if not isinstance(info, dict) or info.get("_type") == "playlist":
+        raise SystemExit("Expected one YouTube video, but received a playlist")
 
     if not downloaded.is_file():
         requested = info.get("requested_downloads") or []

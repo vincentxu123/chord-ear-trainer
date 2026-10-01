@@ -1,5 +1,5 @@
 import { getExcerptStatus, type ExcerptProgress } from '../store/progress';
-import type { SongProgressFilter } from '../store/settings';
+import type { SongCollection, SongProgressFilter } from '../store/settings';
 import type { SongClipManifestEntry } from './types';
 import { matchesSongDifficulty, type SongDifficulty } from './difficulty';
 
@@ -8,6 +8,7 @@ export interface SongSelectionOptions {
   selectedArtists: string[] | null;
   progressFilter: SongProgressFilter;
   instrumentalOnly?: boolean;
+  collection?: SongCollection;
 }
 
 export interface ArtistSummary {
@@ -28,6 +29,7 @@ export function filterSongEntries(
   records: Record<string, ExcerptProgress>,
 ): SongClipManifestEntry[] {
   return entries.filter((entry) => {
+    if (options.collection && (entry.collection ?? 'manual') !== options.collection) return false;
     if (!matchesSongDifficulty(entry.chords, options.difficulty)) return false;
     if (options.instrumentalOnly && !entry.instrumentalFile) return false;
     if (options.selectedArtists !== null && !options.selectedArtists.includes(entry.artist)) {

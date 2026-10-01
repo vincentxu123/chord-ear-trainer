@@ -17,6 +17,8 @@ interface ProgressStore {
   records: Record<string, ExcerptProgress>;
   recordAttempt: (excerptId: string, correct: boolean) => void;
   reset: () => void;
+  resetEntries: (ids: Set<string>) => void;
+  pruneRotation: (activeIds: Set<string>) => void;
 }
 
 export const PROGRESS_STORAGE_KEY = 'chord-ear-trainer:excerpt-progress:v1';
@@ -64,5 +66,26 @@ export const useProgress = create<ProgressStore>((set) => ({
   reset: () => {
     writeStored(PROGRESS_STORAGE_KEY, {});
     set({ records: {} });
+  },
+  resetEntries: (ids) => {
+    set((state) => {
+      const records = Object.fromEntries(
+        Object.entries(state.records).filter(([id]) => !ids.has(id)),
+      );
+      writeStored(PROGRESS_STORAGE_KEY, records);
+      return { records };
+    });
+  },
+  pruneRotation: (activeIds) => {
+    set((state) => {
+      const records = Object.fromEntries(
+        Object.entries(state.records).filter(([id]) =>
+          !/^\d{8}T\d{6}Z-/.test(id) || activeIds.has(id),
+        ),
+      );
+      if (Object.keys(records).length === Object.keys(state.records).length) return state;
+      writeStored(PROGRESS_STORAGE_KEY, records);
+      return { records };
+    });
   },
 }));

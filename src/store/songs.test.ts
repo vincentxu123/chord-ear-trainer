@@ -34,6 +34,11 @@ describe('offline song URLs', () => {
       'song-clips/example.mp3?library=revision%202',
     );
   });
+  it('uses the separate rotating pack URL and revision', () => {
+    expect(songClipUrl('fresh.mp3', 'rotation 3', 'rotation')).toContain(
+      'rotation-clips/fresh.mp3?library=rotation%203',
+    );
+  });
 });
 
 describe('pickSongExercise', () => {

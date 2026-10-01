@@ -5,6 +5,7 @@ import { pickClipExercise } from './clips';
 import { getSongExerciseById, pickSongExercise } from './songs';
 import { useProgress } from './progress';
 import type { PracticeSettings } from './settings';
+import { useSettings } from './settings';
 
 export type Phase = 'idle' | 'answering' | 'revealed';
 
@@ -49,6 +50,7 @@ export const useSession = create<SessionStore>((set, get) => ({
               selectedArtists: settings.selectedArtists,
               progressFilter: settings.songProgressFilter,
               instrumentalOnly: settings.instrumentalSongs,
+              collection: settings.songCollection,
             })
           : generateRound(settings);
 
@@ -81,7 +83,7 @@ export const useSession = create<SessionStore>((set, get) => ({
   setSongAudioVariant: (instrumental) => {
     const { exercise } = get();
     if (exercise?.source !== 'recording') return;
-    const variant = getSongExerciseById(exercise.progression.id, instrumental);
+    const variant = getSongExerciseById(exercise.progression.id, instrumental, useSettings.getState().songCollection);
     if (!variant?.media) return;
     set({
       exercise: { ...exercise, media: variant.media },

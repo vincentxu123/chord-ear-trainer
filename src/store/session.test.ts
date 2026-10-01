@@ -14,6 +14,7 @@ const settings: PracticeSettings = {
   randomizeKey: false,
   songDifficulty: 'all',
   songProgressFilter: 'learning',
+  songCollection: 'manual',
   selectedArtists: null,
   playChordOnSelection: false,
   instrumentalSongs: false,

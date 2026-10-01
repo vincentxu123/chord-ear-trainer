@@ -32,6 +32,7 @@ export function SettingsPanel() {
   const includeChromatic = useSettings((s) => s.includeChromatic);
   const includeDiminished = useSettings((s) => s.includeDiminished);
   const songDifficulty = useSettings((s) => s.songDifficulty);
+  const songCollection = useSettings((s) => s.songCollection);
   const selectedArtists = useSettings((s) => s.selectedArtists);
   const playChordOnSelection = useSettings((s) => s.playChordOnSelection);
   const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
@@ -45,12 +46,13 @@ export function SettingsPanel() {
   const setPlayChordOnSelection = useSettings((s) => s.setPlayChordOnSelection);
   const setInstrumentalSongs = useSettings((s) => s.setInstrumentalSongs);
   const songEntries = useSongs((s) => s.entries);
+  const collectionEntries = songEntries.filter((entry) => (entry.collection ?? 'manual') === songCollection);
   const progressRecords = useProgress((s) => s.records);
 
   const synthMode = soundSource === 'synth';
   const songMode = soundSource === 'songs';
   const matchingInstrumentalCount = filterSongEntries(
-    songEntries,
+    collectionEntries,
     {
       difficulty: songDifficulty,
       selectedArtists,
@@ -60,7 +62,7 @@ export function SettingsPanel() {
     progressRecords,
   ).length;
 
-  const artistSummaries = summarizeArtists(songEntries);
+  const artistSummaries = summarizeArtists(collectionEntries);
   const normalizedArtistQuery = artistQuery.trim().toLocaleLowerCase();
   const visibleArtistSummaries = normalizedArtistQuery
     ? artistSummaries.filter(({ artist }) =>
@@ -129,7 +131,7 @@ export function SettingsPanel() {
           <span className="text-sm font-medium text-slate-300">Difficulty</span>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {SONG_DIFFICULTIES.map(({ id, label }) => {
-              const count = songEntries.filter(
+              const count = collectionEntries.filter(
                 (entry) =>
                   matchesSongDifficulty(entry.chords, id) &&
                   (!instrumentalSongs || Boolean(entry.instrumentalFile)),

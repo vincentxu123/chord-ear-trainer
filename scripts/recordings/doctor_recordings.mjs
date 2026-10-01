@@ -16,6 +16,14 @@ for (const executable of ['ffmpeg', 'ffprobe']) {
   result(executable, check.status === 0, check.status === 0 ? 'available' : 'install FFmpeg');
 }
 
+const deno = capture('deno', ['--version']);
+const nodeMajor = Number.parseInt(process.version.slice(1), 10);
+result(
+  'YouTube JS runtime',
+  deno.status === 0 || nodeMajor >= 22,
+  deno.status === 0 ? deno.stdout.split('\n')[0].trim() : nodeMajor >= 22 ? `Node ${process.version}` : 'install Deno 2.3+ or Node 22+',
+);
+
 const python = venvPython();
 result('.venv-recordings', existsSync(python), python);
 

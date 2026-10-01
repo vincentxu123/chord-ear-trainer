@@ -6,6 +6,7 @@ import { readStored, writeStored } from './persistence';
 // validated excerpts from commercial recordings (see ARCHITECTURE.md).
 export type SoundSource = 'synth' | 'clips' | 'songs';
 export type SongProgressFilter = 'learning' | 'all';
+export type SongCollection = 'manual' | 'rotation';
 
 export interface PracticeSettings {
   soundSource: SoundSource;
@@ -16,6 +17,7 @@ export interface PracticeSettings {
   randomizeKey: boolean;
   songDifficulty: SongDifficulty;
   songProgressFilter: SongProgressFilter;
+  songCollection: SongCollection;
   selectedArtists: string[] | null;
   playChordOnSelection: boolean;
   instrumentalSongs: boolean;
@@ -37,6 +39,7 @@ interface SettingsStore extends PracticeSettings {
   setIncludeDiminished: (value: boolean) => void;
   setSongDifficulty: (difficulty: SongDifficulty) => void;
   setSongProgressFilter: (filter: SongProgressFilter) => void;
+  setSongCollection: (collection: SongCollection) => void;
   setSelectedArtists: (artists: string[] | null) => void;
   setPlayChordOnSelection: (value: boolean) => void;
   setInstrumentalSongs: (value: boolean) => void;
@@ -53,6 +56,7 @@ const DEFAULT_SETTINGS: PracticeSettings = {
   randomizeKey: true,
   songDifficulty: 'all',
   songProgressFilter: 'learning',
+  songCollection: 'manual',
   selectedArtists: null,
   playChordOnSelection: false,
   instrumentalSongs: false,
@@ -81,6 +85,7 @@ export const useSettings = create<SettingsStore>((set) => {
         randomizeKey: next.randomizeKey,
         songDifficulty: next.songDifficulty,
         songProgressFilter: next.songProgressFilter,
+        songCollection: next.songCollection,
         selectedArtists: next.selectedArtists,
         playChordOnSelection: next.playChordOnSelection,
         instrumentalSongs: next.instrumentalSongs,
@@ -99,6 +104,7 @@ export const useSettings = create<SettingsStore>((set) => {
     setIncludeDiminished: (value) => update({ includeDiminished: value }),
     setSongDifficulty: (difficulty) => update({ songDifficulty: difficulty }),
     setSongProgressFilter: (filter) => update({ songProgressFilter: filter }),
+    setSongCollection: (collection) => update({ songCollection: collection }),
     setSelectedArtists: (artists) => update({ selectedArtists: artists }),
     setPlayChordOnSelection: (value) => update({ playChordOnSelection: value }),
     setInstrumentalSongs: (value) => update({ instrumentalSongs: value }),

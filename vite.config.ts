@@ -50,12 +50,12 @@ export default defineConfig({
         runtimeCaching: [
           {
             urlPattern: ({ sameOrigin, url }) =>
-              sameOrigin && /\/song-clips\/[^/]+\.mp3$/.test(url.pathname),
+              sameOrigin && /\/(?:song-clips|rotation-clips)\/[^/]+\.mp3$/.test(url.pathname),
             handler: 'CacheFirst',
             options: {
               cacheName: SONG_CACHE_NAME,
               expiration: {
-                maxEntries: 500,
+                maxEntries: 800,
                 maxAgeSeconds: 60 * 60 * 24 * 365,
               },
               cacheableResponse: { statuses: [200] },
@@ -63,7 +63,7 @@ export default defineConfig({
           },
           {
             urlPattern: ({ sameOrigin, url }) =>
-              sameOrigin && url.pathname.endsWith('/song-clips/manifest.json'),
+              sameOrigin && /\/(?:song-clips|rotation-clips)\/manifest\.json$/.test(url.pathname),
             handler: 'NetworkFirst',
             options: {
               cacheName: 'song-library-metadata-v1',
