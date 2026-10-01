@@ -3,8 +3,10 @@ import tempfile
 import unittest
 from datetime import date
 from pathlib import Path
+from unittest.mock import Mock, patch
 
-from rotate_released import due_today, enough_sources_processed, publish, should_process_song
+from download_youtube import YOUTUBE_ACCESS_BLOCKED_EXIT_CODE
+from rotate_released import due_today, enough_sources_processed, main, publish, should_process_song
 from verify_rotation_pack import verify_pack
 
 
@@ -65,6 +67,28 @@ class RotationTests(unittest.TestCase):
             (output / "old.mp3").write_bytes(b"old")
             self.assertEqual(publish(staging, output, 75, "2026-10-04T09:00:00+00:00"), 0)
             self.assertTrue((output / "old.mp3").exists())
+
+    def test_youtube_access_block_stops_batch_without_retrying(self):
+        videos = [
+            {"id": "first", "title": "First", "url": "https://www.youtube.com/watch?v=first"},
+            {"id": "second", "title": "Second", "url": "https://www.youtube.com/watch?v=second"},
+        ]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "output"
+            output.mkdir()
+            (output / "manifest.json").write_text('{"clips": []}', encoding="utf-8")
+            argv = ["rotate_released.py", "--max-songs", "2", "--work-root", str(root / "work"), "--output", str(output)]
+            with patch("rotate_released.playlist_videos", return_value=videos), \
+                 patch("rotate_released.subprocess.run", return_value=Mock(returncode=YOUTUBE_ACCESS_BLOCKED_EXIT_CODE)) as run, \
+                 patch("sys.argv", argv):
+                self.assertEqual(main(), 1)
+                self.assertEqual(main(), 1)
+            self.assertEqual(run.call_count, 1)
+            report = json.loads(next((root / "work").glob("run-report-*.json")).read_text(encoding="utf-8"))
+            self.assertEqual(list(report["songs"]), ["first"])
+            self.assertEqual(report["publishedExcerpts"], 0)
+            self.assertEqual((output / "manifest.json").read_text(encoding="utf-8"), '{"clips": []}')
 
 
 if __name__ == "__main__":

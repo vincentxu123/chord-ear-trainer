@@ -27,6 +27,7 @@ TITLE_SUFFIXES = (
     re.compile(r"\s+lyrics?(?:\s+\([^)]*\))?\s*$", re.IGNORECASE),
     re.compile(r"\s+[\[(](?:official\s+)?(?:audio|video|music\s+video|lyric\s+video|lyrics?)[^\])]*[\])]\s*$", re.IGNORECASE),
 )
+YOUTUBE_ACCESS_BLOCKED_EXIT_CODE = 42
 
 
 def validate_youtube_url(value: str) -> str:
@@ -98,6 +99,9 @@ def download_audio(url: str, imports_dir: Path) -> tuple[Path, dict[str, Any]]:
                 downloaded = Path(downloader.prepare_filename(info)).resolve()
             break
         except DownloadError as exc:
+            if "sign in to confirm" in str(exc).lower():
+                print("YouTube blocked audio access from this machine; stop this rotation batch.", file=sys.stderr)
+                raise SystemExit(YOUTUBE_ACCESS_BLOCKED_EXIT_CODE) from exc
             if "HTTP Error 403" not in str(exc) or index == 2:
                 raise
             # YouTube occasionally rejects direct Opus and AAC media URLs even

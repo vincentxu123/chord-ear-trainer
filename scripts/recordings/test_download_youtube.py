@@ -2,11 +2,30 @@ import argparse
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from download_youtube import build_process_command, derive_song_metadata, validate_youtube_url
+from download_youtube import (
+    YOUTUBE_ACCESS_BLOCKED_EXIT_CODE,
+    build_process_command,
+    derive_song_metadata,
+    download_audio,
+    validate_youtube_url,
+)
 
 
 class DownloadYoutubeTests(unittest.TestCase):
+    def test_bot_challenge_has_distinct_exit_code_without_trying_other_formats(self):
+        from yt_dlp.utils import DownloadError
+
+        with tempfile.TemporaryDirectory() as temporary, patch("yt_dlp.YoutubeDL") as downloader:
+            downloader.return_value.__enter__.return_value.extract_info.side_effect = DownloadError(
+                "Sign in to confirm you're not a bot"
+            )
+            with self.assertRaises(SystemExit) as exit_result:
+                download_audio("https://www.youtube.com/watch?v=blocked", Path(temporary))
+        self.assertEqual(exit_result.exception.code, YOUTUBE_ACCESS_BLOCKED_EXIT_CODE)
+        self.assertEqual(downloader.call_count, 1)
+
     def test_accepts_video_url_with_radio_playlist_parameters(self):
         url = "https://www.youtube.com/watch?v=abc&list=RDabc&start_radio=1"
         self.assertEqual(validate_youtube_url(url), url)

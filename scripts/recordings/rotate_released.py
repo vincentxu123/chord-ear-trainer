@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from analyze_song import DEFAULT_WORK_ROOT
+from download_youtube import YOUTUBE_ACCESS_BLOCKED_EXIT_CODE
 from export_candidates import library_metadata
 
 
@@ -176,7 +177,7 @@ def main() -> int:
         if previous.get("sourceIds") == source_ids:
             if previous.get("finishedAt"):
                 print("This playlist batch already finished today; leaving its result in place.")
-                return 0
+                return 0 if previous.get("publishedExcerpts", 0) > 0 else 1
             report = previous
     report["sourceIds"] = source_ids
 
@@ -197,6 +198,13 @@ def main() -> int:
             "exitCode": result.returncode,
         }
         log_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        if result.returncode == YOUTUBE_ACCESS_BLOCKED_EXIT_CODE:
+            report["blockedReason"] = "YouTube denied audio access from this runner"
+            report["finishedAt"] = datetime.now(timezone.utc).isoformat()
+            report["publishedExcerpts"] = 0
+            log_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            print("YouTube denied audio access. Stopping before attempting more songs; existing rotation remains in place.", flush=True)
+            return 1
 
     if not enough_sources_processed(report, len(videos)):
         report["finishedAt"] = datetime.now(timezone.utc).isoformat()

@@ -55,7 +55,7 @@ small library).
 - [x] Move the Real Music practice queue into a separate progress pane
 - [x] Separate the hand-picked songbook from a biweekly RELEASED rotation
 - [x] Add a local Sunday task that refreshes the rotating library without touching the songbook
-- [ ] Complete a full hosted rotation trial, then enable biweekly protected deployment from the private GitHub runner
+- [ ] Restore reliable hosted access to permitted song audio, complete a full hosted rotation trial, then enable biweekly protected deployment
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -259,15 +259,18 @@ computer must be on and the user signed in to run it. The online app receives a 
 only after the generated `public/rotation-clips/` artifacts are deployed;
 installed offline packs update when the listener downloads the new pack.
 
-The separate private repository can run `.github/workflows/rotate-released.yml`
-on GitHub-hosted Linux every Sunday, with the same alternating-Sunday gate.
-Its manual dispatch defaults to an environment/playlist smoke check. A full
+The separate private repository contains `.github/workflows/rotate-released.yml`
+for GitHub-hosted Linux. Its manual dispatch defaults to an environment/playlist smoke check. A full
 run requires a `VERCEL_TOKEN` repository secret; after all songs have been
 attempted, the workflow verifies the pack, runs tests/build, and deploys it
 directly to the Vercel project `ear-trainer-private-rotation`. It never pushes
 generated audio back to GitHub. A failed run does not deploy, leaving the
-previous pack at the stable, Vercel-authenticated URL. The hosted workflow
-still needs a full trial before the schedule can be considered operational.
+previous pack at the stable, Vercel-authenticated URL. The hosted schedule is
+paused because YouTube blocked audio downloads from the GitHub runner on the
+first full trial (October 1, 2026). That run could list the playlist but none
+of its 76 recordings could be downloaded. A new audio-source strategy must be
+validated before enabling the biweekly schedule. If YouTube blocks a future
+manual run, the pipeline stops at the first blocked song.
 
 ## Scripts
 

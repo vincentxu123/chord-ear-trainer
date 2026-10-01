@@ -1,9 +1,6 @@
 name: Refresh private RELEASED rotation
 
 on:
-  schedule:
-    # Sunday night in Chicago: 5:17 a.m. CDT / 4:17 a.m. CST.
-    - cron: '17 10 * * 0'
   workflow_dispatch:
     inputs:
       smoke_only:
