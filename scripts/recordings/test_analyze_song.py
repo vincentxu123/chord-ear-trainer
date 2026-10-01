@@ -81,6 +81,62 @@ class AnalyzeSongTests(unittest.TestCase):
         )
         self.assertAlmostEqual(sum(chord.occupancy for chord in bar.chord_sequence), 0.975)
 
+    def test_edge_no_chord_does_not_create_a_second_chord(self):
+        for no_chord_at_start in (True, False):
+            for model_with_no_chord in ("lv-chordia", "btc"):
+                with self.subTest(
+                    no_chord_at_start=no_chord_at_start,
+                    model_with_no_chord=model_with_no_chord,
+                ):
+                    self._assert_edge_no_chord_agrees(no_chord_at_start, model_with_no_chord)
+
+    def _assert_edge_no_chord_agrees(self, no_chord_at_start, model_with_no_chord):
+        if no_chord_at_start:
+            first = {"start_time": 0.0, "end_time": 0.5, "chord": "N"}
+            second = {"start_time": 0.5, "end_time": 4.0, "chord": "E:min"}
+        else:
+            first = {"start_time": 0.0, "end_time": 3.5, "chord": "E:min"}
+            second = {"start_time": 3.5, "end_time": 4.0, "chord": "N"}
+        with_no_chord = [
+            first,
+            second,
+            {"start_time": 4.0, "end_time": 16.0, "chord": "E:min"},
+        ]
+        without_no_chord = [
+            {"start_time": 0.0, "end_time": 16.0, "chord": "E:min"}
+        ]
+        predictions = {
+            model: with_no_chord if model == model_with_no_chord else without_no_chord
+            for model in ("lv-chordia", "btc")
+        }
+        bars = build_ensemble_bars(
+            [0.0, 4.0, 8.0, 12.0, 16.0], predictions, "lv-chordia"
+        )
+
+        self.assertEqual([piece.label for piece in bars[0].chord_sequence], ["E:min"])
+        self.assertEqual(bars[0].sequence_agreement, 1.0)
+        self.assertTrue(build_candidates(bars)[0].eligible)
+
+    def test_internal_no_chord_remains_a_disagreement(self):
+        bars = build_ensemble_bars(
+            [0.0, 4.0],
+            {
+                "lv-chordia": [
+                    {"start_time": 0.0, "end_time": 1.5, "chord": "E:min"},
+                    {"start_time": 1.5, "end_time": 2.0, "chord": "N"},
+                    {"start_time": 2.0, "end_time": 4.0, "chord": "G:maj"},
+                ],
+                "btc": [
+                    {"start_time": 0.0, "end_time": 2.0, "chord": "E:min"},
+                    {"start_time": 2.0, "end_time": 4.0, "chord": "G:maj"},
+                ],
+            },
+            "lv-chordia",
+        )
+
+        self.assertEqual([piece.label for piece in bars[0].chord_sequence], ["E:min", "N", "G:maj"])
+        self.assertEqual(bars[0].sequence_agreement, 0.5)
+
     def test_candidate_requires_four_supported_unambiguous_bars(self):
         chords = [
             {"start_time": float(i), "end_time": float(i + 1), "chord": "C:maj"}

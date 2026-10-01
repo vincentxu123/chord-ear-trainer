@@ -554,7 +554,7 @@ def infer_phrase_start_measure(bars: list[BarAnalysis]) -> dict[str, Any]:
 
     Phrase phase is not identifiable from every recording. We only move the
     grid when measure one is mostly silence/unsupported harmony, or contains a
-    retained no-chord region, and the next four measures are well covered. This
+    substantial no-chord region, and the next four measures are well covered. This
     catches a one-measure pickup without guessing from ordinary harmonic
     repetition.
     """
@@ -567,12 +567,13 @@ def infer_phrase_start_measure(bars: list[BarAnalysis]) -> dict[str, Any]:
         return default
     first_coverage = supported_chord_coverage(bars[0])
     following = [supported_chord_coverage(bar) for bar in bars[1:5]]
-    first_sequence = bars[0].chord_sequence
     no_chord_occupancy = sum(
-        chord.occupancy
-        for chord in first_sequence
-        if chord.label in {"N", "X", "NC", "None", ""}
-    )
+        vote.seconds
+        for vote in bars[0].votes
+        if vote.label == "N"
+    ) / max(bars[0].end - bars[0].start, 1e-9)
+    if no_chord_occupancy < MIN_CHORD_OCCUPANCY:
+        no_chord_occupancy = 0.0
     has_no_chord_region = no_chord_occupancy > 0.0
     if (first_coverage <= 0.5 or has_no_chord_region) and min(following) >= 0.8:
         evidence = (
@@ -752,6 +753,18 @@ def analyze_bar(index: int, start: float, end: float, chords: Iterable[dict[str,
     # The candidates above are ranked by duration; restore musical order for
     # display so a bar reads from its first chord to its last chord.
     selected.sort(key=lambda label: min(a for a, _, event_label in events if event_label == label))
+    if "N" in selected and any(label != "N" for label in selected):
+        chord_events = [(a, b) for a, b, label in events if label != "N"]
+        first_chord = min(a for a, _ in chord_events)
+        last_chord = max(b for _, b in chord_events)
+        # Silence or uncertainty at a measure edge is not a second chord.
+        # Keep an internal N so a real gap between chords still fails review.
+        if all(
+            b <= first_chord or a >= last_chord
+            for a, b, label in events
+            if label == "N"
+        ):
+            selected.remove("N")
     chord_sequence = tuple(
         ChordSlice(
             label=label,
