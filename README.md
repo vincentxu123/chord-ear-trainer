@@ -55,7 +55,7 @@ small library).
 - [x] Move the Real Music practice queue into a separate progress pane
 - [x] Separate the hand-picked songbook from a biweekly RELEASED rotation
 - [x] Add a local Sunday task that refreshes the rotating library without touching the songbook
-- [ ] Restore reliable hosted access to permitted song audio, complete a full hosted rotation trial, then enable biweekly protected deployment
+- [x] Add a local command for refreshing the biweekly RELEASED rotation
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -259,18 +259,13 @@ computer must be on and the user signed in to run it. The online app receives a 
 only after the generated `public/rotation-clips/` artifacts are deployed;
 installed offline packs update when the listener downloads the new pack.
 
-The separate private repository contains `.github/workflows/rotate-released.yml`
-for GitHub-hosted Linux. Its manual dispatch defaults to an environment/playlist smoke check. A full
-run requires a `VERCEL_TOKEN` repository secret; after all songs have been
-attempted, the workflow verifies the pack, runs tests/build, and deploys it
-directly to the Vercel project `ear-trainer-private-rotation`. It never pushes
-generated audio back to GitHub. A failed run does not deploy, leaving the
-previous pack at the stable, Vercel-authenticated URL. The hosted schedule is
-paused because YouTube blocked audio downloads from the GitHub runner on the
-first full trial (October 1, 2026). That run could list the playlist but none
-of its 76 recordings could be downloaded. A new audio-source strategy must be
-validated before enabling the biweekly schedule. If YouTube blocks a future
-manual run, the pipeline stops at the first blocked song.
+To refresh locally, run `npm run songs:rotate -- --device cpu`. The command
+reads the current playlist, processes each video once, and replaces only
+`public/rotation-clips/` after the batch passes its source-count and excerpt
+checks. The permanent Songbook in `public/song-clips/` is untouched. If a
+download is blocked or too few sources succeed, the existing rotation remains
+in place. After reviewing the generated changes, run the normal tests/build,
+then commit and push the updated rotation when ready.
 
 ## Scripts
 
