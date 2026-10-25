@@ -36,7 +36,7 @@ separate PWA codebase. Any product change must keep **online browser use** and
   CDN. Real Music stays an explicit pack: only excerpts already saved with
   **Download** may play; do not fall back to a piano round.
 - Keep that split in `vite.config.ts`. Precache the shell and
-  `piano-samples/*.mp3` only. Do not add `song-clips/` (or `clips/`) to
+  `piano-samples/*.mp3` only. Do not add `song-clips/`, `rotation-clips/`, or `clips/` to
   `globPatterns` — those libraries grow independently of the app revision.
 - Song playback URLs must keep the `?library=<manifest.version>` query so a
   changed MP3 cannot reuse a stale cache entry. `SONG_CACHE_NAME` and the
@@ -47,8 +47,8 @@ separate PWA codebase. Any product change must keep **online browser use** and
   `version` and `totalBytes`) and publish original plus instrumental files.
   Online users pick up the new list on the next load; anyone with an offline
   pack uses **Finish download** / **Download** to refresh it. Raise Workbox
-  `maxEntries` (currently 500 files, typically two per excerpt) only if the
-  published library would exceed that cap.
+  `maxEntries` (currently 800 files, typically two per excerpt) only if the
+  combined Songbook and Fresh rotation libraries would exceed that cap.
 - After app or audio-pipeline changes, run `npm test` and `npm run build`. The
   build emits the service worker; a TypeScript-only check is not enough to
   confirm PWA packaging.
@@ -71,5 +71,6 @@ separate PWA codebase. Any product change must keep **online browser use** and
 - Model weights are intentionally not committed. Beat This, BTC, and Demucs
   download them into local user caches on first use; keep those caches outside
   Git.
-- Never hand-edit `public/song-clips/manifest.json`, manually cut excerpts, or
+- Never hand-edit `public/song-clips/manifest.json` or
+  `public/rotation-clips/manifest.json`, manually cut excerpts, or
   commit `.recordings/`, source recordings, model caches, or reports.

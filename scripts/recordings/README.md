@@ -1,4 +1,4 @@
-# Recording analysis spike
+# Real Music recording pipeline
 
 This tooling is deliberately separate from the app's generated-clip pipeline.
 It reads a local recording, detects beats/downbeats and chords, resolves
@@ -21,14 +21,19 @@ remain visible in the audit report with their duplicate reason. A window with
 only one unique chord across all four measures is also excluded automatically.
 
 Exercise proposals stay on a non-overlapping four-measure phrase grid:
-measures 1-4, 5-8, 9-12, and so on. Confidence ranking can omit a weaker
+by default measures 1-4, 5-8, 9-12, and so on, shifted when pickup detection
+or a verified `phraseStartMeasure` changes the starting measure. Confidence
+ranking can omit a weaker
 block from a limited report, but it never shifts a window off that grid.
 Playback cues may move forward by up to 120 ms to a nearby transient so a
 clip does not include the tiny lead-in before the detected measure attack. This
 does not change the fixed analysis grid or chord boundaries.
 
-Source recordings and every derived file live under `.recordings/`, which is
-gitignored. Do not commit or distribute commercial recordings or derived clips
+Downloaded sources, analysis caches, stems, and reports live under
+`.recordings/`, which is gitignored. User-supplied source files can remain
+outside the repository. Published excerpts and manifests live under
+`public/song-clips/` or `public/rotation-clips/`. Do not commit or distribute
+commercial recordings or derived clips
 without the necessary rights.
 
 ## Setup
@@ -62,6 +67,12 @@ The timing ensemble compares Beat This with madmom constrained to 4/4. If one
 model produces a well-supported 2:1 half-bar grid, the slower full-bar grid
 wins. Same-level grids are averaged; incompatible grids remain visible in the
 analysis metadata.
+
+The multiline examples below use Bash continuation (`\`). In PowerShell, run
+them on one line or use PowerShell backticks for continuation. For direct
+Python commands, activate `.venv-recordings` first and use `python`; Unix
+`.venv-recordings/bin/python` paths correspond to
+`.venv-recordings\Scripts\python.exe` on Windows.
 
 ## Process and add a song (recommended)
 
@@ -226,6 +237,33 @@ automatic estimation or an optional override. The generated
 `publish-report.html` in each song's `.recordings` directory lists every
 included and excluded window, its model predictions, and exclusion reasons.
 
+## Manual RELEASED rotation
+
+```bash
+npm run songs:rotate -- --list-only
+npm run songs:rotate -- --device cpu
+```
+
+The rotation command reads the RELEASED playlist, records sources and outcomes
+under `.recordings/rotation/`, and stages eligible original/instrumental
+excerpts before replacing `public/rotation-clips/`. Songbook remains untouched.
+Publication requires at least 80% of listed sources to process successfully
+and at least one eligible excerpt. Completed or failed videos in a resumed
+batch are not retried. A failed batch leaves the published rotation in place.
+There is no hosted refresh schedule; run this command locally when refreshing
+the collection. A full batch also requires at least 50 playlist videos.
+Resumption uses the same local date and ordered source list; a finished batch
+is not rerun on the same day. YouTube access denial stops the batch early.
+
+`--max-songs N` limits processing to the first N sources and bypasses the
+50-video check. It can still publish a replacement rotation; use
+`--output .recordings/rotation-trial` to keep trial output out of the published
+collection.
+
+Review the report and resulting assets, then run tests/build and commit/push
+the intended rotation changes. `--list-only` still accesses the playlist, but
+does not download audio or publish excerpts.
+
 ## Backfill existing published excerpts
 
 When a checkout contains published song excerpts but not their original
@@ -239,3 +277,19 @@ npm run songs:instrumentals -- --device mps
 The command skips entries that already have `instrumentalFile`, caches Demucs
 WAV output under `.recordings/instrumental-backfill/`, writes matching
 `-instrumental.mp3` files, and atomically rebuilds the manifest metadata.
+
+## Verification
+
+After activating `.venv-recordings`, run from the repository root:
+
+```bash
+python -m unittest discover -s scripts/recordings -p "test_*.py"
+npm test
+npm run build
+git diff --check
+```
+
+The Python suite and Vitest suite are separate. The production build also
+emits the PWA service worker. Inspect the publication report and verify every
+manifest audio reference before committing; tests do not establish perceptual
+correctness of a song's answer key.

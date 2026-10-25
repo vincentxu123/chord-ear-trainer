@@ -19,7 +19,7 @@ At practice time an `Exercise` binds a progression to a concrete key, mode, and
 audio source (`synth` | `generated` | `recording`). The same relative answer key
 works for piano synthesis and for either kind of pre-rendered clip.
 
-**Gameplay rule (both modes):** the first slot is revealed as a free anchor
+**Gameplay rule (all three modes):** the first slot is revealed as a free anchor
 (`GIVEN_SLOT_COUNT = 1`). The user guesses the remaining chords; scoring totals
 exclude the given slot.
 
@@ -31,7 +31,8 @@ exclude the given slot.
  Settings.soundSource
       ├── synth ── generateRound() ── SynthAudioSource
       ├── clips ── public/clips/manifest.json ── ClipAudioSource
-      └── songs ── public/song-clips/manifest.json ── ClipAudioSource
+      └── songs ── public/song-clips/manifest.json ─────┐
+                   public/rotation-clips/manifest.json ┴── ClipAudioSource
 ```
 
 | | Piano (`synth`) | Generated (`clips`) | Songs (`songs`) |
@@ -49,19 +50,39 @@ are grouped by measure because a measure can contain one to four chords.
 ### Offline runtime
 
 The Vite production build generates a PWA manifest and Workbox service worker.
-The service worker precaches the application shell, lazy piano engine, and the
+The service worker precaches the application shell, piano engine, and the
 local Salamander piano samples. Real Music remains an explicit user download:
 the app writes every versioned song URL into `song-clips-offline-v1`, the same
-cache used by the service worker's audio route. The song manifest uses a
-network-first route so the last successful library remains available offline.
+cache used by the service worker's audio route. Both collection manifests use a
+network-first route in `song-library-metadata-v1` so the last successful
+libraries remain available offline. The shared audio route allows 800 files.
+Download saves both loaded collections and all available audio variants;
+Remove deletes the shared audio pack. Generated clips are not precached and
+have no explicit offline pack.
 
 The recording exporter hashes the published audio into a top-level manifest
 `version`. That version is appended to each playback URL, preventing a changed
 MP3 with a reused filename from resolving to stale audio. A completed download
 removes cache entries from previous library versions.
 
-If either media mode is selected while its library is missing or loading, the
-session falls back to synth generation.
+Generated mode falls back to piano while its library is missing or loading.
+Real Music never falls back: it shows an explicit loading, unavailable, empty
+filter, finished-queue, or missing-download state. Offline Real Music selection
+is restricted to excerpts whose available audio variants are cached.
+
+### Collections and local progress
+
+`src/store/songs.ts` loads Songbook first, then the optional Fresh rotation.
+Each collection has its own version; both share the practice UI and cache.
+`songs:rotate` manually processes the RELEASED playlist into a staged batch.
+It replaces only the rotation after at least 80% of sources process successfully
+and at least one excerpt passes. See the recording-tooling README for details.
+
+Settings and Real Music attempts persist in localStorage. `src/store/progress.ts`
+tracks attempt counts and the last outcome; a latest correct attempt marks an
+excerpt mastered and removes it from Learn. All permits review. Progress can be
+reset per collection; obsolete rotation progress is pruned when a new rotation
+loads. There is no account or cross-device sync.
 
 ---
 
@@ -73,8 +94,8 @@ with labels trustworthy enough for an ear trainer.
 | Approach | Verdict |
 |----------|---------|
 | **MusicGen-Chord** (chosen) | Open model conditioned on an explicit `text_chords` string + BPM + style prompt. Labels come from the *input*, then we QC the audio. |
-| Extract real-song choruses | Used only for the experimental, rights-sensitive song mode after two chord models agree on the full ordered sequence. |
-| Suno text prompts | No solid official API; prompts don’t reliably follow typed chord progressions. |
+| Extract real-song excerpts | Used by Real Music after timing/structure checks and two chord models agree on the full ordered sequence. |
+| Unconditioned text-to-music prompts | Not used: the pipeline requires an explicit chord sequence and subsequent audio validation. |
 | Suno audio-upload restyle | Possible later polish (vocals / radio production) using our clip as harmonic reference — not required for v1. |
 
 **Properties of the chosen path**
@@ -160,11 +181,12 @@ inference), wrapped by `scripts/qcClips.py`.
    otherwise **discard**. (Same bar for `npm run clips:generate` and
    `npm run clips:qc`.)
 
-**Caveat:** ACR itself is roughly ~80% accurate on real music. QC is a useful
-filter (false rejects are fine — we drop the clip), not a mathematical proof.
+**Caveat:** Recognition accuracy depends on the recording and model. QC is a
+filter (false rejects are fine — we drop the clip), not proof of correct labels.
 Spot-listen occasionally when growing the library.
 
-Standalone re-check of the whole library: `npm run clips:qc`.
+Standalone re-check on Windows: `npm run clips:qc`. On macOS/Linux, use
+`.venv-qc/bin/python scripts/qcClips.py` (the npm shortcut uses a Windows path).
 After deletions or curation, close ID gaps with `npx tsx scripts/renumberClips.ts`.
 
 ### Commercial-recording candidate gate
@@ -178,8 +200,9 @@ tonal center and automatically exports every four-measure row where:
 - both chord models return the same enharmonic root/quality sequence in every measure.
 
 Demucs creates one cached, time-aligned accompaniment stem for the full
-recording. Export always cuts original and instrumental 96 kbps MP3 excerpts
-from that stem. Chord recognition defaults to the mixed recording; pass
+recording. Export cuts original 96 kbps MP3 excerpts from the normalized mix
+and instrumental excerpts from the accompaniment stem. Chord recognition
+defaults to the mixed recording; pass
 `--chord-audio instrumental` to run lv-chordia and BTC on the Demucs stem
 instead. The exporter writes exact chord cues to `public/song-clips/`, updates
 the manifest incrementally, and then generates a local `publish-report.html`
@@ -202,13 +225,17 @@ recording rights.
    REPLICATE_API_TOKEN=r8_...
    ```
 
-3. Python QC venv:
+3. Python QC venv (PowerShell):
 
    ```powershell
    python -m venv .venv-qc
    .\.venv-qc\Scripts\activate
    pip install lv-chordia
    ```
+
+On macOS/Linux, create the same `.venv-qc` with `python3 -m venv .venv-qc`,
+activate it with `source .venv-qc/bin/activate`, then install `lv-chordia`.
+The generator detects either platform layout automatically.
 
 ### Commands
 
@@ -229,9 +256,8 @@ npm run clips:generate -- --count 1 --skip-qc
 npm run clips:qc
 ```
 
-Rough cost on Replicate: on the order of **$0.10–0.32 per generation attempt**
-(GPU-seconds; cold starts add latency). Rejected clips still cost a generation
-but are not kept.
+Generation incurs Replicate usage charges; consult the model billing page for
+current pricing. Rejected clips still incur generation costs but are not kept.
 
 ---
 
@@ -279,7 +305,13 @@ The SPA loads this via `src/store/clips.ts`, maps entries to `Exercise` objects
 | `src/clips/` | Spec generation helpers, MusicGen syntax, manifest types |
 | `src/store/settings.ts` | Sound source + practice knobs |
 | `src/store/session.ts` | Round lifecycle, given first slot, scoring |
-| `src/store/clips.ts` | Manifest load + random clip pick |
+| `src/store/clips.ts` | Generated manifest load + random clip pick |
+| `src/store/songs.ts` | Both Real Music manifests, versioned URLs, offline packs, selection |
+| `src/store/progress.ts` | Local excerpt attempt history and collection resets |
+| `src/songs/` | Manifest types, exact-cue exercises, difficulty and filters |
+| `src/pages/Practice.tsx` | Round setup, audio controls, and practice layout |
+| `src/pages/PracticeQueue.tsx` | Progress pane and Learn / All filtering |
+| `vite.config.ts` | PWA manifest, shell/piano precache, Real Music runtime caching |
 | `scripts/generateClips.ts` | Replicate + QC gate |
 | `scripts/qcClips.py` | lv-chordia validation |
 | `scripts/renumberClips.ts` | Sequential `clip-0001…` IDs after curation |
@@ -289,9 +321,14 @@ The SPA loads this via `src/store/clips.ts`, maps entries to `Exercise` objects
 
 ## 9. Possible next steps
 
+The maintained project backlog is in [README.md](./README.md#project-todos);
+its open item is training a more accurate chord-detection model. The ideas below
+are optional directions, not committed roadmap items.
+
 - Larger clip library; move audio off-repo to object storage when git size hurts
 - Optional Suno (or similar) restyle from our clips for vocals / higher production
-- Clip libraries that include chromatic / diminished when those settings return
+- Generated clip libraries with chromatic / diminished chords (the toggles
+  already exist for Piano; they do not change prerecorded clips)
 - Second ACR model or human spot-listen pass on top of the 100% lv-chordia gate
 
 ---

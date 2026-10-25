@@ -16,9 +16,10 @@ feedback.
 | **Generated** | Short instrumental clips generated offline with AI (full-band texture over a known 4-chord loop). Tempo/length come from the recording. |
 | **Real Music** | Four-measure excerpts from real songs. Only rows where both timing/chord pipelines agree are exported; a preprocessed instrumental version can be selected when available. |
 
-Switch between them in the settings panel. Real music unlocks once
-`public/song-clips/manifest.json` has entries (this repo may already include a
-small library).
+Switch between them with the mode selector above the practice area. Real Music
+is the default mode; media modes become selectable when their libraries load.
+Real Music combines the permanent Songbook (`public/song-clips/`) with an
+optional Fresh rotation (`public/rotation-clips/`).
 
 ## Features
 
@@ -26,10 +27,18 @@ small library).
 - First chord pre-filled and locked as a listening anchor
 - Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
 - Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
-- Real Music mode: exact chord-change cues, measure-grouped answers, optional vocal removal, optional absolute chord labels, and Beginner/Advanced filtering
+- Real Music mode: exact chord-change cues, measure-grouped answers, optional vocal removal, Roman numerals with absolute chord labels, and Beginner/Advanced filtering
 - Installable phone app with offline Real Music downloads and bundled offline piano samples
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
+- Songbook and Fresh rotation collections, with artist search and filtering
+- A progress pane with Learn / All filters and per-collection reset
+- Incorrect-answer reports prefilled as GitHub issues
+
+Settings and Real Music attempts are saved locally in this browser or installed
+app; there is no account or cross-device sync. The Learn queue includes unseen
+excerpts and those whose latest attempt was incorrect. A fully correct attempt
+removes an excerpt from Learn; All allows reviewing it again.
 
 ## Project TODOs
 
@@ -40,14 +49,14 @@ small library).
 - [x] Add dual-model real-recording analysis and validated Real Music practice
 - [x] Automate real-song ingestion, publication, deduplication, and audit reports
 - [x] Add permitted single-video YouTube ingestion with source provenance
-- [x] Add real-song difficulty filters and relative-only chord display
+- [x] Add real-song difficulty filters and Roman-numeral answers with absolute chord labels
 - [x] Refine the Real Music interface for mobile practice
 - [x] Add skip, first-chord anchoring, and chord-position playback controls
 - [x] Improve key-change detection with sustained harmonic segmentation
 - [x] Detect sparse and partial pickup measures for phrase alignment
 - [x] Support verified per-song publication start boundaries
 - [x] Let listeners report incorrect real-song answer keys
-- [x] Add a song/artist selector for Real Music practice
+- [x] Add artist search and filtering for Real Music practice
 - [x] Add offline mobile support as an installable PWA with Real Music downloads and offline piano
 - [x] Add an option for tapping chords to play them aloud with piano
 - [x] Add instrumental mode for song clips, including a vocal-removal processing pipeline
@@ -71,7 +80,8 @@ and Python / lv-chordia for label QC — see [ARCHITECTURE.md](./ARCHITECTURE.md
 
 ## Getting started
 
-Requires **Node.js 18+**.
+Requires **Node.js 20.19+ on the 20.x line, or 22.12+** (the Vite 8
+engine requirement).
 
 ```bash
 npm install
@@ -79,8 +89,8 @@ npm run dev
 ```
 
 Open the local URL Vite prints. Click **Play**, fill the open slots from the
-answer pad, then **Submit**. Piano samples are bundled with the app and need no
-network connection.
+answer pad, then **Submit**. Piano samples are served with the app, without a third-party CDN. After the
+production PWA caches them, they also work offline.
 
 ## Use offline on a phone
 
@@ -95,6 +105,10 @@ then open it on the phone once while online:
 
 Real Music URLs include a library revision. When recordings change, the app
 downloads the new revision completely before deleting obsolete cached files.
+Download includes both collections currently loaded and every available
+original/instrumental variant, regardless of practice filters. Removing the pack
+removes audio for both collections. Generated clips have no dedicated offline
+pack; offline practice is supported for Piano and downloaded Real Music.
 Browsers may still remove web-app data under severe storage pressure, so the
 app verifies the downloaded library whenever it starts.
 
@@ -128,11 +142,14 @@ run Python commands directly, activate it with
 
 The first analysis downloads model weights and can take a while. On a
 compatible Apple Silicon Mac, `--device mps` can speed up inference.
-For YouTube ingestion, install Deno 2.3+ so yt-dlp can resolve current
-YouTube audio streams reliably; the app's Node 20 runtime is too old for
-yt-dlp's JavaScript challenge support.
+For YouTube ingestion, install Deno 2.3+ or use a supported Node runtime
+(Node 22+ for yt-dlp). The downloader enables both Deno and Node; a Node 20
+installation that can build the web app still needs Deno for YouTube challenges.
 
 ### Process and publish
+
+The multiline examples use Bash continuation (`\`). In PowerShell, run them
+on one line or use PowerShell backticks for continuation.
 
 The source file can live anywhere outside the repository; pass its absolute
 path directly. Do not copy commercial source recordings into a tracked folder.
@@ -221,7 +238,10 @@ excludes windows that start before a verified reliable boundary,
 `excludedStartMeasures` removes individual windows whose answer keys have been
 verified as incorrect, and ordered `tonalities` entries set the key and mode
 from a given measure onward. Windows that cross a tonality change are excluded
-automatically. Sidecar values take precedence over automatic inference.
+automatically. Verified `chordOverrides` can correct a one-based chord position
+within a measure while preserving timing. Sidecar values take precedence over
+automatic inference. See the recording-tooling guide for applying verified
+corrections when only published excerpts are available.
 
 Finally, run `npm test` and `npm run build`, then commit the changed files under
 `public/song-clips/`. Never commit `.recordings/`, `.venv-recordings/`, or the
@@ -265,12 +285,13 @@ then commit and push the updated rotation when ready.
 | `npm run dev` | Start the Vite dev server |
 | `npm run build` | Type-check and production build |
 | `npm run preview` | Preview the production build |
-| `npm test` | Unit tests (theory, engine, clip helpers) |
+| `npm test` | Vitest suite (theory, scoring, stores, selection, audio helpers, and reports) |
 | `npm run typecheck` | Type-check only |
 | `npm run clips:generate` | Offline: generate + QC clips into `public/clips/` |
-| `npm run clips:qc` | Offline: re-validate the existing clip library |
+| `npm run clips:qc` | Offline: re-validate the clip library using the Windows `.venv-qc`; see the architecture guide for macOS/Linux |
 | `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report. Optional `--chord-audio instrumental` |
 | `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process`. Same `--chord-audio` flag |
+| `npm run songs:rotate` | Offline: manually refresh the RELEASED rotation; `--list-only` lists sources without downloading audio |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 | `npm run songs:instrumentals` | Offline: add vocal-free variants to already-published song excerpts |
 | `npm run songs:setup` | Create or update the complete recording-analysis Python environment |
@@ -284,7 +305,8 @@ src/
   engine/       Round generation + scoring
   audio/        Synth piano + clip player
   clips/        Manifest types, MusicGen chord syntax, clip → Exercise
-  store/        Zustand (settings, session, clip library)
+  songs/        Real Music manifest types, exercise conversion, filtering
+  store/        Zustand (settings, session, libraries, local progress)
   components/   UI (slots, answer pad, controls, settings, keyboard)
   pages/        Practice screen
 scripts/
@@ -292,8 +314,10 @@ scripts/
   qcClips.py         lv-chordia label validation
   renumberClips.ts   Sequential clip IDs after curation
   recordings/        Real Music analysis + optional `--chord-audio instrumental`
-public/clips/        MP3 library + manifest.json (curated, ~60 clips)
-public/song-clips/   Eligible real-song excerpts + exact cue manifest
+public/clips/        Generated MP3 library + manifest.json
+public/song-clips/   Permanent Songbook excerpts + exact cue manifest
+public/rotation-clips/ Fresh rotation excerpts + independent versioned manifest
+public/piano-samples/ Bundled Salamander piano samples for online/offline use
 ```
 
 The commercial-recording pipeline is intended for private research and review.
@@ -301,7 +325,14 @@ Do not deploy its audio publicly unless you have the necessary distribution
 rights; the analysis code works independently of the bundled examples.
 
 Theory and engine layers are pure (no audio/DOM) and covered by unit tests.
-Deeper notes on how Real music clips are produced and validated live in
+`npm test` runs the TypeScript/Vitest suite; it does not run the Python
+recording-tool tests. After activating `.venv-recordings`, run those separately:
+
+```bash
+python -m unittest discover -s scripts/recordings -p "test_*.py"
+```
+
+Deeper notes on how Real Music clips are produced and validated live in
 [ARCHITECTURE.md](./ARCHITECTURE.md).
 
 The bundled piano MP3s are derivatives of Alexander Holm's Salamander Grand
