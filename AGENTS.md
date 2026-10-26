@@ -8,8 +8,10 @@
 
 ## Git workflow
 
-- Commit and push changes directly to `master` by default. Do not create or use
-  another branch unless the user explicitly requests one.
+- Work and commit locally on `master` by default. Do not create or use another
+  branch unless the user explicitly requests one.
+- Do not push to `master` without the user's explicit go-ahead for that push.
+  Completing a change or being asked to implement it does not authorize a push.
 
 ## UI design
 
