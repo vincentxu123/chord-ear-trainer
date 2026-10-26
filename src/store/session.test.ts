@@ -4,6 +4,9 @@ import { GIVEN_SLOT_COUNT, useSession } from './session';
 import { useSongs } from './songs';
 import { useProgress } from './progress';
 import type { SongClipManifestEntry } from '../songs/types';
+import manifest from '../../public/rotation-clips/manifest.json';
+import { rateSongDifficulty } from '../songs/difficulty';
+import { useSettings } from './settings';
 
 const settings: PracticeSettings = {
   soundSource: 'synth',
@@ -22,6 +25,25 @@ const settings: PracticeSettings = {
 
 describe('session playback selection', () => {
   beforeEach(() => useSession.getState().newRound(settings));
+
+  it('updates the mix-specific difficulty without discarding answers', () => {
+    const entries = manifest.clips.map(entry => ({ ...entry, collection: 'rotation', libraryVersion: manifest.version } as SongClipManifestEntry));
+    const entry = entries.find(item => rateSongDifficulty(item) !== rateSongDifficulty(item, true))!;
+    const previousCollection = useSettings.getState().songCollection;
+    try {
+      useSettings.setState({ songCollection: 'rotation' });
+      useSongs.setState({ entries: [entry], status: 'ready' });
+      useSession.getState().newRound({ ...settings, soundSource: 'songs', songCollection: 'rotation', songProgressFilter: 'all' });
+      useSession.getState().selectChord(entry.chords[1]!);
+      const answers = useSession.getState().answers;
+      expect(useSession.getState().exercise?.song?.difficulty).toBe(rateSongDifficulty(entry));
+      useSession.getState().setSongAudioVariant(true);
+      expect(useSession.getState().exercise?.song?.difficulty).toBe(rateSongDifficulty(entry, true));
+      expect(useSession.getState().answers).toBe(answers);
+    } finally {
+      useSettings.setState({ songCollection: previousCollection });
+    }
+  });
 
   it('selects the given first chord without blocking answer entry', () => {
     expect(useSession.getState().activeSlot).toBe(0);

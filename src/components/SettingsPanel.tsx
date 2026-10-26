@@ -18,6 +18,7 @@ import { OfflineLibrary } from './OfflineLibrary';
 const SONG_DIFFICULTIES: { id: SongDifficulty; label: string }[] = [
   { id: 'all', label: 'All' },
   { id: 'beginner', label: 'Beginner' },
+  { id: 'medium', label: 'Medium' },
   { id: 'advanced', label: 'Advanced' },
 ];
 
@@ -54,7 +55,8 @@ export function SettingsPanel() {
   const matchingInstrumentalCount = filterSongEntries(
     collectionEntries,
     {
-      difficulty: songDifficulty,
+      // Audio can be switched even when its rating differs from the filter.
+      difficulty: 'all',
       selectedArtists,
       progressFilter: 'all',
       instrumentalOnly: true,
@@ -128,12 +130,14 @@ export function SettingsPanel() {
 
       {songMode && (
         <div>
-          <span className="text-sm font-medium text-slate-300">Difficulty</span>
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {SONG_DIFFICULTIES.map(({ id, label }) => {
+          <span className="text-sm font-medium text-slate-300">
+            {songCollection === 'rotation' ? 'Difficulty · experimental' : 'Difficulty'}
+          </span>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {SONG_DIFFICULTIES.filter(({ id }) => songCollection === 'rotation' || id !== 'medium').map(({ id, label }) => {
               const count = collectionEntries.filter(
                 (entry) =>
-                  matchesSongDifficulty(entry.chords, id) &&
+                  matchesSongDifficulty(entry, id, instrumentalSongs) &&
                   (!instrumentalSongs || Boolean(entry.instrumentalFile)),
               ).length;
               return (

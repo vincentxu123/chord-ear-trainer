@@ -84,6 +84,15 @@ excerpt mastered and removes it from Learn. All permits review. Progress can be
 reset per collection; obsolete rotation progress is pruned when a new rotation
 loads. There is no account or cross-device sync.
 
+On the listening-difficulty experiment branch, rotation filters use bundled
+song-level acoustic scores: 70% lack of clarity, 20% pace, and 10% harmony.
+Original and instrumental mixes are rated separately. Scores below 15 are
+Beginner, 15–<30 Medium, and 30+ Advanced. The bundle is part of the app shell,
+so the same categories work offline without downloading any analysis models.
+Audio revisions or metadata mismatches produce Unrated entries available in All.
+Songbook retains chord-count ratings. See
+[DIFFICULTY.md](scripts/recordings/DIFFICULTY.md) for scoring and regeneration.
+
 ---
 
 ## 3. Why we generate clips (and what we rejected)

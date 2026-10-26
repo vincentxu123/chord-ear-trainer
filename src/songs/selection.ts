@@ -30,7 +30,7 @@ export function filterSongEntries(
 ): SongClipManifestEntry[] {
   return entries.filter((entry) => {
     if (options.collection && (entry.collection ?? 'manual') !== options.collection) return false;
-    if (!matchesSongDifficulty(entry.chords, options.difficulty)) return false;
+    if (!matchesSongDifficulty(entry, options.difficulty, options.instrumentalOnly)) return false;
     if (options.instrumentalOnly && !entry.instrumentalFile) return false;
     if (options.selectedArtists !== null && !options.selectedArtists.includes(entry.artist)) {
       return false;

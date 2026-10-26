@@ -2,6 +2,8 @@ import type { Chord, Mode } from '../theory/types';
 
 export interface SongClipManifestEntry {
   collection?: 'manual' | 'rotation';
+  // Runtime metadata supplied by the library loader, not written to manifests.
+  libraryVersion?: string;
   id: string;
   file: string;
   instrumentalFile?: string;

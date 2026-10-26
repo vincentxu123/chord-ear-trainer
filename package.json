@@ -17,7 +17,8 @@
     "songs:rotate": "node scripts/recordings/run_python.mjs rotate_released.py",
     "songs:process": "node scripts/recordings/run_python.mjs process_song.py",
     "songs:export": "node scripts/recordings/run_python.mjs export_candidates.py",
-    "songs:instrumentals": "node scripts/recordings/run_python.mjs backfill_instrumentals.py"
+    "songs:instrumentals": "node scripts/recordings/run_python.mjs backfill_instrumentals.py",
+    "songs:score-rotation": "node scripts/recordings/run_python.mjs score_rotation_difficulty.py"
   },
   "dependencies": {
     "react": "^19.2.7",

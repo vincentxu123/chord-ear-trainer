@@ -122,7 +122,8 @@ export function Practice() {
     setPlayingIndex(null);
     setIsPlaying(false);
     setSongAudioVariant(instrumentalSongs);
-  }, [instrumentalSongs, setPlayingIndex, setSongAudioVariant, soundSource]);
+    if (!useSession.getState().exercise) newRound(useSettings.getState());
+  }, [instrumentalSongs, newRound, setPlayingIndex, setSongAudioVariant, soundSource]);
 
   // Buffer the clip while the user is still looking at the fresh round.
   useEffect(() => {

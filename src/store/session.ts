@@ -86,7 +86,7 @@ export const useSession = create<SessionStore>((set, get) => ({
     const variant = getSongExerciseById(exercise.progression.id, instrumental, useSettings.getState().songCollection);
     if (!variant?.media) return;
     set({
-      exercise: { ...exercise, media: variant.media },
+      exercise: { ...exercise, media: variant.media, song: variant.song },
       playingIndex: null,
     });
   },

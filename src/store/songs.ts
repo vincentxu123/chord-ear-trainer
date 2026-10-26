@@ -105,7 +105,7 @@ export const useSongs = create<SongStore>((set, get) => ({
       if (!response.ok) throw new Error(`song manifest fetch failed: ${response.status}`);
       const cacheableResponse = response.clone();
       const manifest = (await response.json()) as SongClipManifest;
-      const manualEntries = (manifest.clips ?? []).map((entry) => ({ ...entry, collection: 'manual' as const }));
+      const manualEntries = (manifest.clips ?? []).map((entry) => ({ ...entry, collection: 'manual' as const, libraryVersion: manifest.version }));
       const version = manifest.version ?? 'unversioned';
       let rotation: SongClipManifest | null = null;
       let rotationResponse: Response | null = null;
@@ -115,7 +115,7 @@ export const useSongs = create<SongStore>((set, get) => ({
       } catch {
         // The rotating library is optional until its first successful publish.
       }
-      const rotationEntries = (rotation?.clips ?? []).map((entry) => ({ ...entry, collection: 'rotation' as const }));
+      const rotationEntries = (rotation?.clips ?? []).map((entry) => ({ ...entry, collection: 'rotation' as const, libraryVersion: rotation?.version }));
       if (rotation) {
         useProgress.getState().pruneRotation(new Set(rotationEntries.map((entry) => entry.id)));
       }

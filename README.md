@@ -27,7 +27,7 @@ optional Fresh rotation (`public/rotation-clips/`).
 - First chord pre-filled and locked as a listening anchor
 - Piano mode: randomized key, adjustable tempo (100–460 BPM), 2–6 chords, optional chromatic / diminished vocabulary
 - Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
-- Real Music mode: exact chord-change cues, measure-grouped answers, optional vocal removal, Roman numerals with absolute chord labels, and Beginner/Advanced filtering
+- Real Music mode: exact chord-change cues, measure-grouped answers, optional vocal removal, Roman numerals with absolute chord labels, and difficulty filtering
 - Installable phone app with offline Real Music downloads and bundled offline piano samples
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
@@ -39,6 +39,30 @@ Settings and Real Music attempts are saved locally in this browser or installed
 app; there is no account or cross-device sync. The Learn queue includes unseen
 excerpts and those whose latest attempt was incorrect. A fully correct attempt
 removes an excerpt from Learn; All allows reviewing it again.
+
+### Experimental listening difficulty
+
+On this branch, Fresh rotation has **Beginner**, **Medium**, and **Advanced**
+filters based on the audio experiment. Difficulty is 70% lack of audible
+clarity, 20% pace, and 10% harmonic complexity. Scores are averaged across a
+song's published excerpts, separately for original and instrumental mixes.
+All excerpts from that song share its mix-specific category:
+
+- Beginner: score below 15.
+- Medium: score from 15 to below 30.
+- Advanced: score 30 or higher.
+
+These provisional cutoffs need listening calibration. Switching mixes preserves
+the current answers and updates its displayed category; subsequent rounds use
+the selected mix's difficulty filter. Songbook retains its chord-count ratings
+(up to three unique chords is Beginner; four or more is Advanced).
+
+Scores are bundled with the app for online and offline use. A new rotation or
+changed excerpt metadata invalidates the corresponding scores; unscored rotation
+entries show **Unrated** and remain available through **All**. After publishing
+a rotation, run `npm run songs:score-rotation` to regenerate the bundled scores.
+See [the experiment notes](scripts/recordings/DIFFICULTY.md) for the method,
+limitations, and reproducible commands.
 
 ## Project TODOs
 
@@ -64,6 +88,8 @@ removes an excerpt from Learn; All allows reviewing it again.
 - [x] Move the Real Music practice queue into a separate progress pane
 - [x] Separate the hand-picked songbook from a manual RELEASED rotation
 - [x] Add a local command for refreshing the RELEASED rotation
+- [x] Add experimental clarity-weighted Beginner/Medium/Advanced rotation categories
+- [ ] Calibrate listening-difficulty scores and cutoffs with listener ratings
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack
@@ -292,6 +318,7 @@ then commit and push the updated rotation when ready.
 | `npm run songs:process` | Offline: analyze one recording, publish agreed windows, then write an audit report. Optional `--chord-audio instrumental` |
 | `npm run songs:youtube` | Offline: download one permitted YouTube recording, then run `songs:process`. Same `--chord-audio` flag |
 | `npm run songs:rotate` | Offline: manually refresh the RELEASED rotation; `--list-only` lists sources without downloading audio |
+| `npm run songs:score-rotation` | Analyze both mixes of the published rotation and bundle experimental song difficulty scores |
 | `npm run songs:export` | Offline: export strictly agreed recording candidates into `public/song-clips/` |
 | `npm run songs:instrumentals` | Offline: add vocal-free variants to already-published song excerpts |
 | `npm run songs:setup` | Create or update the complete recording-analysis Python environment |

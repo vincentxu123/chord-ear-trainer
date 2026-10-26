@@ -36,7 +36,7 @@ export function songClipToExercise(
       startMeasure: entry.startMeasure,
       endMeasure: entry.endMeasure,
       measureChordCounts: entry.measureChordCounts,
-      difficulty: rateSongDifficulty(entry.chords),
+      difficulty: rateSongDifficulty(entry, instrumental),
       uniqueChordCount: countUniqueChords(entry.chords),
     },
   };
