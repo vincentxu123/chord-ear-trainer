@@ -29,6 +29,7 @@ optional Fresh rotation (`public/rotation-clips/`).
 - Generated mode: AI clips with Stop / Replay and BPM-synced slot highlights
 - Real Music mode: exact chord-change cues, measure-grouped answers, optional vocal removal, Roman numerals with absolute chord labels, and Beginner/Advanced filtering
 - Installable phone app with offline Real Music downloads and bundled offline piano samples
+- Bass control beside Play for Generated and Real Music clips: boost the bass or solo it to follow root motion (best on headphones)
 - Instant per-slot feedback and click-to-audition chords after reveal
 - Interactive piano keyboard at the bottom of the screen
 - Songbook and Fresh rotation collections, with artist search and filtering
@@ -64,6 +65,8 @@ removes an excerpt from Learn; All allows reviewing it again.
 - [x] Move the Real Music practice queue into a separate progress pane
 - [x] Separate the hand-picked songbook from a manual RELEASED rotation
 - [x] Add a local command for refreshing the RELEASED rotation
+- [x] Add an in-browser bass boost / bass solo control for recorded clips
+- [ ] Keep separated bass stems and transcribe the bass line in the recording pipeline
 - [ ] Train a more accurate chord-detection model
 
 ## Tech stack

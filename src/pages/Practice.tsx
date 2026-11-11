@@ -33,6 +33,7 @@ export function Practice() {
   const setSongCollection = useSettings((s) => s.setSongCollection);
   const selectedArtists = useSettings((s) => s.selectedArtists);
   const instrumentalSongs = useSettings((s) => s.instrumentalSongs);
+  const bassEmphasis = useSettings((s) => s.bassEmphasis);
   const clipStatus = useClips((s) => s.status);
   const loadClips = useClips((s) => s.load);
   const songStatus = useSongs((s) => s.status);
@@ -123,6 +124,12 @@ export function Practice() {
     setIsPlaying(false);
     setSongAudioVariant(instrumentalSongs);
   }, [instrumentalSongs, setPlayingIndex, setSongAudioVariant, soundSource]);
+
+  // Bass emphasis is a live filter: changing it must not restart the round
+  // or interrupt playback.
+  useEffect(() => {
+    clipPlayer.setBassEmphasis(bassEmphasis);
+  }, [bassEmphasis]);
 
   // Buffer the clip while the user is still looking at the fresh round.
   useEffect(() => {
