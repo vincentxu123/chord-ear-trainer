@@ -1,5 +1,6 @@
 import type { Exercise } from '../theory/types';
 import { exactClipDurationSec } from '../clips/musicgenChords';
+import { BassFilterChain, type BassEmphasis } from './bassFilter';
 
 // Must match CLIP_PASSES in src/clips/spec.ts (kept local so the player
 // doesn't pull the offline generator into the browser bundle).
@@ -20,6 +21,15 @@ export class ClipAudioSource {
   private url: string | null = null;
   private raf = 0;
   private detach: (() => void) | null = null;
+  private readonly bass = new BassFilterChain();
+
+  // Change the bass emphasis without interrupting playback. A clip that is
+  // already playing is routed through the filter immediately; otherwise the
+  // next play() picks it up.
+  setBassEmphasis(mode: BassEmphasis): void {
+    this.bass.setMode(mode);
+    if (this.audio && !this.audio.paused) this.bass.attach(this.audio);
+  }
 
   // Start buffering a clip ahead of the user pressing Play.
   preload(url: string): void {
@@ -36,6 +46,7 @@ export class ClipAudioSource {
     this.preload(media.url);
     const audio = this.audio!;
     this.stopTracking();
+    this.bass.attach(audio);
 
     const { chords, beatsPerChord } = exercise.progression;
     const chordSec = beatsPerChord * (60 / media.bpm);

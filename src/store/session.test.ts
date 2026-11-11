@@ -21,6 +21,7 @@ const settings: PracticeSettings = {
   selectedArtists: null,
   playChordOnSelection: false,
   instrumentalSongs: false,
+  bassEmphasis: 'off',
 };
 
 describe('session playback selection', () => {

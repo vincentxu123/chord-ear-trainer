@@ -1,4 +1,12 @@
+import { nextBassEmphasis, type BassEmphasis } from '../audio/bassFilter';
 import { useSession } from '../store/session';
+import { useSettings } from '../store/settings';
+
+const BASS_LABELS: Record<BassEmphasis, string> = {
+  off: 'Bass',
+  boost: 'Bass +',
+  solo: 'Bass solo',
+};
 
 interface ControlsProps {
   onPlay: () => void;
@@ -21,6 +29,10 @@ export function Controls({
   const answers = useSession((s) => s.answers);
   const submit = useSession((s) => s.submit);
   const allFilled = answers.length > 0 && answers.every((a) => a !== null);
+  // Only recorded clips pass through the bass filter; the piano does not.
+  const hasClip = useSession((s) => Boolean(s.exercise?.media));
+  const bassEmphasis = useSettings((s) => s.bassEmphasis);
+  const setBassEmphasis = useSettings((s) => s.setBassEmphasis);
 
   const buttonClass =
     'flex h-12 items-center justify-center rounded-lg transition disabled:cursor-not-allowed disabled:opacity-40';
@@ -64,6 +76,22 @@ export function Controls({
           <path d="M3 3v5h5" />
         </svg>
       </button>
+
+      {hasClip && (
+        <button
+          type="button"
+          onClick={() => setBassEmphasis(nextBassEmphasis(bassEmphasis))}
+          aria-label={`Bass emphasis: ${bassEmphasis}`}
+          title={`Bass emphasis: ${bassEmphasis}`}
+          className={`${buttonClass} px-3 text-sm font-semibold ${
+            bassEmphasis === 'off'
+              ? 'border border-slate-600 bg-slate-800 text-slate-200 hover:border-slate-500 hover:bg-slate-700'
+              : 'bg-amber-500 text-slate-950 hover:bg-amber-400'
+          }`}
+        >
+          {BASS_LABELS[bassEmphasis]}
+        </button>
+      )}
 
       <button
         onClick={submit}

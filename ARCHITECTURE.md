@@ -311,6 +311,7 @@ The SPA loads this via `src/store/clips.ts`, maps entries to `Exercise` objects
 | `src/engine/round.ts` | Synth round generation + `scoreAttempt` |
 | `src/audio/synth.ts` | Tone.js piano source |
 | `src/audio/clipPlayer.ts` | Clip playback + bar highlights + two-pass stop |
+| `src/audio/bassFilter.ts` | Optional Web Audio bass boost / solo for clip playback |
 | `src/clips/` | Spec generation helpers, MusicGen syntax, manifest types |
 | `src/store/settings.ts` | Sound source + practice knobs |
 | `src/store/session.ts` | Round lifecycle, given first slot, scoring |

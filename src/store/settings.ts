@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { BassEmphasis } from '../audio/bassFilter';
 import type { SongDifficulty } from '../songs/difficulty';
 import { readStored, writeStored } from './persistence';
 
@@ -21,6 +22,7 @@ export interface PracticeSettings {
   selectedArtists: string[] | null;
   playChordOnSelection: boolean;
   instrumentalSongs: boolean;
+  bassEmphasis: BassEmphasis; // listening aid for recorded clips
 }
 
 export const TEMPO_MIN = 100;
@@ -43,6 +45,7 @@ interface SettingsStore extends PracticeSettings {
   setSelectedArtists: (artists: string[] | null) => void;
   setPlayChordOnSelection: (value: boolean) => void;
   setInstrumentalSongs: (value: boolean) => void;
+  setBassEmphasis: (mode: BassEmphasis) => void;
 }
 
 const SETTINGS_STORAGE_KEY = 'chord-ear-trainer:settings:v1';
@@ -60,6 +63,7 @@ const DEFAULT_SETTINGS: PracticeSettings = {
   selectedArtists: null,
   playChordOnSelection: false,
   instrumentalSongs: false,
+  bassEmphasis: 'off',
 };
 
 const STORED_SETTINGS = readStored<Partial<PracticeSettings>>(SETTINGS_STORAGE_KEY, {});
@@ -89,6 +93,7 @@ export const useSettings = create<SettingsStore>((set) => {
         selectedArtists: next.selectedArtists,
         playChordOnSelection: next.playChordOnSelection,
         instrumentalSongs: next.instrumentalSongs,
+        bassEmphasis: next.bassEmphasis,
       });
       return patch;
     });
@@ -108,5 +113,6 @@ export const useSettings = create<SettingsStore>((set) => {
     setSelectedArtists: (artists) => update({ selectedArtists: artists }),
     setPlayChordOnSelection: (value) => update({ playChordOnSelection: value }),
     setInstrumentalSongs: (value) => update({ instrumentalSongs: value }),
+    setBassEmphasis: (mode) => update({ bassEmphasis: mode }),
   };
 });
